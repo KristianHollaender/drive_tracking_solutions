@@ -1,4 +1,5 @@
 import 'package:drive_tracking_solutions/drive_tracking_solutions.dart';
+import 'package:drive_tracking_solutions/screens/mobile/calendar_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,9 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
       theme: ThemeData(
       ),
-      home: const DriveTrackingSolution(),
+      home: CalendarScreen(),
     );
   }
 }
