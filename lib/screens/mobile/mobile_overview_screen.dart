@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../widgets/bottom_nav_bar.dart';
+
 class OverviewScreen extends StatefulWidget {
   @override
   _OverviewScreenState createState() => _OverviewScreenState();
@@ -54,16 +56,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
             ),
           ),
           Flexible(
-              flex: 1,
-              child: SingleChildScrollView(
-                child: Container(
-                  height: 400,
-                  width: double.infinity,
-                  color: Colors.red,
-                ),
-              ))
+            flex: 1,
+            child: SingleChildScrollView(
+              child: Container(
+                height: 400,
+                width: double.infinity,
+                color: Colors.red,
+              ),
+            ),
+          )
         ],
       ),
+      bottomNavigationBar: NavBar(),
     );
   }
 }
