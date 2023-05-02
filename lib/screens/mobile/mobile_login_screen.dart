@@ -1,3 +1,5 @@
+import 'package:drive_tracking_solutions/screens/mobile/mobile_overview_screen.dart';
+import 'package:drive_tracking_solutions/screens/mobile/mobile_reset_password_screen.dart';
 import 'package:flutter/material.dart';
 
 class MobileLoginScreen extends StatelessWidget {
@@ -42,13 +44,21 @@ class MobileLoginScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       //TODO Make login function
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => OverviewScreen()),
+                      );
                     },
                     child: Text('Login'),
                   ),
                   SizedBox(height: 16.0),
                   TextButton(
                     onPressed: () {
-                      // TODO Make reset password function
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MobileResetPasswordScreen()),
+                      );
                     },
                     child: Text('Reset Password'),
                   ),
