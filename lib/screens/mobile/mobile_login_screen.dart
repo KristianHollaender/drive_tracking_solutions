@@ -1,6 +1,7 @@
-import 'package:drive_tracking_solutions/screens/mobile/mobile_overview_screen.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_reset_password_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/bottom_nav_bar.dart';
 
 class MobileLoginScreen extends StatelessWidget {
   const MobileLoginScreen({Key? key}) : super(key: key);
@@ -46,7 +47,7 @@ class MobileLoginScreen extends StatelessWidget {
                       //TODO Make login function
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => OverviewScreen()),
+                        MaterialPageRoute(builder: (context) => NavBar()),
                       );
                     },
                     child: Text('Login'),

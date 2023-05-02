@@ -1,5 +1,4 @@
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
-import 'package:drive_tracking_solutions/screens/mobile/mobile_overview_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -40,7 +40,7 @@ class _NavBarState extends State<NavBar> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _navigateBottomBar,
-          type: BottomNavigationBarType.fixed ,
+          type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Overview'),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

@@ -1,6 +1,5 @@
+import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../widgets/bottom_nav_bar.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -51,7 +50,12 @@ class MenuScreen extends StatelessWidget {
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
-                    // TODO Log out function
+                    //TODO Make log out function
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MobileLoginScreen()),
+                    );
                   },
                   child: Text('Log out'),
                   style: ElevatedButton.styleFrom(
@@ -66,7 +70,6 @@ class MenuScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: NavBar(),
     );
   }
 }
