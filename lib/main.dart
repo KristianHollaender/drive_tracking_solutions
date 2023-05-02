@@ -1,4 +1,4 @@
-import 'package:drive_tracking_solutions/screens/mobile/mobile_start_screen.dart';
+import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       theme: ThemeData(),
-      home: SafeArea(top: true, child: const MobileApp()),
+      home: SafeArea(top: true, child: const MobileLoginScreen()),
     );
   }
 }
