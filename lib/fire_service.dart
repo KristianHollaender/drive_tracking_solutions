@@ -76,7 +76,7 @@ class FirebaseService {
 
   Future<void> signUp(String email, String password, String firstname, String lastname) async{
     final user = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    await db.collection(CollectionNames.user).add({
+    await db.collection(CollectionNames.user).doc(user.user?.uid).set({
       UserKeys.uid: user.user?.uid,
       UserKeys.email: email,
       UserKeys.firstname: firstname,

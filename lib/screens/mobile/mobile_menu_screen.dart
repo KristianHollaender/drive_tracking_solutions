@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/fire_service.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class MenuScreen extends StatelessWidget {
 
   final _auth = FirebaseAuth.instance;
   final _storageRef = FirebaseStorage.instance.ref();
-  final _usersCollection = FirebaseFirestore.instance.collection('Users');
+  final _usersCollection = FirebaseFirestore.instance.collection(CollectionNames.user);
 
   Future<String> _getImageUrl() async {
     final imageRef = _storageRef

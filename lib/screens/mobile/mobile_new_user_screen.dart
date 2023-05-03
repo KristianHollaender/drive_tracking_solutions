@@ -114,7 +114,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
         final lastname = _lastName.value.text;
         final email = _email.value.text;
         final password = _password.value.text;
-        fireService.signUp(email, password, firstname, lastname);
+        await fireService.signUp(email, password, firstname, lastname);
 
         if (_image != null) {
           final fileName = _auth.currentUser?.uid;
