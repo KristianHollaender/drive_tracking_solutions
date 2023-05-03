@@ -2,7 +2,6 @@ import 'package:drive_tracking_solutions/screens/mobile/mobile_home_screen.dart'
 import 'package:drive_tracking_solutions/screens/mobile/mobile_menu_screen.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_overview_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class _NavBarState extends State<NavBar> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _navigateBottomBar,
-          type: BottomNavigationBarType.fixed ,
+          type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Overview'),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
