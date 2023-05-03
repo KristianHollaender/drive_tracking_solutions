@@ -128,42 +128,43 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Flexible(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Container(
-                                color: Colors.blueGrey,
-                                height: 80.0,
-                                width: double.infinity,
-                                child: const Center(
-                                  child: Text(
-                                    "00:00:00",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 62.0),
-                                  ),
+                flex: 1,
+                child: Column(
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Container(
+                              color: Colors.blueGrey,
+                              height: 80.0,
+                              width: double.infinity,
+                              child: const Center(
+                                child: Text(
+                                  "00:00:00",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 62.0),
                                 ),
                               ),
                             ),
-                            Column(
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: FloatingActionButton(
-                                      onPressed: null,
+                          ),
+                          Column(
+                            children: const [
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: FloatingActionButton(
+                                  onPressed: null,
                                   backgroundColor: Colors.red,
-                                  shape: ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                    ],
-                  ))
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         );

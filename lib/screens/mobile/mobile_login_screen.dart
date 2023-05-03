@@ -3,7 +3,9 @@ import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.d
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../fire_service.dart';
 import 'mobile_reset_password_screen.dart';
 
 class MobileLoginScreen extends StatefulWidget {
@@ -78,6 +80,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
   }
 
   ElevatedButton loginBtn(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
     return ElevatedButton(
       child: const Text('Login'),
       onPressed: () async {
@@ -87,7 +90,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
         }
         final email = _email.value.text;
         final password = _password.value.text;
-        _auth.signInWithEmailAndPassword(email: email, password: password);
+        fireService.signIn(email, password);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const NavBar(),

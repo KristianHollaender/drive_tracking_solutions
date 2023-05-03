@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class OverviewScreen extends StatefulWidget {
+  const OverviewScreen({super.key});
+
   @override
-  _OverviewScreenState createState() => _OverviewScreenState();
+  State<OverviewScreen> createState() => _OverviewScreenState();
+
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {

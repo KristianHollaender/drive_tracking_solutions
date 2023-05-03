@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/fire_service.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:provider/provider.dart';
 
 
 class MobileNewUserScreen extends StatefulWidget {
@@ -99,6 +102,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
   }
 
   ElevatedButton createUserBtn(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
     return ElevatedButton(
       child: const Text('Create new account'),
       onPressed: () async {
@@ -106,19 +110,11 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
           setState(() {});
           return;
         }
-        final firstName = _firstName.value.text;
-        final lastName = _lastName.value.text;
+        final firstname = _firstName.value.text;
+        final lastname = _lastName.value.text;
         final email = _email.value.text;
         final password = _password.value.text;
-        final userCredential = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        final userUid = userCredential.user!.uid;
-        await FirebaseFirestore.instance.collection('Users').doc(userUid).set({
-          'uid': _auth.currentUser?.uid,
-          'email': email,
-          'firstname': firstName,
-          'lastname': lastName,
-        });
+        fireService.signUp(email, password, firstname, lastname);
 
         if (_image != null) {
           final fileName = _auth.currentUser?.uid;
