@@ -4,26 +4,54 @@ abstract class TourState extends Equatable {
   const TourState();
 }
 
-class TourInitial extends TourState {
+class TourInitialState extends TourState{
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class TourLoading extends TourState {
+// Error if the data cannot be loaded
+class TourErrorState extends TourState{
+  final String error;
+
+  const TourErrorState(this.error);
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [error];
 }
 
-class TourSuccessful extends TourState {
-  final Tour tour;
-  const TourSuccessful({required this.tour});
+//#region Read
+// Loading the data from our api
+class TourLoadingState extends TourState{
   @override
-  List<Object> get props => [tour];
+  List<Object?> get props => [];
 }
 
-class TourFailure extends TourState {
+// Loaded the data from our api
+class TourLoadedState extends TourState{
+  final List<Tour>? tours;
+  final Tour? tour;
+
+  const TourLoadedState(this.tours, this.tour);
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [tours, tour];
 }
 
+//#endregion
 
+//#region Create
+
+class TourStartingState extends TourState{
+  @override
+  List<Object?> get props => [];
+}
+
+class TourStartedState extends TourState{
+  @override
+  List<Object?> get props => [];
+}
+
+//#endregion
+
+//#region Update
+
+//#endregion

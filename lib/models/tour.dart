@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/models/pause.dart';
+import 'package:flutter/foundation.dart';
 
 class TourKeys {
   static const uid = 'uid';
@@ -23,8 +24,9 @@ class Tour {
   Tour(this.uid, this.startPoint, this.endPoint, this.startTime, this.endTime, this.totalTime, this.pause);
 
   //Getting tour from firebase, then mapping tour to a dart object
-  Tour.fromMap(this.uid, Map<String, dynamic> data)
+  Tour.fromMap(Map<String, dynamic> data)
       :
+        uid = data[TourKeys.uid],
         startPoint = data[TourKeys.startPoint],
         endPoint = data[TourKeys.endPoint],
         pause = data[TourKeys.pause],
@@ -35,6 +37,7 @@ class Tour {
   //Mapping dart object to json object
   Map<String, dynamic> toMap(){
     return {
+      TourKeys.uid: uid,
       TourKeys.startPoint: startPoint,
       TourKeys.endPoint: endPoint,
       TourKeys.pause: pause,
