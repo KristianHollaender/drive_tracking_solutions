@@ -12,9 +12,7 @@ class _MobileStartScreenState extends State<MobileStartScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-
-      ),
+      body: Center(),
       bottomNavigationBar: NavBar(),
     );
   }
