@@ -103,10 +103,11 @@ class HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         Positioned(
-                          bottom: 8.0,
+                          bottom: 16.0,
                           right: 165.0,
                           left: 165.0,
                           child: FloatingActionButton.extended(
+                            backgroundColor: const Color(0xb3d9dcd9),
                             onPressed: () {
                               setState(() {
                                 _click = !_click;
@@ -137,7 +138,7 @@ class HomeScreenState extends State<HomeScreen> {
                             Center(
                               child: Container(
                                 color: Colors.blueGrey,
-                                height: 80.0,
+                                height: 90.0,
                                 width: double.infinity,
                                 child: const Center(
                                   child: Text(
@@ -149,16 +150,20 @@ class HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Column(
-                              children: const [
+                              children: [
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: FloatingActionButton(
+                                  child: SizedBox(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    child: FloatingActionButton(
+                                      child: Icon(Icons.play_arrow_rounded),
                                       onPressed: null,
-                                  backgroundColor: Colors.red,
-                                  shape: ),
-                                )
+                                    ),
+                                  ),
+                                ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),

@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
-          theme: ThemeData(),
+          theme: ThemeData(
+            colorSchemeSeed: const Color(0xff07460b), useMaterial3: true,
+          ),
           home: const SafeArea(top: true, child: MobileLoginScreen()),
         );
       },
