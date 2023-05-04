@@ -103,10 +103,11 @@ class HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         Positioned(
-                          bottom: 8.0,
+                          bottom: 16.0,
                           right: 165.0,
                           left: 165.0,
                           child: FloatingActionButton.extended(
+                            backgroundColor: const Color(0xb3d9dcd9),
                             onPressed: () {
                               setState(() {
                                 _click = !_click;
@@ -128,43 +129,46 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Flexible(
-                flex: 1,
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Container(
-                              color: Colors.blueGrey,
-                              height: 80.0,
-                              width: double.infinity,
-                              child: const Center(
-                                child: Text(
-                                  "00:00:00",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 62.0),
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Container(
+                                color: Colors.blueGrey,
+                                height: 90.0,
+                                width: double.infinity,
+                                child: const Center(
+                                  child: Text(
+                                    "00:00:00",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 62.0),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Column(
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: FloatingActionButton(
-                                  onPressed: null,
-                                  backgroundColor: Colors.red,
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    child: FloatingActionButton(
+                                      child: Icon(Icons.play_arrow_rounded),
+                                      onPressed: null,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ))
             ],
           ),
         );
