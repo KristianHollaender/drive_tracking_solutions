@@ -5,9 +5,9 @@ import 'package:http/http.dart';
 
 import '../models/tour.dart';
 
+//TODO Get tours sorted by start date
 class TourRepository{
   final baseUrl = '';
-
   // Get all tours where uid equals the authenticated user
   Future<List<Tour>> getTours(String uid) async{
     Response response = await get(Uri.parse('$baseUrl/$uid'));
@@ -20,8 +20,8 @@ class TourRepository{
   }
 
   // Get tour by data
-  Future<Tour> getTourByDate(String uid, DateTime dateTime) async{
-    Response response = await get(Uri.parse('$baseUrl/$uid/$dateTime'));
+  Future<Tour> getTourById(String uid, String id) async{
+    Response response = await get(Uri.parse('$baseUrl/$uid/$id'));
     if(response.statusCode == 200){
       final tour = jsonDecode(response.body);
       return Tour.fromMap(tour);
@@ -31,7 +31,7 @@ class TourRepository{
   }
 
   Future<void> startTour({required String uid, required GeoPoint startPoint, required DateTime startTime}) async{
-    final body = {uid: 'auth.id', startPoint: startPoint, startTime: startTime};
+    final body = {uid: uid, startPoint: startPoint, startTime: startTime};
     try{
       await post(Uri.parse('$baseUrl/$uid'), body: body);
     }catch(e){
@@ -40,7 +40,7 @@ class TourRepository{
   }
 
   Future<void> stopTour({required String uid, required GeoPoint endpoint, required DateTime endTime}) async{
-    final body = {uid:'nu'};
+    final body = {uid: uid};
     try{
       await put(Uri.parse('$baseUrl/$uid'), body: body);
     }catch(e){

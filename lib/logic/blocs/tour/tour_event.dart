@@ -2,7 +2,7 @@ part of 'tour_bloc.dart';
 
 abstract class TourEvent extends Equatable {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class LoadToursEvent extends TourEvent{
@@ -11,11 +11,11 @@ class LoadToursEvent extends TourEvent{
 }
 
 class LoadTourEvent extends TourEvent{
-  final DateTime dateTime;
+  final String id;
 
-  LoadTourEvent(this.dateTime);
+  LoadTourEvent(this.id);
   @override
-  List<Object?> get props => [dateTime];
+  List<Object?> get props => [id];
 }
 
 class StartTour extends TourEvent{
