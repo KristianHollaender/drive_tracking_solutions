@@ -25,9 +25,6 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -90,12 +87,13 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
         }
         final email = _email.value.text;
         final password = _password.value.text;
-        fireService.signIn(email, password);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const NavBar(),
-          ),
-        );
+        fireService.signIn(email, password).then((_){
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const NavBar(),
+            ),
+          );
+        }).catchError((e) => print(e.toString()));
       },
     );
   }

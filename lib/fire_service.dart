@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'models/tour.dart';
 
@@ -82,6 +82,18 @@ class FirebaseService {
       UserKeys.firstname: firstname,
       UserKeys.lastname: lastname,
     });
+  }
+
+  Future<void> signOut() async{
+    await _auth.signOut();
+  }
+
+  Future getUserById(String uid) async{
+    try{
+      return await db.collection(CollectionNames.user).doc(uid).get();
+    }catch(e){
+      throw Exception(e.toString());
+    }
   }
 
 

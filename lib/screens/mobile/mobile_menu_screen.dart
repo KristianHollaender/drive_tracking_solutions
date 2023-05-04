@@ -4,6 +4,7 @@ import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 
 import 'mobile_edit_user_screen.dart';
 
@@ -12,7 +13,8 @@ class MenuScreen extends StatelessWidget {
 
   final _auth = FirebaseAuth.instance;
   final _storageRef = FirebaseStorage.instance.ref();
-  final _usersCollection = FirebaseFirestore.instance.collection(CollectionNames.user);
+  final _usersCollection =
+      FirebaseFirestore.instance.collection(CollectionNames.user);
 
   Future<String> _getImageUrl() async {
     final imageRef = _storageRef
@@ -24,6 +26,7 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
     return SafeArea(
       top: true,
       child: Scaffold(
@@ -129,16 +132,18 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-
   Widget _logoutBtn(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
     return ElevatedButton(
-      onPressed: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MobileLoginScreen(),
-          ),
-        );
+      onPressed: () async {
+        await fireService.signOut().then((_) => {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MobileLoginScreen(),
+                ),
+              ),
+            });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
@@ -154,6 +159,4 @@ class MenuScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
