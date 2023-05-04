@@ -40,7 +40,7 @@ class HomeScreenState extends State<HomeScreen> {
 
 
   Future<void> getCurrentLocation() async {
-    Location location = new Location();
+    Location location = Location();
 
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -360,7 +360,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _seconds++;
         if (_seconds == 60) {

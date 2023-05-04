@@ -1,3 +1,4 @@
+import 'package:drive_tracking_solutions/widgets/tour_details.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../models/tour.dart';
@@ -11,7 +12,7 @@ class CalendarWidget extends StatefulWidget {
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
-  late final ValueNotifier<List<Tour>> _selectedEvents;
+  late final ValueNotifier<List<Tour>> _selectedTours;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
@@ -24,26 +25,26 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    _selectedTours = ValueNotifier(_getToursForDay(_selectedDay!));
   }
 
   @override
   void dispose() {
-    _selectedEvents.dispose();
+    _selectedTours.dispose();
     super.dispose();
   }
 
-  List<Tour> _getEventsForDay(DateTime day) {
+  List<Tour> _getToursForDay(DateTime day) {
     // Implementation example
     return kTours[day] ?? [];
   }
 
-  List<Tour> _getEventsForRange(DateTime start, DateTime end) {
+  List<Tour> _getToursForRange(DateTime start, DateTime end) {
     // Implementation example
     final days = daysInRange(start, end);
 
     return [
-      for (final d in days) ..._getEventsForDay(d),
+      for (final d in days) ..._getToursForDay(d),
     ];
   }
 
@@ -57,7 +58,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
 
-      _selectedEvents.value = _getEventsForDay(selectedDay);
+      _selectedTours.value = _getToursForDay(selectedDay);
     }
   }
 
@@ -72,11 +73,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
     // `start` or `end` could be null
     if (start != null && end != null) {
-      _selectedEvents.value = _getEventsForRange(start, end);
+      _selectedTours.value = _getToursForRange(start, end);
     } else if (start != null) {
-      _selectedEvents.value = _getEventsForDay(start);
+      _selectedTours.value = _getToursForDay(start);
     } else if (end != null) {
-      _selectedEvents.value = _getEventsForDay(end);
+      _selectedTours.value = _getToursForDay(end);
     }
   }
 
@@ -84,54 +85,191 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TableCalendar<Tour>(
-          firstDay: kFirstDay,
-          lastDay: kLastDay,
-          focusedDay: _focusedDay,
-          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-          rangeStartDay: _rangeStart,
-          rangeEndDay: _rangeEnd,
-          calendarFormat: _calendarFormat,
-          rangeSelectionMode: _rangeSelectionMode,
-          eventLoader: _getEventsForDay,
-          startingDayOfWeek: StartingDayOfWeek.monday,
-          calendarStyle: CalendarStyle(
-            // Use `CalendarStyle` to customize the UI
-            outsideDaysVisible: false,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: Colors.black)
+            ),
+            child: TableCalendar<Tour>(
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              rangeStartDay: _rangeStart,
+              rangeEndDay: _rangeEnd,
+              calendarFormat: _calendarFormat,
+              rangeSelectionMode: _rangeSelectionMode,
+              eventLoader: _getToursForDay,
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              calendarStyle: const CalendarStyle(
+                // Use `CalendarStyle` to customize the UI
+                outsideDaysVisible: false,
+                todayDecoration: BoxDecoration(
+                  color: Color(0x8007460b),
+                  shape: BoxShape.circle,
+                ),
+                selectedDecoration: BoxDecoration(
+                  color: Color(0xff07460b),
+                  shape: BoxShape.circle,
+                ),
+                markerDecoration: BoxDecoration(
+                  color: Color(0xFFDC5507),
+                  shape: BoxShape.circle,
+                ),
+                rangeHighlightColor: Color(0x3307460b),
+                rangeStartDecoration: BoxDecoration(
+                  color: Color(0xff47b64f),
+                  shape: BoxShape.circle,
+                ),
+                rangeEndDecoration: BoxDecoration(
+                  color: Color(0x3325ea31),
+                  shape: BoxShape.circle,
+                ),
+                rangeEndTextStyle: TextStyle(color: Colors.black)
+              ),
+              headerStyle: HeaderStyle(
+                decoration: BoxDecoration(color: const Color(0xff07460b),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                titleTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+                formatButtonDecoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                formatButtonTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+                leftChevronIcon: const Icon(
+                  Icons.chevron_left,
+                  color: Colors.white,
+                ),
+                rightChevronIcon: const Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                ),
+              ),
+              onDaySelected: _onDaySelected,
+              onRangeSelected: _onRangeSelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
+              },
+            ),
           ),
-          onDaySelected: _onDaySelected,
-          onRangeSelected: _onRangeSelected,
-          onFormatChanged: (format) {
-            if (_calendarFormat != format) {
-              setState(() {
-                _calendarFormat = format;
-              });
-            }
-          },
-          onPageChanged: (focusedDay) {
-            _focusedDay = focusedDay;
-          },
         ),
         const SizedBox(height: 8.0),
         Expanded(
           child: ValueListenableBuilder<List<Tour>>(
-            valueListenable: _selectedEvents,
-            builder: (context, value, _) {
+            valueListenable: _selectedTours,
+            builder: (context, tours, _) {
               return ListView.builder(
-                itemCount: value.length,
+                itemCount: tours.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: ListTile(
-                      onTap: () => print('${value[index]}'),
-                      title: Text('${value[index].startTime}'),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.black)
+                      ),
+                      height: 140,
+                      width: double.infinity,
+                      child: GestureDetector(
+                        child: Card(
+                          elevation: 1,
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 70,
+                                      width: 70,
+                                      decoration: const BoxDecoration(
+                                          color: Color(0x8007460b),
+                                          shape: BoxShape.circle),
+                                      child: Center(
+                                          child: Text(
+                                        '${tours[index].startTime?.day}',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20, color: Colors.white),
+                                      )),
+                                    ),
+                                  ),
+                                  Text(
+                                    tours[index]
+                                        .getMonth(tours[index].startTime!),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 12.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Start time:${tours[index].startTime?.hour}:${tours[index].startTime?.minute}:${tours[index].startTime?.second}',
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                      tours[index].endTime != null
+                                          ? Text(
+                                              'End time:${tours[index].endTime?.hour}:${tours[index].endTime?.minute}:${tours[index].endTime?.second}',
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            )
+                                          : const Text(
+                                              'End time: In progress',
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                      tours[index].totalTime != null
+                                          ? Text(
+                                              'Total time:${tours[index].totalTime?.hour}:${tours[index].totalTime?.minute}:${tours[index].totalTime?.second}',
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            )
+                                          : const Text(
+                                              'Total time: In progress',
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(Icons.data_usage),
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => TourDetails(tour: tours[index]),
+                          );
+                        },
+                      ),
                     ),
                   );
                 },
@@ -143,3 +281,61 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     );
   }
 }
+
+/**
+ * return Container(
+    width: double.infinity,
+    height: 150,
+    margin: const EdgeInsets.all(8),
+    decoration: BoxDecoration(
+    border: Border.all(),
+    borderRadius: BorderRadius.circular(12.0),
+    ),
+    child: ListTile(
+    onTap: () {
+    showDialog(
+    context: context,
+    builder: (context) =>
+    TourDetails(tour: tours[index]),
+    );
+    },
+    leading: Container(
+    color: Colors.red,
+    height: 150,
+    width: double.infinity,
+    child: FittedBox(
+    fit: BoxFit.fill,
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+    Column(
+    children: [
+    Padding(
+    padding: const EdgeInsets.only(top: 8.0),
+    child: Container(
+    width: 20,
+    height: 20,
+    color: Colors.red,
+    child: Center(
+    child:
+    Text('${tours[index].startTime?.day}')),
+    ),
+    ),
+    Text(
+    tours[index].getMonth(tours[index].startTime!),
+    style: const TextStyle(
+    fontWeight: FontWeight.bold, fontSize: 50),
+    ),
+    ],
+    ),
+    Text(
+    'Start time:${tours[index].startTime?.hour}:${tours[index].startTime?.minute}:${tours[index].startTime?.second}',
+    style: const TextStyle(fontSize: 20),
+    ),
+    ],
+    ),
+    ),
+    ),
+    ),
+    );
+ */
