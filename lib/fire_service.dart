@@ -16,17 +16,16 @@ class FirebaseService {
   final db = FirebaseFirestore.instance;
 
   // Get personal tours ordered by start time
-  Stream<Iterable<Tour>> tours() {
-    return db
+  Future<List<Tour>> tours() async{
+    final querySnapshot = await db
         .collection(CollectionNames.tour)
         .where(TourKeys.uid, arrayContains: _auth.currentUser?.uid)
         .orderBy(TourKeys.startTime)
         .withConverter(
-            fromFirestore: (snapshot, options) =>
-                Tour.fromMap(snapshot.data()!),
-            toFirestore: (value, options) => value.toMap())
-        .snapshots()
-        .map((querySnapshot) => querySnapshot.docs.map((e) => e.data()));
+        fromFirestore: (snapshot, options) => Tour.fromMap(snapshot.data()!),
+        toFirestore: (value, options) => value.toMap())
+        .get();
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
   }
 
   // Get a single tour
@@ -87,11 +86,11 @@ class FirebaseService {
   Future<void> signOut() async{
     await _auth.signOut();
   }
-
-  Future getUserById(String uid) async{
-    try{
+  
+  Future<DocumentSnapshot<Object>>? getUserById(String uid) async {
+    try {
       return await db.collection(CollectionNames.user).doc(uid).get();
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }

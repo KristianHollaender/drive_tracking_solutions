@@ -62,7 +62,7 @@ class MenuScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   FutureBuilder<DocumentSnapshot>(
-                    future: _usersCollection.doc(_auth.currentUser!.uid).get(),
+                    future: fireService.getUserById(_auth.currentUser!.uid),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final data =
