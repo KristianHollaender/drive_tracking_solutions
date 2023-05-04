@@ -1,7 +1,5 @@
-import 'package:drive_tracking_solutions/fire_service.dart';
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MobileStartScreen extends StatefulWidget {
   const MobileStartScreen({Key? key}) : super(key: key);

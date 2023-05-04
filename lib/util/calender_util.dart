@@ -1,15 +1,17 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/fire_service.dart';
 import 'package:drive_tracking_solutions/models/tour.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+final _auth = FirebaseAuth.instance;
+final fireService = FirebaseService();
 
 final kTours = LinkedHashMap<DateTime, List<Tour>>(
   equals: isSameDay,
   hashCode: getHashCode,
 );
-
-// Firestore collection reference for events
-final CollectionReference toursCollection = FirebaseFirestore.instance.collection('Tour');
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
@@ -23,7 +25,10 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
   );
 }
 void populateTours() async {
-  final snapshot = await toursCollection.get();
+  final snapshot = await fireService.tours(_auth.currentUser!.uid);
+  if(snapshot.docs.isEmpty){
+    kTours.clear();
+  }
   for (final doc in snapshot.docs) {
     final tour = Tour.fromMap(doc.data() as Map<String, dynamic>);
     final date = (doc[TourKeys.startTime] as Timestamp).toDate();

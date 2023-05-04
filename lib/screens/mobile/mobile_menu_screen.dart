@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
-
 import 'mobile_edit_user_screen.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -13,8 +12,6 @@ class MenuScreen extends StatelessWidget {
 
   final _auth = FirebaseAuth.instance;
   final _storageRef = FirebaseStorage.instance.ref();
-  final _usersCollection =
-      FirebaseFirestore.instance.collection(CollectionNames.user);
 
   Future<String> _getImageUrl() async {
     final imageRef = _storageRef

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/models/pause.dart';
-import 'package:flutter/foundation.dart';
 
 class TourKeys {
   static const uid = 'uid';

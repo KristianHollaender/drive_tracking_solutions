@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../models/tour.dart';
 import '../util/calender_util.dart';
 
@@ -23,9 +22,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   void initState() {
-    populateTours();
     super.initState();
-
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }

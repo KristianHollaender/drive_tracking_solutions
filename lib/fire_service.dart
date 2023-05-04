@@ -16,16 +16,8 @@ class FirebaseService {
   final db = FirebaseFirestore.instance;
 
   // Get personal tours ordered by start time
-  Future<List<Tour>> tours() async{
-    final querySnapshot = await db
-        .collection(CollectionNames.tour)
-        .where(TourKeys.uid, arrayContains: _auth.currentUser?.uid)
-        .orderBy(TourKeys.startTime)
-        .withConverter(
-        fromFirestore: (snapshot, options) => Tour.fromMap(snapshot.data()!),
-        toFirestore: (value, options) => value.toMap())
-        .get();
-    return querySnapshot.docs.map((doc) => doc.data()).toList();
+  Future<QuerySnapshot> tours(String uid) async{
+    return await db.collection(CollectionNames.tour).where('uid', isEqualTo: uid).get();
   }
 
   // Get a single tour

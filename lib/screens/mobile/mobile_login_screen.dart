@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.dart';
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../fire_service.dart';
+import '../../util/calender_util.dart';
 import 'mobile_reset_password_screen.dart';
 
 class MobileLoginScreen extends StatefulWidget {
@@ -20,7 +18,6 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +90,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
               builder: (context) => const NavBar(),
             ),
           );
+          populateTours();
         }).catchError((e) => print(e.toString()));
       },
     );
