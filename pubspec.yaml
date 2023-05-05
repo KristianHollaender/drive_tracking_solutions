@@ -51,6 +51,8 @@ dependencies:
   firebase_storage: ^11.1.1
   provider: ^6.0.5
   rflutter_alert: ^2.0.4
+  flutter_launcher_icons: ^0.13.1
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/app-logo.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

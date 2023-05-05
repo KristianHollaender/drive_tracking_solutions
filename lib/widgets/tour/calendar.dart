@@ -1,8 +1,8 @@
-import 'package:drive_tracking_solutions/widgets/tour_details.dart';
+import 'package:drive_tracking_solutions/widgets/tour/tour_details.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../models/tour.dart';
-import '../util/calender_util.dart';
+import '../../models/tour.dart';
+import '../../util/calender_util.dart';
 
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({Key? key}) : super(key: key);
