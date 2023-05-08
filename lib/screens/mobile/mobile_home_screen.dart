@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
+import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:drive_tracking_solutions/widgets/stopwatch_row.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -31,6 +35,38 @@ class HomeScreenState extends State<HomeScreen> {
   List<Marker> _marker = [];
 
   bool _click = false;
+
+
+  Future<GeoPoint> getCurrentLocationForDB() async {
+    Location location = new Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    // Check if location services are enabled
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        throw('Location services are disabled.');
+      }
+    }
+
+    // Check if location permissions are granted
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        throw('Location permissions are not granted.');
+      }
+    }
+
+    // Retrieve current location
+    _locationData = await location.getLocation();
+
+    return GeoPoint(_locationData.latitude!, _locationData.longitude!);
+  }
+
 
   Future<void> getCurrentLocation() async {
     Location location = Location();
@@ -158,11 +194,14 @@ class HomeScreenState extends State<HomeScreen> {
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.play_arrow_rounded),
-                                  onPressed: (){
+                                  onPressed: () async {
                                     CDLKey.currentState!.startCountdown();
                                     DDLKey.currentState!.startCountdown();
                                     DBTKey.currentState!.stopCountdown();
                                     CheckpointKey.currentState!.stopTimer();
+                                    GeoPoint currentLocation = await getCurrentLocationForDB();
+                                    DateTime startTime = DateTime.now();
+                                    await fireService.startTour(currentLocation, startTime);
                                   },
                                   label: Text("Start tour"),
                                 ),
