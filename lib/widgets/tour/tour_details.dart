@@ -5,14 +5,15 @@ import 'card_details_widget.dart';
 
 class TourDetails extends StatelessWidget {
   final Tour tour;
+  final String id;
 
-  const TourDetails({Key? key, required this.tour}) : super(key: key);
+  const TourDetails({Key? key, required this.tour, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(tour.uid),
+          title: Text(tour.tourId),
         ),
         body: SingleChildScrollView(
           child: Column(

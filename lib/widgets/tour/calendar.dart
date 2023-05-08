@@ -266,7 +266,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                         onTap: () {
                           showDialog(
                             context: context,
-                            builder: (context) => TourDetails(tour: tours[index]),
+                            builder: (context) => TourDetails(tour: tours[index], id: tours[index].tourId),
                           );
                         },
                       ),
@@ -281,61 +281,3 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     );
   }
 }
-
-/**
- * return Container(
-    width: double.infinity,
-    height: 150,
-    margin: const EdgeInsets.all(8),
-    decoration: BoxDecoration(
-    border: Border.all(),
-    borderRadius: BorderRadius.circular(12.0),
-    ),
-    child: ListTile(
-    onTap: () {
-    showDialog(
-    context: context,
-    builder: (context) =>
-    TourDetails(tour: tours[index]),
-    );
-    },
-    leading: Container(
-    color: Colors.red,
-    height: 150,
-    width: double.infinity,
-    child: FittedBox(
-    fit: BoxFit.fill,
-    child: Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-    Column(
-    children: [
-    Padding(
-    padding: const EdgeInsets.only(top: 8.0),
-    child: Container(
-    width: 20,
-    height: 20,
-    color: Colors.red,
-    child: Center(
-    child:
-    Text('${tours[index].startTime?.day}')),
-    ),
-    ),
-    Text(
-    tours[index].getMonth(tours[index].startTime!),
-    style: const TextStyle(
-    fontWeight: FontWeight.bold, fontSize: 50),
-    ),
-    ],
-    ),
-    Text(
-    'Start time:${tours[index].startTime?.hour}:${tours[index].startTime?.minute}:${tours[index].startTime?.second}',
-    style: const TextStyle(fontSize: 20),
-    ),
-    ],
-    ),
-    ),
-    ),
-    ),
-    );
- */

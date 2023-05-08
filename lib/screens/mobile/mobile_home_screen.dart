@@ -314,14 +314,4 @@ class HomeScreenState extends State<HomeScreen> {
   void _stopListeningToLocation() async {
     sub!.cancel();
   }
-
-
-
-
-
-
-
-
-
-
 }

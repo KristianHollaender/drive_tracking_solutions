@@ -1,34 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/fire_service.dart';
+import 'package:drive_tracking_solutions/models/checkPoint.dart';
 import 'package:drive_tracking_solutions/models/pause.dart';
 
 class TourKeys {
+  static const tourId = 'tourId';
   static const uid = 'uid';
   static const startPoint = 'startPoint';
   static const endPoint = 'endPoint';
-  static const pause = 'pause';
   static const startTime = 'startTime';
   static const endTime = 'endTime';
   static const totalTime = 'totalTime';
 }
 
 class Tour {
+  final String tourId;
   final String uid;
   final GeoPoint startPoint;
   final GeoPoint endPoint;
   final Pause? pause;
+  final CheckPoint? checkPoint;
   final DateTime? startTime;
   final DateTime? endTime;
   final DateTime? totalTime;
 
-  Tour(this.uid, this.startPoint, this.endPoint, this.startTime, this.endTime, this.totalTime, this.pause);
+  Tour(this.tourId,this.uid, this.startPoint, this.pause, this.checkPoint, this.endPoint, this.startTime, this.endTime, this.totalTime);
 
   //Getting tour from firebase, then mapping tour to a dart object
   Tour.fromMap(Map<String, dynamic> data)
       :
+        tourId = data[TourKeys.tourId],
         uid = data[TourKeys.uid],
         startPoint = data[TourKeys.startPoint],
         endPoint = data[TourKeys.endPoint],
-        pause = data[TourKeys.pause],
+        pause = data[CollectionNames.pause],
+        checkPoint = data[CollectionNames.checkPoint],
         startTime = (data[TourKeys.startTime] as Timestamp).toDate(),
         endTime = (data[TourKeys.endTime] as Timestamp).toDate(),
         totalTime = (data[TourKeys.totalTime] as Timestamp).toDate();
@@ -36,10 +42,12 @@ class Tour {
   //Mapping dart object to json object
   Map<String, dynamic> toMap(){
     return {
+      TourKeys.tourId: tourId,
       TourKeys.uid: uid,
       TourKeys.startPoint: startPoint,
       TourKeys.endPoint: endPoint,
-      TourKeys.pause: pause,
+      CollectionNames.pause: pause,
+      CollectionNames.checkPoint: checkPoint,
       TourKeys.startTime: startTime,
       TourKeys.endTime: endTime,
       TourKeys.totalTime: totalTime

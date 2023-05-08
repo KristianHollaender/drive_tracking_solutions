@@ -10,7 +10,7 @@ class Pause{
   Pause(this.startTime, this.endTime);
 
   //Getting pause from firebase, then mapping pause to a dart object
-  Pause.map(Map<String, dynamic> data)
+  Pause.fromMap(Map<String, dynamic> data)
       : startTime = data[PauseKeys.startTime],
        endTime = data[PauseKeys.endTime];
 
