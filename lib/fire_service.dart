@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/models/checkPoint.dart';
+import 'package:drive_tracking_solutions/models/pause.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,7 +11,7 @@ class CollectionNames {
   static const user = 'User';
   static const tour = 'Tour';
   static const pause = 'Pause';
-  static const checkPoints = 'CheckPoint';
+  static const checkPoint = 'CheckPoint';
 }
 
 class FirebaseService {
@@ -32,10 +33,10 @@ class FirebaseService {
     await db
         .collection(CollectionNames.tour)
         .add({
-          TourKeys.uid: _auth.currentUser?.uid,
-          TourKeys.startPoint: startPoint,
-          TourKeys.startTime: startTime,
-        })
+      TourKeys.uid: _auth.currentUser?.uid,
+      TourKeys.startPoint: startPoint,
+      TourKeys.startTime: startTime,
+    })
         .then((value) => print('Tour send'))
         .catchError((e) => print(e.toString()));
   }
@@ -80,7 +81,7 @@ class FirebaseService {
   Future<void> signOut() async{
     await _auth.signOut();
   }
-  
+
   Future<DocumentSnapshot<Object>>? getUserById(String uid) async {
     try {
       return await db.collection(CollectionNames.user).doc(uid).get();
@@ -91,10 +92,26 @@ class FirebaseService {
 
   Future<void> addCheckpoint(String id, GeoPoint truckStop) async{
     try{
-      await db.collection(CollectionNames.tour).doc(id).collection(CollectionNames.checkPoints).add({
+      await db.collection(CollectionNames.tour).doc(id).collection(CollectionNames.checkPoint).add({
         CheckPointKeys.truckStop: truckStop,
       });
     }catch(e){
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<QuerySnapshot> getPauseFromTour(String id) async{
+    try{
+      return await db.collection(CollectionNames.tour).doc(id).collection(CollectionNames.pause).get();
+    }catch (e){
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<QuerySnapshot> getCheckPointFromTour(String id) async{
+    try{
+      return await db.collection(CollectionNames.tour).doc(id).collection(CollectionNames.checkPoint).get();
+    }catch (e){
       throw Exception(e.toString());
     }
   }
