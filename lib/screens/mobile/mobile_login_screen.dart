@@ -77,7 +77,7 @@ class MobileLoginScreen extends StatelessWidget {
         }
         final email = _email.value.text;
         final password = _password.value.text;
-        fireService.signIn(email, password).then((_){
+        fireService.signIn(email, password).then((_) async {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const NavBar(),
