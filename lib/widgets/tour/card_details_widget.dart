@@ -52,10 +52,17 @@ class CardDetailsWidget extends StatelessWidget {
                         return Text(snapshot.error.toString());
                       } else if (snapshot.hasData) {
                         final data =
-                        snapshot.data?.docs.toList();
+                        snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                        final startTime = data['startTime'] as String;
+                        final endTime = data['endTime'] as String;
                         return ListTile(
                           title: Text('Pause start'),
-                          subtitle: Text(),
+                          subtitle: Column(
+                            children: [
+                              Text('Start time: $startTime'),
+                              Text('End time: $endTime'),
+                            ],
+                          ),
                         );
                       } else {
                         return const Text('');
