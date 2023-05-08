@@ -29,6 +29,39 @@ class CardDetailsWidget extends StatelessWidget {
             subtitle: Text('${tour.totalTime}'),
             trailing: const Icon(Icons.event_available),
           ),
+<<<<<<< Updated upstream
+=======
+          ExpansionTile(
+            title: const Text('Total total'),
+            subtitle: Text('${tour.totalTime}'),
+            trailing: const Icon(Icons.event_available),
+            children: <Widget>[
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: getCollectionLength(tour.tourId),
+                itemBuilder: (BuildContext context, int index) {
+                  FutureBuilder<QuerySnapshot>(
+                    future: fireService.getPauseFromTour(tour.tourId),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else if (snapshot.hasData) {
+                        final data =
+                        snapshot.data?.docs.toList();
+                        return ListTile(
+                          title: Text('Pause start'),
+                          subtitle: Text("asdsa"),
+                        );
+                      } else {
+                        return const Text('');
+                      }
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+>>>>>>> Stashed changes
           FutureBuilder<String>(
             future: getAddressFromLatLong(tour.startPoint, tour.endPoint),
             builder: (context, snapshot) {
