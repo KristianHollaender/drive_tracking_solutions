@@ -5,16 +5,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../models/tour.dart';
 
-class TourMap extends StatefulWidget {
+class TourMap extends StatelessWidget {
   final Tour tour;
 
-  const TourMap({super.key, required this.tour});
+  TourMap({super.key, required this.tour});
 
-  @override
-  State<TourMap> createState() => TourMapState();
-}
-
-class TourMapState extends State<TourMap> {
   final Completer<GoogleMapController> _controller =
   Completer<GoogleMapController>();
 
@@ -25,11 +20,11 @@ class TourMapState extends State<TourMap> {
   late LatLng _startLatLng;
   late LatLng _endLatLng;
 
+
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     _startLatLng = LatLng(
-        widget.tour.startPoint.latitude, widget.tour.startPoint.longitude);
+        tour.startPoint.latitude, tour.startPoint.longitude);
     _startPoint = CameraPosition(
       target: _startLatLng,
       zoom: 7,
@@ -37,10 +32,10 @@ class TourMapState extends State<TourMap> {
     _startMarker = Marker(
         markerId: const MarkerId('start'),
         infoWindow: const InfoWindow(title: 'Start point'),
-        icon: BitmapDescriptor.defaultMarker,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         position: _startLatLng);
     _endLatLng =
-        LatLng(widget.tour.endPoint.latitude, widget.tour.endPoint.longitude);
+        LatLng(tour.endPoint.latitude, tour.endPoint.longitude);
     _endPoint = CameraPosition(
       target: _endLatLng,
       zoom: 7,
@@ -48,12 +43,9 @@ class TourMapState extends State<TourMap> {
     _endMarker = Marker(
         markerId: const MarkerId('end'),
         infoWindow: const InfoWindow(title: 'End point'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(23),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         position: _endLatLng);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    
     return Column(
       children: [
         Flexible(

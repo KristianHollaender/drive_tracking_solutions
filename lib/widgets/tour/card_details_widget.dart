@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/widgets/tour/tour_map.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/tour.dart';
 import '../../util/map_geo_util.dart';
 

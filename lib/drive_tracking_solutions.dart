@@ -13,7 +13,7 @@ class DriveTrackingSolution extends StatefulWidget {
 class _DriveTrackingSolutionState extends State<DriveTrackingSolution> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: ResponsiveLayout(
         mobileApp: MobileLoginScreen(),
         tabletApp: TabletLoginScreen(),

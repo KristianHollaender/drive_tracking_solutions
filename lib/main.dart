@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorSchemeSeed: const Color(0xff07460b), useMaterial3: true,
           ),
-          home: const SafeArea(top: true, child: MobileLoginScreen()),
+          home: SafeArea(top: true, child: MobileLoginScreen()),
         );
       },
     );

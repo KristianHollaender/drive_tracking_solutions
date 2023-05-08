@@ -6,15 +6,9 @@ import '../../fire_service.dart';
 import '../../util/calender_util.dart';
 import 'mobile_reset_password_screen.dart';
 
-class MobileLoginScreen extends StatefulWidget {
-  const MobileLoginScreen({super.key});
+class MobileLoginScreen extends StatelessWidget {
+  MobileLoginScreen({super.key});
 
-  @override
-  State<MobileLoginScreen> createState() =>
-      _MobileLoginScreenState();
-}
-
-class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -47,8 +41,8 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     loginBtn(context),
-                    createUserBtn(),
-                    forgotPasswordBtn(),
+                    createUserBtn(context),
+                    forgotPasswordBtn(context),
                   ],
                 )
               ],
@@ -59,7 +53,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
     );
   }
 
-  TextButton forgotPasswordBtn() {
+  TextButton forgotPasswordBtn(BuildContext context) {
     return TextButton(
       child: const Text('Forgot Password?'),
       onPressed: () async {
@@ -79,7 +73,6 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
       child: const Text('Login'),
       onPressed: () async {
         if (!_formKey.currentState!.validate()) {
-          setState(() {});
           return;
         }
         final email = _email.value.text;
@@ -96,7 +89,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
     );
   }
 
-  ElevatedButton createUserBtn() {
+  ElevatedButton createUserBtn(BuildContext context) {
     return ElevatedButton(
       child: const Text('Create new account'),
       onPressed: () async {

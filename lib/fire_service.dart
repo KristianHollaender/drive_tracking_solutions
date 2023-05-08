@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/models/checkPoint.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,6 +10,7 @@ class CollectionNames {
   static const user = 'User';
   static const tour = 'Tour';
   static const pause = 'Pause';
+  static const checkPoints = 'CheckPoint';
 }
 
 class FirebaseService {
@@ -83,6 +85,16 @@ class FirebaseService {
     try {
       return await db.collection(CollectionNames.user).doc(uid).get();
     } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<void> addCheckpoint(String id, GeoPoint truckStop) async{
+    try{
+      await db.collection(CollectionNames.tour).doc(id).collection(CollectionNames.checkPoints).add({
+        CheckPointKeys.truckStop: truckStop,
+      });
+    }catch(e){
       throw Exception(e.toString());
     }
   }
