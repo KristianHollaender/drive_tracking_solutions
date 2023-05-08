@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/pause.dart';
 import '../../models/tour.dart';
-import '../../util/calender_util.dart';
 import '../../util/map_geo_util.dart';
 
 class CardDetailsWidget extends StatelessWidget {
@@ -37,38 +36,41 @@ class CardDetailsWidget extends StatelessWidget {
             trailing: const Icon(Icons.event_available),
           ),
           ExpansionTile(
-            title: const Text('Total total'),
-            subtitle: Text('${tour.totalTime}'),
-            trailing: const Icon(Icons.event_available),
-            children: <Widget>[
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: getCollectionLength(tour.tourId),
-                itemBuilder: (BuildContext context, int index) {
-                  FutureBuilder<QuerySnapshot>(
-                    future: fireService.getPauseFromTour(tour.tourId),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      } else if (snapshot.hasData) {
-                        final data =
-                        snapshot.data?.docs[index].data() as Map<String, dynamic>;
-                        final startTime = data['startTime'] as String;
-                        final endTime = data['endTime'] as String;
+            title: const Text('Pause'),
+            subtitle: const Text('Click to view pauses'),
+            trailing: const Icon(Icons.pause_circle_outlined),
+            children: [
+              FutureBuilder<QuerySnapshot>(
+                future: fireService.getPauseFromTour(tour.tourId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else if (snapshot.hasData) {
+                    final data = snapshot.data!.docs;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final pauseData = Pause.fromMap(data[index].data() as Map<String, dynamic>);
+                        final startTime = pauseData.startTime;
+                        final endTime = pauseData.endTime;
                         return ListTile(
-                          title: Text('Pause start'),
-                          subtitle: Column(
-                            children: [
-                              Text('Start time: $startTime'),
-                              Text('End time: $endTime'),
-                            ],
+                          title: Text('Pause no. ${index+1}'),
+                          subtitle: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              children: [
+                                Text('Start time: $startTime'),
+                                Text('End time: $endTime'),
+                              ],
+                            ),
                           ),
                         );
-                      } else {
-                        return const Text('');
-                      }
-                    },
-                  );
+                      },
+                    );
+                  } else {
+                    return const Text('');
+                  }
                 },
               ),
             ],
@@ -98,31 +100,4 @@ class CardDetailsWidget extends StatelessWidget {
       ),
     );
   }
-
-  getCollectionLength(String id) async{
-    final doc = await fireService.getPauseFromTour(id);
-    return doc.docs.length;
-  }
 }
-
-/**
- *FutureBuilder(
-    future: fireService.getPauseFromTour(tour.tourId),
-    builder: (context, snapshot) {
-    if (snapshot.hasError) {
-    return Text(snapshot.error.toString());
-    } else if (snapshot.hasData) {
-    final data =
-    snapshot.data!.docs[index] as Map<String, dynamic>;
-    return ExpansionTile(
-    title: const Text('Pauses'),
-    subtitle: Text(
-    '${data[PauseKeys.startTime]} ${data[PauseKeys
-    .endTime]}'),
-    );
-    } else {
-    return const Text('');
-    }
-    },
-    ),
- */

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PauseKeys{
   static const startTime = 'startTime';
   static const endTime = 'endTime';
@@ -11,8 +13,8 @@ class Pause{
 
   //Getting pause from firebase, then mapping pause to a dart object
   Pause.fromMap(Map<String, dynamic> data)
-      : startTime = data[PauseKeys.startTime],
-       endTime = data[PauseKeys.endTime];
+      : startTime = (data[PauseKeys.startTime] as Timestamp).toDate(),
+       endTime = (data[PauseKeys.endTime] as Timestamp).toDate();
 
   //Mapping dart object to json object
   Map<String, dynamic> toMap(){
