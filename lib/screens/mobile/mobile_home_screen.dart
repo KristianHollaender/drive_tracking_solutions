@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:drive_tracking_solutions/widgets/stopwatch_row.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,6 +20,7 @@ class HomeScreenState extends State<HomeScreen> {
   final GlobalKey<TimerRowState> CDLKey = GlobalKey();
   final GlobalKey<TimerRowState> DDLKey = GlobalKey();
   final GlobalKey<TimerRowState> DBTKey = GlobalKey();
+  final GlobalKey<StopWatchRowState> CheckpointKey = GlobalKey();
 
   CameraPosition? _initialCameraPosition;
   CameraPosition? _currentLocationCameraPosition;
@@ -98,104 +100,148 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           body: Column(
             children: [
-              Flexible(
-                flex: 1,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.33,
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Stack(
-                      children: [
-                        GoogleMap(
-                          mapType: MapType.hybrid,
-                          myLocationButtonEnabled: true,
-                          myLocationEnabled: true,
-                          compassEnabled: true,
-                          markers: Set<Marker>.of(_marker),
-                          initialCameraPosition: _initialCameraPosition!,
-                          onMapCreated: (GoogleMapController controller) {
-                            _controller.complete(controller);
+                  child: Stack(
+                    children: [
+                      GoogleMap(
+                        mapType: MapType.hybrid,
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        compassEnabled: true,
+                        markers: Set<Marker>.of(_marker),
+                        initialCameraPosition: _initialCameraPosition!,
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
+                      ),
+                      Positioned(
+                        bottom: 16.0,
+                        right: 165.0,
+                        left: 165.0,
+                        child: FloatingActionButton.extended(
+                          backgroundColor: const Color(0xb3d9dcd9),
+                          onPressed: () {
+                            setState(() {
+                              _click = !_click;
+                            });
+                            if (_click) {
+                              _listenToCurrentLocation();
+                            } else {
+                              _stopListeningToLocation();
+                            }
                           },
+                          label: _click
+                              ? const Icon(Icons.navigation)
+                              : const Icon(Icons.navigation_outlined),
                         ),
-                        Positioned(
-                          bottom: 16.0,
-                          right: 165.0,
-                          left: 165.0,
-                          child: FloatingActionButton.extended(
-                            backgroundColor: const Color(0xb3d9dcd9),
-                            onPressed: () {
-                              setState(() {
-                                _click = !_click;
-                              });
-                              if (_click) {
-                                _listenToCurrentLocation();
-                              } else {
-                                _stopListeningToLocation();
-                              }
-                            },
-                            label: _click
-                                ? const Icon(Icons.navigation)
-                                : const Icon(Icons.navigation_outlined),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               ),
               Flexible(
                 flex: 1,
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 120.0,
-                            height: 50.0,
-                            child: FloatingActionButton.extended(
-                                onPressed: (){
-                                  CDLKey.currentState!.startTimer();
-                                  DDLKey.currentState!.startTimer();
-                                },
-                                label: Text("Start tour")),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  icon: Icon(Icons.play_arrow_rounded),
+                                  onPressed: (){
+                                    CDLKey.currentState!.startCountdown();
+                                    DDLKey.currentState!.startCountdown();
+                                    DBTKey.currentState!.stopCountdown();
+                                    CheckpointKey.currentState!.stopTimer();
+                                  },
+                                  label: Text("Start tour"),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 120.0,
-                            height: 50.0,
-                            child: FloatingActionButton.extended(
-                                onPressed: (){
-                                  CDLKey.currentState!.stopTimer();
-                                  DDLKey.currentState!.stopTimer();
-                                  DBTKey.currentState!.startTimer();
-                                }, label: Text("Checkpoint")),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  icon: Icon(Icons.add_location_alt),
+                                  onPressed: (){
+                                    CDLKey.currentState!.stopCountdown();
+                                    DDLKey.currentState!.stopCountdown();
+                                    DBTKey.currentState!.stopCountdown();
+                                    CheckpointKey.currentState!.startTimer();
+                                  },
+                                  label: Text("Checkpoint"),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 120.0,
-                            height: 50.0,
-                            child: FloatingActionButton.extended(
-                                onPressed: null, label: Text("End tour")),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0, left: 8.0, right: 8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  icon: Icon(Icons.close_sharp),
+                                    onPressed: () {
+                                      CDLKey.currentState!.clearTimer();
+                                      DDLKey.currentState!.clearTimer();
+                                      DBTKey.currentState!.clearTimer();
+                                      CheckpointKey.currentState!.stopTimer();
+                                    }, label: Text(" End tour")),
+                              ),
+                            ),
                           ),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  icon: Icon(Icons.restaurant),
+                                    onPressed: () {
+                                      CDLKey.currentState!.stopCountdown();
+                                      DDLKey.currentState!.stopCountdown();
+                                      DBTKey.currentState!.startCountdown();
+                                      CheckpointKey.currentState!.stopTimer();
+                                    }, label: Text("Start rest")),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Flexible(
-                      fit: FlexFit.loose,
+                      flex: 1,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
                             TimerRow(key: CDLKey, title: "Continuous driving limit", duration: Duration(hours: 4, minutes: 30)),
                             TimerRow(key: DDLKey, title: "Daily driving limit", duration: Duration(hours: 9, minutes: 00)),
-                            TimerRow(key: DBTKey, title: "Daily break time", duration: Duration(hours: 00, minutes: 45)),
+                            TimerRow(key: DBTKey, title: "Daily break time", duration: Duration(minutes: 45)),
+                            //TimerRow(key: LTKey, title: "Daily loading time", duration: Duration(hours: 1)),
+                            StopWatchRow(key: CheckpointKey, title: "Checkpoint 1")
                           ],
                         ),
                       ),
@@ -268,14 +314,4 @@ class HomeScreenState extends State<HomeScreen> {
   void _stopListeningToLocation() async {
     sub!.cancel();
   }
-
-
-
-
-
-
-
-
-
-
 }

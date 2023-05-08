@@ -19,9 +19,12 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
     _duration = widget.duration;
     _remainingTime = _durationToString(_duration);
+    _controller = AnimationController(
+      vsync: this,
+      duration: _duration,
+    )..reverse(from: 1.0);
     _isRunning = false;
   }
 
@@ -38,17 +41,14 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
-  void startTimer() {
+  void startCountdown() {
     if (!_isRunning) {
-      _controller = AnimationController(
-        vsync: this,
-        duration: _duration,
-      )..reverse(from: 1.0);
-
+      _isRunning = true;
+      _controller.reverse(
+          from: _controller.value == 0.0 ? 1.0 : _controller.value);
       _controller.addListener(() {
         setState(() {
-          _remainingTime = _durationToString(
-              (_duration * _controller.value));
+          _remainingTime = _durationToString((_duration * _controller.value));
         });
       });
 
@@ -57,29 +57,34 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
           // Timer completed
         }
       });
-
-      _isRunning = true;
-      _controller.reverse();
-
-      //TODO FIKS DURATION SÅ DEN IKKE GENSTARTER HVER GANG
-      print(_duration);
-      print(widget.duration);
     }
   }
 
-  void stopTimer() {
+  void stopCountdown() {
     if (_isRunning) {
       _isRunning = false;
       _controller.stop();
     }
   }
 
+  void clearTimer(){
+      _isRunning = false;
+      _controller.reset();
+      _duration = widget.duration;
+      _remainingTime = _durationToString(_duration);
+      _controller = AnimationController(
+        vsync: this,
+        duration: _duration,
+      )..reverse(from: 1.0);
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
           child: Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Color(0xff000000)),
@@ -89,10 +94,10 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
             height: 65.0,
             child: Row(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
                     child: Text(
                       _remainingTime,
                       style: TextStyle(
@@ -104,31 +109,28 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+                SizedBox(width: 16.0),
                 Expanded(
-                  flex: 2,
-                  child: AnimatedBuilder(
-                    animation: _controller,
-                    builder: (BuildContext context, Widget? child) {
-                      return LinearProgressIndicator(
-                        value: _controller.value,
-                      );
-                    },
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      widget.title,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: LinearProgressIndicator(
+                          value: _controller.value,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-
               ],
             ),
           ),

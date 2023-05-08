@@ -33,10 +33,10 @@ class FirebaseService {
     await db
         .collection(CollectionNames.tour)
         .add({
-          TourKeys.uid: _auth.currentUser?.uid,
-          TourKeys.startPoint: startPoint,
-          TourKeys.startTime: startTime,
-        })
+      TourKeys.uid: _auth.currentUser?.uid,
+      TourKeys.startPoint: startPoint,
+      TourKeys.startTime: startTime,
+    })
         .then((value) => print('Tour send'))
         .catchError((e) => print(e.toString()));
   }
@@ -81,7 +81,7 @@ class FirebaseService {
   Future<void> signOut() async{
     await _auth.signOut();
   }
-  
+
   Future<DocumentSnapshot<Object>>? getUserById(String uid) async {
     try {
       return await db.collection(CollectionNames.user).doc(uid).get();
