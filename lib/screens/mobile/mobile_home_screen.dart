@@ -182,6 +182,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     await fireService.startTour(
                                         currentLocation, startTime);
                                     print(fireService.tourId);
+                                    _setStartLocation();
                                   },
                                   label: Text("Start tour"),
                                 ),
@@ -200,6 +201,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     CDLKey.currentState!.stopCountdown();
                                     DDLKey.currentState!.stopCountdown();
                                     DBTKey.currentState!.stopCountdown();
+                                    _setCheckpointLocation();
                                     GeoPoint currentLocation =
                                         await getCurrentLocation();
                                     fireService.addCheckpoint(
@@ -227,6 +229,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: FloatingActionButton.extended(
                                     icon: Icon(Icons.close_sharp),
                                     onPressed: () async {
+                                      _setEndLocation();
                                       CDLKey.currentState!.clearTimer();
                                       DDLKey.currentState!.clearTimer();
                                       DBTKey.currentState!.clearTimer();
@@ -302,29 +305,50 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _setStartLocation() async {
-    getCurrentLocation();
-    final Marker _startLocationMarker = Marker(
-        markerId: MarkerId("startLocation"),
-        infoWindow: InfoWindow(title: "Route start"),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        position: _latLng!);
-    _marker.add(_startLocationMarker);
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(
-        CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
+    setState(() {
+      getCurrentLocation();
+      final Marker _startLocationMarker = Marker(
+          markerId: MarkerId("startLocation"),
+          infoWindow: InfoWindow(title: "Route start"),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          position: _latLng!);
+      _marker.add(_startLocationMarker);
+      controller.animateCamera(
+          CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
+    });
   }
 
-  Future<void> _setEndLocation() async {
-    getCurrentLocation();
-    final Marker _endLocationMarker = Marker(
-        markerId: MarkerId("startLocation"),
-        infoWindow: InfoWindow(title: "Route end"),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        position: _latLng!);
-    _marker.add(_endLocationMarker);
+  Future<void> _setCheckpointLocation() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(
-        CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
+    setState(() {
+      getCurrentLocation();
+      final Marker _checkpointLocationMarker = Marker(
+          markerId: MarkerId("checkpointLocation"),
+          infoWindow: InfoWindow(title: "Checkpoint"),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          position: _latLng!);
+      _marker.add(_checkpointLocationMarker);
+      controller.animateCamera(
+          CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
+    });
+
+  }
+
+
+  Future<void> _setEndLocation() async {
+    final GoogleMapController controller = await _controller.future;
+    setState(() {
+      getCurrentLocation();
+      final Marker _endLocationMarker = Marker(
+          markerId: MarkerId("startLocation"),
+          infoWindow: InfoWindow(title: "Route end"),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          position: _latLng!);
+      _marker.add(_endLocationMarker);
+      controller.animateCamera(
+          CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
+    });
   }
 
   LocationData? currentLocation;
@@ -360,3 +384,4 @@ class HomeScreenState extends State<HomeScreen> {
     sub!.cancel();
   }
 }
+
