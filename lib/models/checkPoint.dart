@@ -9,7 +9,7 @@ class CheckPoint{
 
   CheckPoint(this.truckStop);
 
-  CheckPoint.map(Map<String, dynamic> data)
+  CheckPoint.fromMap(Map<String, dynamic> data)
       : truckStop = data[CheckPointKeys.truckStop];
 
   Map<String, dynamic> toMap(){

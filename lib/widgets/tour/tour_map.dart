@@ -59,10 +59,10 @@ class TourMap extends StatelessWidget {
             markers: {_startMarker, _endMarker},
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Flexible(
-            flex: 1,
+        Flexible(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton.extended(
               onPressed: _goToTheEndPoint,
               label: const Text('To the end point'),

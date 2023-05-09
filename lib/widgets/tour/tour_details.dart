@@ -24,7 +24,7 @@ class TourDetails extends StatelessWidget {
                   '${tour.startTime?.day} ${tour.getMonth(tour.startTime!)}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 40,
+                    fontSize: 35,
                   ),
                 ),
               ),

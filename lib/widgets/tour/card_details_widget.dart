@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/fire_service.dart';
+import 'package:drive_tracking_solutions/models/checkPoint.dart';
 import 'package:drive_tracking_solutions/widgets/tour/tour_map.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -75,21 +76,92 @@ class CardDetailsWidget extends StatelessWidget {
               ),
             ],
           ),
+          ExpansionTile(
+            title: const Text('Check points'),
+            subtitle: const Text('Click to view check points'),
+            trailing: const Icon(Icons.not_listed_location),
+            children: [
+              FutureBuilder<QuerySnapshot>(
+                future: fireService.getCheckPointFromTour(tour.tourId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else if (snapshot.hasData) {
+                    final data = snapshot.data!.docs;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final checkPointData = CheckPoint.fromMap(data[index].data() as Map<String, dynamic>);
+                        return FutureBuilder<String>(
+                          future: getAddressFromLatLong(checkPointData.truckStop),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              return ListTile(
+                                title: Text('Check point no. ${index+1}'),
+                                subtitle: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('${snapshot.data!}')
+                                ),
+                                trailing: const Icon(Icons.location_on_rounded),
+                              );
+                            } else {
+                              return Container(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                alignment: Alignment.centerLeft,
+                                child: const CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    return const Text('');
+                  }
+                },
+              ),
+            ],
+          ),
           FutureBuilder<String>(
-            future: getAddressFromLatLong(tour.startPoint, tour.endPoint),
+            future: getAddressFromLatLong(tour.startPoint),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 }
                 return Container(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(left: 16.0),
                   alignment: Alignment.centerLeft,
-                  child: Text(snapshot.data!),
+                  child: Text('From: ${snapshot.data!}'),
                 );
               } else {
                 return Container(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(left: 16.0),
+                  alignment: Alignment.centerLeft,
+                  child: const CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+          FutureBuilder<String>(
+            future: getAddressFromLatLong(tour.endPoint),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                return Container(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text('To: ${snapshot.data!}'),
+                );
+              } else {
+                return Container(
+                  padding: const EdgeInsets.only(left: 16.0),
                   alignment: Alignment.centerLeft,
                   child: const CircularProgressIndicator(),
                 );
