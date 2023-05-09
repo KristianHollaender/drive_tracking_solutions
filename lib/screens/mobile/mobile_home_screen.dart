@@ -88,7 +88,8 @@ class HomeScreenState extends State<HomeScreen> {
       DDLKey.currentState!.startCountdown();
       DBTKey.currentState!.stopCountdown();
       print("pause ID:${fireService.pauseId}");
-      fireService.stopPause(fireService.tourId, fireService.pauseId, DateTime.now());
+      fireService.stopPause(
+          fireService.tourId, fireService.pauseId, DateTime.now());
     }
   }
 
@@ -233,9 +234,19 @@ class HomeScreenState extends State<HomeScreen> {
                                       GeoPoint currentLocation =
                                           await getCurrentLocation();
                                       endTime = DateTime.now();
-                                      totalTime = endTime
-                                          .difference(startTime)
-                                          .toString();
+                                      final duration =
+                                          endTime.difference(startTime);
+                                      final formattedDuration = Duration(
+                                        hours: duration.inHours,
+                                        minutes:
+                                            duration.inMinutes.remainder(60),
+                                        seconds:
+                                            duration.inSeconds.remainder(60),
+                                      );
+                                      final totalTime = formattedDuration
+                                          .toString()
+                                          .split('.')
+                                          .first;
                                       await fireService.endTour(
                                           fireService.tourId!,
                                           currentLocation,
