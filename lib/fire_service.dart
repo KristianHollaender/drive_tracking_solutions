@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/models/checkPoint.dart';
+import 'package:drive_tracking_solutions/models/pause.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -33,27 +34,27 @@ class FirebaseService {
   }
 
   // Start the tour
-  Future<DocumentSnapshot<Map<String, dynamic>>?> startTour(GeoPoint startPoint, DateTime startTime) async {
-    await db
-        .collection(CollectionNames.tour)
-        .add({
-          TourKeys.uid: _auth.currentUser?.uid,
-          TourKeys.startPoint: startPoint,
-          TourKeys.startTime: startTime,
-        })
-        .then((value) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>?> startTour(
+      GeoPoint startPoint, DateTime startTime) async {
+    await db.collection(CollectionNames.tour).add({
+      TourKeys.uid: _auth.currentUser?.uid,
+      TourKeys.startPoint: startPoint,
+      TourKeys.startTime: startTime,
+    }).then((value) async {
       await db.collection(CollectionNames.tour).doc(value.id).update({
         TourKeys.tourId: value.id,
       });
-      DocumentSnapshot tourDoc = await db.collection(CollectionNames.tour).doc(value.id).get();
+      DocumentSnapshot tourDoc =
+          await db.collection(CollectionNames.tour).doc(value.id).get();
       tourId = tourDoc.id;
       return tourId;
-    })
-        .catchError((e) => print(e.toString()));
+    }).catchError((e) => print(e.toString()));
+    return null;
   }
 
   // Stop the tour
-  Future<void> endTour(String id, GeoPoint endPoint, DateTime endTime, String totalTime) async {
+  Future<void> endTour(
+      String id, GeoPoint endPoint, DateTime endTime, String totalTime) async {
     await db.collection(CollectionNames.tour).doc(id).update({
       TourKeys.endPoint: endPoint,
       TourKeys.endTime: endTime,
@@ -62,21 +63,34 @@ class FirebaseService {
   }
 
   // Pause the tour
-  Future<void> startPause(String? id, DateTime? pauseStartTime) async {
+  Future<String?> startPause(String? id, DateTime? pauseStartTime) async {
     await db
         .collection(CollectionNames.tour)
         .doc(id)
         .collection(CollectionNames.pause)
-        .add({TourKeys.startTime: pauseStartTime});
+        .add({TourKeys.startTime: pauseStartTime}).then((value) async {
+      await db
+          .collection(CollectionNames.tour)
+          .doc(id)
+          .collection(CollectionNames.pause)
+          .doc(value.id)
+          .update({
+        PauseKeys.pauseId: value.id,
+      });
+      DocumentSnapshot pauseDoc = await db
+          .collection(CollectionNames.tour)
+          .doc(id)
+          .collection(CollectionNames.pause)
+          .doc(value.id)
+          .get();
+      pauseId = pauseDoc.id;
+      return pauseId;
+    }).catchError((e) => print(e.toString()));
+    return null;
   }
 
   // Resume the tour
-  Future<void> stopPause(
-      String? tourId, String? pauseId, DateTime? pauseEndTime) async {
-
-    DocumentSnapshot pauseDoc = await db.collection(CollectionNames.tour).doc(tourId).collection(CollectionNames.pause).doc().get();
-    pauseId = pauseDoc.id;
-
+  Future<void> stopPause(String? tourId, String? pauseId, DateTime? pauseEndTime) async {
     await db
         .collection(CollectionNames.tour)
         .doc(tourId)

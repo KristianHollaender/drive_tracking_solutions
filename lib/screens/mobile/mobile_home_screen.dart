@@ -22,7 +22,6 @@ class HomeScreenState extends State<HomeScreen> {
   final GlobalKey<TimerRowState> CDLKey = GlobalKey();
   final GlobalKey<TimerRowState> DDLKey = GlobalKey();
   final GlobalKey<TimerRowState> DBTKey = GlobalKey();
-  final GlobalKey<StopWatchRowState> CheckpointKey = GlobalKey();
 
   CameraPosition? _initialCameraPosition;
   CameraPosition? _currentLocationCameraPosition;
@@ -89,11 +88,8 @@ class HomeScreenState extends State<HomeScreen> {
       DDLKey.currentState!.startCountdown();
       DBTKey.currentState!.stopCountdown();
       print("pause ID:${fireService.pauseId}");
-      fireService.stopPause(fireService.pauseId!, fireService.pauseId, DateTime.now());
+      fireService.stopPause(fireService.tourId, fireService.pauseId, DateTime.now());
     }
-    setState(() {
-      _isResting = true;
-    });
   }
 
   @override
@@ -181,7 +177,6 @@ class HomeScreenState extends State<HomeScreen> {
                                     CDLKey.currentState!.startCountdown();
                                     DDLKey.currentState!.startCountdown();
                                     DBTKey.currentState!.stopCountdown();
-                                    CheckpointKey.currentState!.stopTimer();
                                     GeoPoint currentLocation =
                                         await getCurrentLocation();
                                     await fireService.startTour(
@@ -205,7 +200,6 @@ class HomeScreenState extends State<HomeScreen> {
                                     CDLKey.currentState!.stopCountdown();
                                     DDLKey.currentState!.stopCountdown();
                                     DBTKey.currentState!.stopCountdown();
-                                    CheckpointKey.currentState!.startTimer();
                                     GeoPoint currentLocation =
                                         await getCurrentLocation();
                                     fireService.addCheckpoint(
@@ -236,7 +230,6 @@ class HomeScreenState extends State<HomeScreen> {
                                       CDLKey.currentState!.clearTimer();
                                       DDLKey.currentState!.clearTimer();
                                       DBTKey.currentState!.clearTimer();
-                                      CheckpointKey.currentState!.stopTimer();
                                       GeoPoint currentLocation =
                                           await getCurrentLocation();
                                       endTime = DateTime.now();
@@ -263,6 +256,9 @@ class HomeScreenState extends State<HomeScreen> {
                                   icon: Icon(Icons.restaurant),
                                   onPressed: () {
                                     _toggleResting();
+                                    setState(() {
+                                      _isResting = !_isResting;
+                                    });
                                   },
                                   label: Text(_isResting
                                       ? "End resting"
@@ -291,9 +287,6 @@ class HomeScreenState extends State<HomeScreen> {
                                 key: DBTKey,
                                 title: "Daily break time",
                                 duration: Duration(minutes: 45)),
-                            //TimerRow(key: LTKey, title: "Daily loading time", duration: Duration(hours: 1)),
-                            StopWatchRow(
-                                key: CheckpointKey, title: "Checkpoint 1")
                           ],
                         ),
                       ),

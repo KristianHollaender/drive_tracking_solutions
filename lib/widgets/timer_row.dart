@@ -120,6 +120,7 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                       Padding(
