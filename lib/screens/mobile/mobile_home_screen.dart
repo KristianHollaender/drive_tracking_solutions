@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
-import 'package:drive_tracking_solutions/widgets/stopwatch_row.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -183,7 +181,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     await fireService.startTour(
                                         currentLocation, startTime);
                                     print(fireService.tourId);
-                                    _setStartLocation();
+                                    //_setStartLocation();
                                   },
                                   label: Text("Start tour"),
                                 ),
@@ -202,11 +200,11 @@ class HomeScreenState extends State<HomeScreen> {
                                     CDLKey.currentState!.stopCountdown();
                                     DDLKey.currentState!.stopCountdown();
                                     DBTKey.currentState!.stopCountdown();
-                                    _setCheckpointLocation();
                                     GeoPoint currentLocation =
                                         await getCurrentLocation();
                                     fireService.addCheckpoint(
                                         fireService.tourId!, currentLocation);
+                                    //_setCheckpointLocation();
                                   },
                                   label: Text("Checkpoint"),
                                 ),
@@ -230,7 +228,6 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: FloatingActionButton.extended(
                                     icon: Icon(Icons.close_sharp),
                                     onPressed: () async {
-                                      _setEndLocation();
                                       CDLKey.currentState!.clearTimer();
                                       DDLKey.currentState!.clearTimer();
                                       DBTKey.currentState!.clearTimer();
@@ -255,6 +252,7 @@ class HomeScreenState extends State<HomeScreen> {
                                           currentLocation,
                                           endTime,
                                           totalTime);
+                                      //_setEndLocation();
                                     },
                                     label: Text(" End tour")),
                               ),
@@ -322,7 +320,8 @@ class HomeScreenState extends State<HomeScreen> {
       final Marker _startLocationMarker = Marker(
           markerId: MarkerId("startLocation"),
           infoWindow: InfoWindow(title: "Route start"),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           position: _latLng!);
       _marker.add(_startLocationMarker);
       controller.animateCamera(
@@ -337,15 +336,14 @@ class HomeScreenState extends State<HomeScreen> {
       final Marker _checkpointLocationMarker = Marker(
           markerId: MarkerId("checkpointLocation"),
           infoWindow: InfoWindow(title: "Checkpoint"),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
           position: _latLng!);
       _marker.add(_checkpointLocationMarker);
       controller.animateCamera(
           CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
     });
-
   }
-
 
   Future<void> _setEndLocation() async {
     final GoogleMapController controller = await _controller.future;
@@ -395,4 +393,3 @@ class HomeScreenState extends State<HomeScreen> {
     sub!.cancel();
   }
 }
-
