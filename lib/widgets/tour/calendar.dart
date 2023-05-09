@@ -27,9 +27,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     _selectedDay = _focusedDay;
     _selectedTours = ValueNotifier(_getToursForDay(_selectedDay!));
     clearTours();
-    populateTours().then((value) => {
-      setState(() => {})
-    });
+    populateTours().then((value) => {setState(() => {})});
   }
 
   @override
@@ -93,9 +91,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.black)
-            ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: Colors.black)),
             child: TableCalendar<Tour>(
               firstDay: kFirstDay,
               lastDay: kLastDay,
@@ -108,33 +105,33 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               eventLoader: _getToursForDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarStyle: const CalendarStyle(
-                // Use `CalendarStyle` to customize the UI
-                outsideDaysVisible: false,
-                todayDecoration: BoxDecoration(
-                  color: Color(0x8007460b),
-                  shape: BoxShape.circle,
-                ),
-                selectedDecoration: BoxDecoration(
-                  color: Color(0xff07460b),
-                  shape: BoxShape.circle,
-                ),
-                markerDecoration: BoxDecoration(
-                  color: Color(0xFFDC5507),
-                  shape: BoxShape.circle,
-                ),
-                rangeHighlightColor: Color(0x3307460b),
-                rangeStartDecoration: BoxDecoration(
-                  color: Color(0xff47b64f),
-                  shape: BoxShape.circle,
-                ),
-                rangeEndDecoration: BoxDecoration(
-                  color: Color(0x3325ea31),
-                  shape: BoxShape.circle,
-                ),
-                rangeEndTextStyle: TextStyle(color: Colors.black)
-              ),
+                  // Use `CalendarStyle` to customize the UI
+                  outsideDaysVisible: false,
+                  todayDecoration: BoxDecoration(
+                    color: Color(0x8007460b),
+                    shape: BoxShape.circle,
+                  ),
+                  selectedDecoration: BoxDecoration(
+                    color: Color(0xff07460b),
+                    shape: BoxShape.circle,
+                  ),
+                  markerDecoration: BoxDecoration(
+                    color: Color(0xFFDC5507),
+                    shape: BoxShape.circle,
+                  ),
+                  rangeHighlightColor: Color(0x3307460b),
+                  rangeStartDecoration: BoxDecoration(
+                    color: Color(0xff47b64f),
+                    shape: BoxShape.circle,
+                  ),
+                  rangeEndDecoration: BoxDecoration(
+                    color: Color(0x3325ea31),
+                    shape: BoxShape.circle,
+                  ),
+                  rangeEndTextStyle: TextStyle(color: Colors.black)),
               headerStyle: HeaderStyle(
-                decoration: BoxDecoration(color: const Color(0xff07460b),
+                decoration: BoxDecoration(
+                  color: const Color(0xff07460b),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 titleTextStyle: const TextStyle(
@@ -185,9 +182,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.black)
-                      ),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black)),
                       height: 140,
                       width: double.infinity,
                       child: GestureDetector(
@@ -210,7 +206,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                                         '${tours[index].startTime?.day}',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20, color: Colors.white),
+                                            fontSize: 20,
+                                            color: Colors.white),
                                       )),
                                     ),
                                   ),
@@ -219,7 +216,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                                         .getMonth(tours[index].startTime!),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 30),
+                                        fontSize: 25),
                                   ),
                                 ],
                               ),
@@ -230,32 +227,21 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Start time:${tours[index].startTime?.hour}:${tours[index].startTime?.minute}:${tours[index].startTime?.second}',
                                         style: const TextStyle(fontSize: 20),
                                       ),
-                                      tours[index].endTime != null
-                                          ? Text(
-                                              'End time:${tours[index].endTime?.hour}:${tours[index].endTime?.minute}:${tours[index].endTime?.second}',
-                                              style:
-                                                  const TextStyle(fontSize: 20),
-                                            )
-                                          : const Text(
-                                              'End time: In progress',
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                      tours[index].totalTime != null
-                                          ? Text(
-                                              'Total time: ${tours[index].totalTime}',
-                                              style:
-                                                  const TextStyle(fontSize: 20),
-                                            )
-                                          : const Text(
-                                              'Total time: In progress',
-                                              style: TextStyle(fontSize: 20),
-                                            ),
+                                      Text(
+                                        'End time:${tours[index].endTime?.hour}:${tours[index].endTime?.minute}:${tours[index].endTime?.second}',
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                      Text(
+                                        'Total time: ${tours[index].totalTime}',
+                                        style: const TextStyle(fontSize: 20),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -270,7 +256,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                         onTap: () {
                           showDialog(
                             context: context,
-                            builder: (context) => TourDetails(tour: tours[index], id: tours[index].tourId),
+                            builder: (context) => TourDetails(
+                                tour: tours[index], id: tours[index].tourId),
                           );
                         },
                       ),
