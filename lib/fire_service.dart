@@ -16,6 +16,7 @@ class CollectionNames {
 class FirebaseService {
   final _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
+  String? tourId;
 
   // Get personal tours ordered by start time
   Future<QuerySnapshot> tours(String uid) async {
@@ -43,7 +44,9 @@ class FirebaseService {
       await db.collection(CollectionNames.tour).doc(value.id).update({
         TourKeys.tourId: value.id,
       });
-      return await db.collection(CollectionNames.tour).doc(value.id).get();
+      DocumentSnapshot tourDoc = await db.collection(CollectionNames.tour).doc(value.id).get();
+      tourId = tourDoc.id;
+      return tourId;
     })
         .catchError((e) => print(e.toString()));
   }

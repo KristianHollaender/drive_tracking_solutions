@@ -244,7 +244,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                                             ),
                                       tours[index].totalTime != null
                                           ? Text(
-                                              'Total time:${tours[index].totalTime?.hour}:${tours[index].totalTime?.minute}:${tours[index].totalTime?.second}',
+                                              'Total time: ${tours[index].totalTime}',
                                               style:
                                                   const TextStyle(fontSize: 20),
                                             )

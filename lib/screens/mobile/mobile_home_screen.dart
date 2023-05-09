@@ -85,7 +85,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     DateTime startTime = DateTime.now();
     DateTime endTime;
-    Duration totalTime;
+    String totalTime;
 
     return FutureBuilder(
       future: getCurrentLocation(),
@@ -168,6 +168,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     CheckpointKey.currentState!.stopTimer();
                                     GeoPoint currentLocation = await getCurrentLocation();
                                     await fireService.startTour(currentLocation, startTime);
+                                    print(fireService.tourId);
                                     },
                                   label: Text("Start tour"),
                                 ),
@@ -215,8 +216,8 @@ class HomeScreenState extends State<HomeScreen> {
                                       CheckpointKey.currentState!.stopTimer();
                                       GeoPoint currentLocation = await getCurrentLocation();
                                       endTime = DateTime.now();
-                                      totalTime = endTime.difference(startTime);
-                                      await fireService.endTour(tourId!, currentLocation, endTime, totalTime as String);
+                                      totalTime = endTime.difference(startTime).toString();
+                                      await fireService.endTour(fireService.tourId!, currentLocation, endTime, totalTime);
                                     }, label: Text(" End tour")),
                               ),
                             ),
@@ -323,4 +324,5 @@ class HomeScreenState extends State<HomeScreen> {
   void _stopListeningToLocation() async {
     sub!.cancel();
   }
+
 }

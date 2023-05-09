@@ -22,7 +22,7 @@ class Tour {
   final CheckPoint? checkPoint;
   final DateTime? startTime;
   final DateTime? endTime;
-  final DateTime? totalTime;
+  final String? totalTime;
 
   Tour(this.tourId,this.uid, this.startPoint, this.pause, this.checkPoint, this.endPoint, this.startTime, this.endTime, this.totalTime);
 
@@ -37,7 +37,7 @@ class Tour {
         checkPoint = data[CollectionNames.checkPoint],
         startTime = (data[TourKeys.startTime] as Timestamp).toDate(),
         endTime = (data[TourKeys.endTime] as Timestamp).toDate(),
-        totalTime = (data[TourKeys.totalTime] as Timestamp).toDate();
+        totalTime = data[TourKeys.totalTime];
 
   //Mapping dart object to json object
   Map<String, dynamic> toMap(){
