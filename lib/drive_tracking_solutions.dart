@@ -1,6 +1,4 @@
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
-import 'package:drive_tracking_solutions/screens/responsive/responsive_layout.dart';
-import 'package:drive_tracking_solutions/screens/tablet/tablet_login_screen.dart';
 import 'package:flutter/material.dart';
 
 class DriveTrackingSolution extends StatefulWidget {
@@ -14,10 +12,7 @@ class _DriveTrackingSolutionState extends State<DriveTrackingSolution> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ResponsiveLayout(
-        mobileApp: MobileLoginScreen(),
-        tabletApp: TabletLoginScreen(),
-      ),
+      body: MobileLoginScreen(),
     );
   }
 }
