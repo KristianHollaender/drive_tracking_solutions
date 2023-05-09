@@ -85,6 +85,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     DateTime startTime = DateTime.now();
     DateTime endTime;
+    DateTime pauseTime;
     String totalTime;
 
     return FutureBuilder(
@@ -183,11 +184,13 @@ class HomeScreenState extends State<HomeScreen> {
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.add_location_alt),
-                                  onPressed: (){
+                                  onPressed: () async {
                                     CDLKey.currentState!.stopCountdown();
                                     DDLKey.currentState!.stopCountdown();
                                     DBTKey.currentState!.stopCountdown();
                                     CheckpointKey.currentState!.startTimer();
+                                    GeoPoint currentLocation = await getCurrentLocation();
+                                    fireService.addCheckpoint(fireService.tourId!, currentLocation);
                                   },
                                   label: Text("Checkpoint"),
                                 ),
@@ -235,7 +238,9 @@ class HomeScreenState extends State<HomeScreen> {
                                       DDLKey.currentState!.stopCountdown();
                                       DBTKey.currentState!.startCountdown();
                                       CheckpointKey.currentState!.stopTimer();
-                                    }, label: Text("Start rest")),
+                                      pauseTime = DateTime.now();
+                                      fireService.startPause(fireService.tourId!, pauseTime);
+                                    }, label: Text("Start pause")),
                               ),
                             ),
                           ),

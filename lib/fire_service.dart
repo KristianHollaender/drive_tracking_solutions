@@ -61,7 +61,7 @@ class FirebaseService {
   }
 
   // Pause the tour
-  Future<void> pauseTour(String id, DateTime pauseStartTime) async {
+  Future<void> startPause(String id, DateTime pauseStartTime) async {
     await db
         .collection(CollectionNames.tour)
         .doc(id)
@@ -70,7 +70,7 @@ class FirebaseService {
   }
 
   // Resume the tour
-  Future<void> resumeTour(
+  Future<void> stopPause(
       String tourId, String pauseId, DateTime pauseEndTime) async {
     await db
         .collection(CollectionNames.tour)

@@ -24,6 +24,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   void initState() {
     super.initState();
+    populateTours();
     _selectedDay = _focusedDay;
     _selectedTours = ValueNotifier(_getToursForDay(_selectedDay!));
   }

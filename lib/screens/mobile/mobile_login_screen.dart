@@ -83,7 +83,6 @@ class MobileLoginScreen extends StatelessWidget {
               builder: (context) => const NavBar(),
             ),
           );
-          populateTours();
         }).catchError((e) => print(e.toString()));
       },
     );
