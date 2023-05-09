@@ -17,6 +17,7 @@ class FirebaseService {
   final _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
   String? tourId;
+  String? pauseId;
 
   // Get personal tours ordered by start time
   Future<QuerySnapshot> tours(String uid) async {
@@ -61,7 +62,7 @@ class FirebaseService {
   }
 
   // Pause the tour
-  Future<void> startPause(String id, DateTime pauseStartTime) async {
+  Future<void> startPause(String? id, DateTime? pauseStartTime) async {
     await db
         .collection(CollectionNames.tour)
         .doc(id)
@@ -71,7 +72,11 @@ class FirebaseService {
 
   // Resume the tour
   Future<void> stopPause(
-      String tourId, String pauseId, DateTime pauseEndTime) async {
+      String? tourId, String? pauseId, DateTime? pauseEndTime) async {
+
+    DocumentSnapshot pauseDoc = await db.collection(CollectionNames.tour).doc(tourId).collection(CollectionNames.pause).doc().get();
+    pauseId = pauseDoc.id;
+
     await db
         .collection(CollectionNames.tour)
         .doc(tourId)

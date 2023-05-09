@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
-import 'package:drive_tracking_solutions/models/tour.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:drive_tracking_solutions/widgets/stopwatch_row.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -17,7 +15,6 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => HomeScreenState();
 }
-
 
 class HomeScreenState extends State<HomeScreen> {
   final Completer<GoogleMapController> _controller =
@@ -32,10 +29,10 @@ class HomeScreenState extends State<HomeScreen> {
   LatLng? _latLng;
   StreamSubscription<LocationData>? sub;
 
-
   List<Marker> _marker = [];
 
   bool _click = false;
+  bool _isResting = false;
 
   Future<GeoPoint> getCurrentLocation() async {
     Location location = Location();
@@ -81,12 +78,30 @@ class HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  void _toggleResting() {
+    if (!_isResting) {
+      CDLKey.currentState!.stopCountdown();
+      DDLKey.currentState!.stopCountdown();
+      DBTKey.currentState!.startCountdown();
+      fireService.startPause(fireService.tourId!, DateTime.now());
+    } else {
+      CDLKey.currentState!.startCountdown();
+      DDLKey.currentState!.startCountdown();
+      DBTKey.currentState!.stopCountdown();
+      print("pause ID:${fireService.pauseId}");
+      fireService.stopPause(fireService.pauseId!, fireService.pauseId, DateTime.now());
+    }
+    setState(() {
+      _isResting = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime startTime = DateTime.now();
     DateTime endTime;
-    DateTime pauseTime;
     String totalTime;
+    DateTime pauseTime;
 
     return FutureBuilder(
       future: getCurrentLocation(),
@@ -167,10 +182,12 @@ class HomeScreenState extends State<HomeScreen> {
                                     DDLKey.currentState!.startCountdown();
                                     DBTKey.currentState!.stopCountdown();
                                     CheckpointKey.currentState!.stopTimer();
-                                    GeoPoint currentLocation = await getCurrentLocation();
-                                    await fireService.startTour(currentLocation, startTime);
+                                    GeoPoint currentLocation =
+                                        await getCurrentLocation();
+                                    await fireService.startTour(
+                                        currentLocation, startTime);
                                     print(fireService.tourId);
-                                    },
+                                  },
                                   label: Text("Start tour"),
                                 ),
                               ),
@@ -189,8 +206,10 @@ class HomeScreenState extends State<HomeScreen> {
                                     DDLKey.currentState!.stopCountdown();
                                     DBTKey.currentState!.stopCountdown();
                                     CheckpointKey.currentState!.startTimer();
-                                    GeoPoint currentLocation = await getCurrentLocation();
-                                    fireService.addCheckpoint(fireService.tourId!, currentLocation);
+                                    GeoPoint currentLocation =
+                                        await getCurrentLocation();
+                                    fireService.addCheckpoint(
+                                        fireService.tourId!, currentLocation);
                                   },
                                   label: Text("Checkpoint"),
                                 ),
@@ -201,7 +220,8 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0, left: 8.0, right: 8.0),
+                      padding: const EdgeInsets.only(
+                          bottom: 10.0, left: 8.0, right: 8.0),
                       child: Row(
                         children: [
                           Expanded(
@@ -211,17 +231,25 @@ class HomeScreenState extends State<HomeScreen> {
                               child: SizedBox(
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
-                                  icon: Icon(Icons.close_sharp),
+                                    icon: Icon(Icons.close_sharp),
                                     onPressed: () async {
                                       CDLKey.currentState!.clearTimer();
                                       DDLKey.currentState!.clearTimer();
                                       DBTKey.currentState!.clearTimer();
                                       CheckpointKey.currentState!.stopTimer();
-                                      GeoPoint currentLocation = await getCurrentLocation();
+                                      GeoPoint currentLocation =
+                                          await getCurrentLocation();
                                       endTime = DateTime.now();
-                                      totalTime = endTime.difference(startTime).toString();
-                                      await fireService.endTour(fireService.tourId!, currentLocation, endTime, totalTime);
-                                    }, label: Text(" End tour")),
+                                      totalTime = endTime
+                                          .difference(startTime)
+                                          .toString();
+                                      await fireService.endTour(
+                                          fireService.tourId!,
+                                          currentLocation,
+                                          endTime,
+                                          totalTime);
+                                    },
+                                    label: Text(" End tour")),
                               ),
                             ),
                           ),
@@ -233,14 +261,13 @@ class HomeScreenState extends State<HomeScreen> {
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.restaurant),
-                                    onPressed: () {
-                                      CDLKey.currentState!.stopCountdown();
-                                      DDLKey.currentState!.stopCountdown();
-                                      DBTKey.currentState!.startCountdown();
-                                      CheckpointKey.currentState!.stopTimer();
-                                      pauseTime = DateTime.now();
-                                      fireService.startPause(fireService.tourId!, pauseTime);
-                                    }, label: Text("Start pause")),
+                                  onPressed: () {
+                                    _toggleResting();
+                                  },
+                                  label: Text(_isResting
+                                      ? "End resting"
+                                      : "Start rest"),
+                                ),
                               ),
                             ),
                           ),
@@ -252,11 +279,21 @@ class HomeScreenState extends State<HomeScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            TimerRow(key: CDLKey, title: "Continuous driving limit", duration: Duration(hours: 4, minutes: 30)),
-                            TimerRow(key: DDLKey, title: "Daily driving limit", duration: Duration(hours: 9, minutes: 00)),
-                            TimerRow(key: DBTKey, title: "Daily break time", duration: Duration(minutes: 45)),
+                            TimerRow(
+                                key: CDLKey,
+                                title: "Continuous driving limit",
+                                duration: Duration(hours: 4, minutes: 30)),
+                            TimerRow(
+                                key: DDLKey,
+                                title: "Daily driving limit",
+                                duration: Duration(hours: 9, minutes: 00)),
+                            TimerRow(
+                                key: DBTKey,
+                                title: "Daily break time",
+                                duration: Duration(minutes: 45)),
                             //TimerRow(key: LTKey, title: "Daily loading time", duration: Duration(hours: 1)),
-                            StopWatchRow(key: CheckpointKey, title: "Checkpoint 1")
+                            StopWatchRow(
+                                key: CheckpointKey, title: "Checkpoint 1")
                           ],
                         ),
                       ),
@@ -329,5 +366,4 @@ class HomeScreenState extends State<HomeScreen> {
   void _stopListeningToLocation() async {
     sub!.cancel();
   }
-
 }
