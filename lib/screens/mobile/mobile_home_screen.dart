@@ -36,39 +36,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   bool _click = false;
 
-
-  Future<GeoPoint> getCurrentLocationForDB() async {
-    Location location = new Location();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
-
-    // Check if location services are enabled
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        throw('Location services are disabled.');
-      }
-    }
-
-    // Check if location permissions are granted
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        throw('Location permissions are not granted.');
-      }
-    }
-
-    // Retrieve current location
-    _locationData = await location.getLocation();
-
-    return GeoPoint(_locationData.latitude!, _locationData.longitude!);
-  }
-
-
-  Future<void> getCurrentLocation() async {
+  Future<GeoPoint> getCurrentLocation() async {
     Location location = Location();
 
     bool _serviceEnabled;
@@ -78,17 +46,11 @@ class HomeScreenState extends State<HomeScreen> {
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
     }
 
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
     }
 
     _locationData = await location.getLocation();
@@ -104,13 +66,13 @@ class HomeScreenState extends State<HomeScreen> {
       target: _latLng!,
       zoom: 17.5,
     );
+
+    return GeoPoint(_locationData.latitude!, _locationData.longitude!);
   }
 
   @override
   void initState() {
     super.initState();
-
-    getCurrentLocation();
   }
 
   @override
@@ -199,7 +161,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     DDLKey.currentState!.startCountdown();
                                     DBTKey.currentState!.stopCountdown();
                                     CheckpointKey.currentState!.stopTimer();
-                                    GeoPoint currentLocation = await getCurrentLocationForDB();
+                                    GeoPoint currentLocation = await getCurrentLocation();
                                     DateTime startTime = DateTime.now();
                                     await fireService.startTour(currentLocation, startTime);
                                   },
