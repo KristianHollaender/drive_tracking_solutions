@@ -116,7 +116,7 @@ class HomeScreenState extends State<HomeScreen> {
           body: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.33,
+                height: MediaQuery.of(context).size.height * 0.40,
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Stack(

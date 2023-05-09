@@ -24,7 +24,12 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
         (index) => DateTime.utc(first.year, first.month, first.day + index),
   );
 }
-void populateTours() async {
+
+void clearTours() {
+  kTours.clear();
+}
+
+Future<void> populateTours() async {
   final snapshot = await fireService.tours(_auth.currentUser!.uid);
   if(snapshot.docs.isEmpty){
     kTours.clear();
