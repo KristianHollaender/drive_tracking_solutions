@@ -90,7 +90,7 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
                 border: Border.all(color: Color(0xff000000)),
                 borderRadius: BorderRadius.circular(8.0),
                 color: Color(0xff427e48)),
-            width: 390.0,
+            width: MediaQuery.of(context).size.width * 0.95,
             height: 65.0,
             child: Row(
               children: [

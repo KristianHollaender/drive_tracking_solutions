@@ -70,7 +70,7 @@ class StopWatchRowState extends State<StopWatchRow> {
                 border: Border.all(color: Color(0xff625d5d)),
                 borderRadius: BorderRadius.circular(8.0),
                 color: Color(0xfff5a441)),
-            width: 390.0,
+            width: MediaQuery.of(context).size.width * 0.95,
             height: 65.0,
             child: Row(
               children: [
@@ -96,7 +96,7 @@ class StopWatchRowState extends State<StopWatchRow> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Checkpoint",
+                        widget.title,
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
