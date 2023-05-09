@@ -31,7 +31,7 @@ class FirebaseService {
   }
 
   // Start the tour
-  Future<void> startTour(GeoPoint startPoint, DateTime startTime) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>?> startTour(GeoPoint startPoint, DateTime startTime) async {
     await db
         .collection(CollectionNames.tour)
         .add({
@@ -43,13 +43,13 @@ class FirebaseService {
       await db.collection(CollectionNames.tour).doc(value.id).update({
         TourKeys.tourId: value.id,
       });
+      return await db.collection(CollectionNames.tour).doc(value.id).get();
     })
         .catchError((e) => print(e.toString()));
   }
 
   // Stop the tour
-  Future<void> endTour(String id, GeoPoint endPoint, DateTime endTime,
-      DateTime totalTime) async {
+  Future<void> endTour(String id, GeoPoint endPoint, DateTime endTime, String totalTime) async {
     await db.collection(CollectionNames.tour).doc(id).update({
       TourKeys.endPoint: endPoint,
       TourKeys.endTime: endTime,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
+import 'package:drive_tracking_solutions/models/tour.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:drive_tracking_solutions/widgets/stopwatch_row.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
@@ -82,6 +83,10 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime startTime = DateTime.now();
+    DateTime endTime;
+    Duration totalTime;
+
     return FutureBuilder(
       future: getCurrentLocation(),
       builder: (context, snapshot) {
@@ -162,9 +167,8 @@ class HomeScreenState extends State<HomeScreen> {
                                     DBTKey.currentState!.stopCountdown();
                                     CheckpointKey.currentState!.stopTimer();
                                     GeoPoint currentLocation = await getCurrentLocation();
-                                    DateTime startTime = DateTime.now();
                                     await fireService.startTour(currentLocation, startTime);
-                                  },
+                                    },
                                   label: Text("Start tour"),
                                 ),
                               ),
@@ -204,11 +208,15 @@ class HomeScreenState extends State<HomeScreen> {
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.close_sharp),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       CDLKey.currentState!.clearTimer();
                                       DDLKey.currentState!.clearTimer();
                                       DBTKey.currentState!.clearTimer();
                                       CheckpointKey.currentState!.stopTimer();
+                                      GeoPoint currentLocation = await getCurrentLocation();
+                                      endTime = DateTime.now();
+                                      totalTime = endTime.difference(startTime);
+                                      await fireService.endTour(tourId!, currentLocation, endTime, totalTime as String);
                                     }, label: Text(" End tour")),
                               ),
                             ),
