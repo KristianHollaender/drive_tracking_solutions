@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/models/checkPoint.dart';
-import 'package:drive_tracking_solutions/models/pause.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -40,7 +39,11 @@ class FirebaseService {
           TourKeys.startPoint: startPoint,
           TourKeys.startTime: startTime,
         })
-        .then((value) => print('Tour send'))
+        .then((value) async {
+      await db.collection(CollectionNames.tour).doc(value.id).update({
+        TourKeys.tourId: value.id,
+      });
+    })
         .catchError((e) => print(e.toString()));
   }
 
