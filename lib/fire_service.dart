@@ -74,7 +74,7 @@ class FirebaseService {
         TourKeys.totalTime: totalTime,
       });
     }catch(e){
-      throw Exception(E.toString());
+      throw Exception(e.toString());
     }
   }
   //#endregion
