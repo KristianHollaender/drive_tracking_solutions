@@ -67,17 +67,16 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
     }
   }
 
-  void clearTimer(){
-      _isRunning = false;
-      _controller.reset();
-      _duration = widget.duration;
-      _remainingTime = _durationToString(_duration);
-      _controller = AnimationController(
-        vsync: this,
-        duration: _duration,
-      )..reverse(from: 1.0);
+  void clearTimer() {
+    _isRunning = false;
+    _controller.reset();
+    _duration = widget.duration;
+    _remainingTime = _durationToString(_duration);
+    _controller = AnimationController(
+      vsync: this,
+      duration: _duration,
+    )..reverse(from: 1.0);
   }
-  
 
   @override
   Widget build(BuildContext context) {

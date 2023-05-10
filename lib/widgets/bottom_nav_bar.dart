@@ -13,7 +13,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   int _selectedIndex = 1;
 
-  void _navigateBottomBar(int index){
+  void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -36,13 +36,14 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(top:5.0, bottom: 5.0),
+        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _navigateBottomBar,
           type: BottomNavigationBarType.fixed,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Overview'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart), label: 'Overview'),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
           ],

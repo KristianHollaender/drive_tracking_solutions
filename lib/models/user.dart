@@ -13,7 +13,7 @@ class CustomUser{
 
   CustomUser(this.uid, this.email, this.firstname, this.lastname);
 
-  //Getting tour from firebase, then mapping tour to a dart object
+  //Getting user from firebase, then mapping user to a dart object
   CustomUser.fromMap(Map<String, dynamic> data)
       :
         uid = data[UserKeys.uid],
