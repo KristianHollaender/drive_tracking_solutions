@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drive_tracking_solutions/models/checkPoint.dart';
+import 'package:drive_tracking_solutions/models/check_point.dart';
 import 'package:drive_tracking_solutions/models/pause.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';

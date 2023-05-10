@@ -1,6 +1,7 @@
 import 'package:drive_tracking_solutions/fire_service.dart';
 import 'package:drive_tracking_solutions/firebase_options.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
+import 'package:drive_tracking_solutions/widgets/gas_stations_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
             colorSchemeSeed: const Color(0xff07460b), useMaterial3: true,
           ),
           home: SafeArea(top: true, child: MobileLoginScreen()),
+          //home: const SafeArea(top: true, child: GasStationWidget()),
         );
       },
     );
