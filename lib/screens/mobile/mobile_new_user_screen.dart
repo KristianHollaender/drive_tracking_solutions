@@ -59,7 +59,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
                   ),
                   Center(
                     child: _image == null
-                        ? Text('No image selected.')
+                        ? const Text('No image selected.')
                         : Image.file(_image!, height: 300, fit: BoxFit.cover),
                   ),
                   Column(
@@ -95,7 +95,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
       onPressed: () {
         pickImage();
       },
-      child: Text('Select Image'),
+      child: const Text('Select Image'),
     );
   }
 
@@ -136,8 +136,8 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
 
   void _showSuccessSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Account created successfully.'),
+      const SnackBar(
+        content: Text('Account created successfully.'),
         backgroundColor: Colors.green,
       ),
     );

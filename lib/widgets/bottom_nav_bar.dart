@@ -20,10 +20,10 @@ class _NavBarState extends State<NavBar> {
   }
 
   final List<Widget> _screens = [
-    Center(
+    const Center(
       child: OverviewScreen(),
     ),
-    Center(
+    const Center(
       child: HomeScreen(),
     ),
     Center(
@@ -36,12 +36,12 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _navigateBottomBar,
           type: BottomNavigationBarType.fixed,
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart), label: 'Overview'),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

@@ -60,7 +60,7 @@ class MobileLoginScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MobileResetPasswordScreen(),
+            builder: (context) => const MobileResetPasswordScreen(),
           ),
         );
       },
@@ -114,7 +114,7 @@ class MobileLoginScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MobileNewUserScreen(),
+            builder: (context) => const MobileNewUserScreen(),
           ),
         );
       },

@@ -15,7 +15,7 @@ class MobileResetPasswordScreen extends StatelessWidget {
       top: true,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Reset Password'),
+          title: const Text('Reset Password'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -24,7 +24,7 @@ class MobileResetPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               emailInput(emailController),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
                   final email = emailController.text.trim();
@@ -35,7 +35,7 @@ class MobileResetPasswordScreen extends StatelessWidget {
                     _showErrorSnackBar(context, 'Please enter an email');
                   }
                 },
-                child: Text('Send'),
+                child: const Text('Send'),
               ),
             ],
           ),

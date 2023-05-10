@@ -116,7 +116,7 @@ class TimerRowState extends State<TimerRow> with TickerProviderStateMixin {
                     children: [
                       Text(
                         widget.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,

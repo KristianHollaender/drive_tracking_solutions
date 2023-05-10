@@ -27,17 +27,17 @@ class MenuScreen extends StatelessWidget {
       top: true,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Menu'),
+          title: const Text('Menu'),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
             _profilePictureBuilder(),
             Container(
-              margin: EdgeInsets.all(12.0),
+              margin: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -71,12 +71,12 @@ class MenuScreen extends StatelessWidget {
           final lastName = data['lastname'] as String;
           return Text(
             '$firstName $lastName',
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           );
         } else if (snapshot.hasError) {
-          return Text('Error loading user data');
+          return const Text('Error loading user data');
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     );
@@ -85,7 +85,7 @@ class MenuScreen extends StatelessWidget {
   Widget _buildUserEmail() {
     return Text(
       "${_auth.currentUser?.email}",
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
     );
   }
 
@@ -101,9 +101,9 @@ class MenuScreen extends StatelessWidget {
             foregroundColor: Colors.transparent,
           );
         } else if (snapshot.hasError) {
-          return Text('Error loading image');
+          return const Text('Error loading image');
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     );
@@ -124,16 +124,16 @@ class MenuScreen extends StatelessWidget {
               },
             );
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-        child: Text(
-          'Log out',
-          style: TextStyle(fontSize: 20.0),
-        ),
-      ),
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32.0),
+        ),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+        child: Text(
+          'Log out',
+          style: TextStyle(fontSize: 20.0),
         ),
       ),
     );

@@ -4,18 +4,18 @@ showAlertDialog(BuildContext context) {
 
   // set up the buttons
   Widget cancelButton = TextButton(
-    child: Text("Cancel"),
+    child: const Text("Cancel"),
     onPressed:  () {},
   );
   Widget continueButton = TextButton(
-    child: Text("Continue"),
+    child: const Text("Continue"),
     onPressed:  () {},
   );
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("AlertDialog"),
-    content: Text("Would you like to continue learning how to use Flutter alerts?"),
+    title: const Text("AlertDialog"),
+    content: const Text("Would you like to continue learning how to use Flutter alerts?"),
     actions: [
       cancelButton,
       continueButton,

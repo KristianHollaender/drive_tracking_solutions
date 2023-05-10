@@ -19,7 +19,7 @@ class StopWatchRowState extends State<StopWatchRow> {
 
   void startTimer() {
     _isRunning = true;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _seconds++;
         if (_seconds == 60) {
@@ -67,9 +67,9 @@ class StopWatchRowState extends State<StopWatchRow> {
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
           child: Container(
             decoration: BoxDecoration(
-                border: Border.all(color: Color(0xff625d5d)),
+                border: Border.all(color: const Color(0xff625d5d)),
                 borderRadius: BorderRadius.circular(8.0),
-                color: Color(0xfff5a441)),
+                color: const Color(0xfff5a441)),
             width: MediaQuery.of(context).size.width * 0.95,
             height: 65.0,
             child: Row(
@@ -80,7 +80,7 @@ class StopWatchRowState extends State<StopWatchRow> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       _getTime(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,
                         fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class StopWatchRowState extends State<StopWatchRow> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16.0),
+                const SizedBox(width: 16.0),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -97,13 +97,13 @@ class StopWatchRowState extends State<StopWatchRow> {
                     children: [
                       Text(
                         widget.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
                         child: LinearProgressIndicator(
                           value: 20,
                         ),

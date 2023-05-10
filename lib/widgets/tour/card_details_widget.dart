@@ -110,7 +110,7 @@ class CardDetailsWidget extends StatelessWidget {
                                         'Check point no. ${index + 1}'),
                                     subtitle: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text('${snapshot.data!}')),
+                                        child: Text(snapshot.data!)),
                                     trailing: const Icon(
                                         Icons.location_on_rounded),
                                   );
