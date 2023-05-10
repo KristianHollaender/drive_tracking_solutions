@@ -14,8 +14,7 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   late final ValueNotifier<List<Tour>> _selectedTours;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
-      .toggledOff; // Can be toggled on/off by longpressing a date
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;
@@ -37,12 +36,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   List<Tour> _getToursForDay(DateTime day) {
-    // Implementation example
     return kTours[day] ?? [];
   }
 
   List<Tour> _getToursForRange(DateTime start, DateTime end) {
-    // Implementation example
     final days = daysInRange(start, end);
 
     return [
@@ -91,8 +88,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.black)),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: Colors.black),
+            ),
             child: TableCalendar<Tour>(
               firstDay: kFirstDay,
               lastDay: kLastDay,
@@ -105,7 +103,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               eventLoader: _getToursForDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarStyle: const CalendarStyle(
-                  // Use `CalendarStyle` to customize the UI
                   outsideDaysVisible: false,
                   todayDecoration: BoxDecoration(
                     color: Color(0x8007460b),

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../fire_service.dart';
 
 class MobileResetPasswordScreen extends StatelessWidget {
   const MobileResetPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
+    final emailController = TextEditingController();
+
     return SafeArea(
       top: true,
       child: Scaffold(
@@ -17,16 +23,14 @@ class MobileResetPasswordScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              emailInput(emailController),
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
-                  // TODO Make reset password function
+                  final email = emailController.text.trim();
+                  if (email.isNotEmpty) {
+                    fireService.resetPassword(email);
+                  }
                 },
                 child: Text('Send'),
               ),
@@ -34,6 +38,16 @@ class MobileResetPasswordScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget emailInput(TextEditingController controller) {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      controller: controller,
+      decoration: const InputDecoration(labelText: 'Email'),
+      validator: (value) =>
+      (value == null || !value.contains("@")) ? 'Email required' : null,
     );
   }
 }

@@ -35,53 +35,14 @@ class MenuScreen extends StatelessWidget {
             SizedBox(
               height: 12.0,
             ),
-            FutureBuilder<String>(
-              future: _getImageUrl(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return CircleAvatar(
-                    radius: 65,
-                    backgroundImage: NetworkImage(snapshot.data!),
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Colors.transparent,
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error loading image');
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
+            _profilePictureBuilder(),
             Container(
               margin: EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FutureBuilder<DocumentSnapshot>(
-                    future: fireService.getUserById(_auth.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final data =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        final firstName = data['firstname'] as String;
-                        final lastName = data['lastname'] as String;
-                        return Text(
-                          '$firstName $lastName',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error loading user data');
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                  Text(
-                    "${_auth.currentUser?.email}",
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                  ),
+                  _buildUserInfo(fireService),
+                  _buildUserEmail(),
                 ],
               ),
             ),
@@ -99,18 +60,69 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
+  FutureBuilder<DocumentSnapshot<Object?>> _buildUserInfo(
+      FirebaseService fireService) {
+    return FutureBuilder<DocumentSnapshot>(
+      future: fireService.getUserById(_auth.currentUser!.uid),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!.data() as Map<String, dynamic>;
+          final firstName = data['firstname'] as String;
+          final lastName = data['lastname'] as String;
+          return Text(
+            '$firstName $lastName',
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error loading user data');
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Widget _buildUserEmail() {
+    return Text(
+      "${_auth.currentUser?.email}",
+      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+    );
+  }
+
+  FutureBuilder<String> _profilePictureBuilder() {
+    return FutureBuilder<String>(
+      future: _getImageUrl(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return CircleAvatar(
+            radius: 65,
+            backgroundImage: NetworkImage(snapshot.data!),
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.transparent,
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error loading image');
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
   Widget _logoutBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
     return ElevatedButton(
       onPressed: () async {
-        await fireService.signOut().then((_) => {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MobileLoginScreen(),
+        await fireService.signOut().then(
+              (_) => {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MobileLoginScreen(),
+                  ),
                 ),
-              ),
-            });
+              },
+            );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),

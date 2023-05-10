@@ -131,7 +131,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     );
   }
 
-  TextFormField firstNameInput() {
+  Widget firstNameInput() {
     return TextFormField(
       keyboardType: TextInputType.name,
       controller: _firstName,
@@ -140,7 +140,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     );
   }
 
-  TextFormField lastNameInput() {
+  Widget lastNameInput() {
     return TextFormField(
       keyboardType: TextInputType.name,
       controller: _lastName,
@@ -149,7 +149,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     );
   }
 
-  TextFormField emailInput() {
+  Widget emailInput() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: _email,
@@ -159,7 +159,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     );
   }
 
-  TextFormField passwordInput() {
+  Widget passwordInput() {
     return TextFormField(
       controller: _password,
       decoration: const InputDecoration(label: Text('Password')),

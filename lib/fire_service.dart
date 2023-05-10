@@ -121,6 +121,10 @@ class FirebaseService {
     await _auth.signOut();
   }
 
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
   Future<DocumentSnapshot<Object>>? getUserById(String uid) async {
     try {
       return await db.collection(CollectionNames.user).doc(uid).get();
