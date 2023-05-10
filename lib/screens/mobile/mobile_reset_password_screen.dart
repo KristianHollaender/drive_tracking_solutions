@@ -26,10 +26,13 @@ class MobileResetPasswordScreen extends StatelessWidget {
               emailInput(emailController),
               SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   final email = emailController.text.trim();
                   if (email.isNotEmpty) {
                     fireService.resetPassword(email);
+                    _showSuccessSnackBar(context, 'Email sent to $email');
+                  } else {
+                    _showErrorSnackBar(context, 'Please enter an email');
                   }
                 },
                 child: Text('Send'),
@@ -47,7 +50,25 @@ class MobileResetPasswordScreen extends StatelessWidget {
       controller: controller,
       decoration: const InputDecoration(labelText: 'Email'),
       validator: (value) =>
-      (value == null || !value.contains("@")) ? 'Email required' : null,
+          (value == null || !value.contains("@")) ? 'Email required' : null,
+    );
+  }
+
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  void _showSuccessSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }

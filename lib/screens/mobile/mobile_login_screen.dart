@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.dart';
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -77,13 +78,32 @@ class MobileLoginScreen extends StatelessWidget {
         }
         final email = _email.value.text;
         final password = _password.value.text;
-        fireService.signIn(email, password).then((_) async {
+        try {
+          await fireService.signIn(email, password);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const NavBar(),
             ),
           );
-        }).catchError((e) => print(e.toString()));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Logged in successfully'),
+            ),
+          );
+        } on FirebaseException catch (e) {
+          String errorMessage = 'An error occurred, please try again later.';
+          if (e.code == 'user-not-found') {
+            errorMessage = 'The email you entered does not exist.';
+          } else if (e.code == 'wrong-password') {
+            errorMessage = 'The password you entered is incorrect.';
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       },
     );
   }

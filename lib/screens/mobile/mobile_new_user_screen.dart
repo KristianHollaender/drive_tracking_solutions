@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
-
 class MobileNewUserScreen extends StatefulWidget {
   const MobileNewUserScreen({super.key});
 
@@ -25,7 +24,6 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
 
   File? _image;
   final picker = ImagePicker();
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,9 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
                     child: passwordInput(),
                   ),
                   Center(
-                    child: _image == null ? Text('No image selected.') : Image.file(_image!, height: 300, fit: BoxFit.cover),
+                    child: _image == null
+                        ? Text('No image selected.')
+                        : Image.file(_image!, height: 300, fit: BoxFit.cover),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,6 +112,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
         final lastname = _lastName.value.text;
         final email = _email.value.text;
         final password = _password.value.text;
+
         await fireService.signUp(email, password, firstname, lastname);
 
         if (_image != null) {
@@ -122,12 +123,23 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
               .child(fileName!);
           firebaseStorageRef.putFile(_image!);
         }
+
+        _showSuccessSnackBar();
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => MobileLoginScreen(),
           ),
         );
       },
+    );
+  }
+
+  void _showSuccessSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Account created successfully.'),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 
