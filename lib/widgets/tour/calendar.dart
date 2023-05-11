@@ -1,5 +1,7 @@
+import 'package:drive_tracking_solutions/logic/excel_converter.dart';
 import 'package:drive_tracking_solutions/widgets/tour/tour_details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../models/tour.dart';
 import '../../util/calender_util.dart';
@@ -82,6 +84,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final excel = Provider.of<ExcelConverter>(context);
     return Column(
       children: [
         Padding(
@@ -94,6 +97,15 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             child: _buildTableCalendar(),
           ),
         ),
+        Align(
+          alignment: Alignment.center,
+          child: IconButton(
+            icon: Icon(Icons.newspaper),
+            onPressed: (){
+              excel.createExcel(_selectedTours.value);
+            },
+          ),
+        ),
         const SizedBox(height: 8.0),
         _buildTourDetails(),
       ],
@@ -102,65 +114,63 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   TableCalendar<Tour> _buildTableCalendar() {
     return TableCalendar<Tour>(
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
-            rangeSelectionMode: _rangeSelectionMode,
-            eventLoader: _getToursForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: const CalendarStyle(
-                outsideDaysVisible: false,
-                todayDecoration: BoxDecoration(
-                  color: Color(0x8007460b),
-                  shape: BoxShape.circle,
-                ),
-                selectedDecoration: BoxDecoration(
-                  color: Color(0xff07460b),
-                  shape: BoxShape.circle,
-                ),
-                markerDecoration: BoxDecoration(
-                  color: Color(0xFFDC5507),
-                  shape: BoxShape.circle,
-                ),
-                rangeHighlightColor: Color(0x3307460b),
-                rangeStartDecoration: BoxDecoration(
-                  color: Color(0xff47b64f),
-                  shape: BoxShape.circle,
-                ),
-                rangeEndDecoration: BoxDecoration(
-                  color: Color(0x3325ea31),
-                  shape: BoxShape.circle,
-                ),
-                rangeEndTextStyle: TextStyle(color: Colors.black)),
-            headerStyle: HeaderStyle(
-              titleCentered: true,
-              decoration: BoxDecoration(
-                color: const Color(0xff07460b),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              titleTextStyle: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-              leftChevronIcon: const Icon(
-                Icons.chevron_left,
-                color: Colors.white,
-              ),
-              rightChevronIcon: const Icon(
-                Icons.chevron_right,
-                color: Colors.white,
-              ),
-              formatButtonVisible: false,
-            ),
-            onDaySelected: _onDaySelected,
-            onRangeSelected: _onRangeSelected,
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-          );
+      firstDay: kFirstDay,
+      lastDay: kLastDay,
+      focusedDay: _focusedDay,
+      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+      rangeStartDay: _rangeStart,
+      rangeEndDay: _rangeEnd,
+      rangeSelectionMode: _rangeSelectionMode,
+      eventLoader: _getToursForDay,
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      calendarStyle: const CalendarStyle(
+          outsideDaysVisible: false,
+          todayDecoration: BoxDecoration(
+            color: Color(0x8007460b),
+            shape: BoxShape.circle,
+          ),
+          selectedDecoration: BoxDecoration(
+            color: Color(0xff07460b),
+            shape: BoxShape.circle,
+          ),
+          markerDecoration: BoxDecoration(
+            color: Color(0xFFDC5507),
+            shape: BoxShape.circle,
+          ),
+          rangeHighlightColor: Color(0x3307460b),
+          rangeStartDecoration: BoxDecoration(
+            color: Color(0xff47b64f),
+            shape: BoxShape.circle,
+          ),
+          rangeEndDecoration: BoxDecoration(
+            color: Color(0x3325ea31),
+            shape: BoxShape.circle,
+          ),
+          rangeEndTextStyle: TextStyle(color: Colors.black)),
+      headerStyle: HeaderStyle(
+        titleCentered: true,
+        decoration: BoxDecoration(
+          color: const Color(0xff07460b),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        titleTextStyle: const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        leftChevronIcon: const Icon(
+          Icons.chevron_left,
+          color: Colors.white,
+        ),
+        rightChevronIcon: const Icon(
+          Icons.chevron_right,
+          color: Colors.white,
+        ),
+        formatButtonVisible: false,
+      ),
+      onDaySelected: _onDaySelected,
+      onRangeSelected: _onRangeSelected,
+      onPageChanged: (focusedDay) {
+        _focusedDay = focusedDay;
+      },
+    );
   }
 
   Expanded _buildTourDetails() {
