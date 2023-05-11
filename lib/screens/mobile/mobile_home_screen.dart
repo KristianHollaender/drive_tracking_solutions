@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
@@ -30,6 +31,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   bool _click = false;
   bool _isResting = false;
+  bool _tourStarted = false;
 
   Future<GeoPoint> getCurrentLocation() async {
     Location location = Location();
@@ -165,48 +167,15 @@ class HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         children: [
                           Expanded(
-                            flex: 1,
                             child: Padding(
                               padding: EdgeInsets.all(4.0),
                               child: SizedBox(
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.play_arrow_rounded),
-                                  onPressed: () async {
-                                    CDLKey.currentState!.startCountdown();
-                                    DDLKey.currentState!.startCountdown();
-                                    DBTKey.currentState!.stopCountdown();
-                                    GeoPoint currentLocation =
-                                        await getCurrentLocation();
-                                    await fireService.startTour(
-                                        currentLocation, startTime);
-                                    print(fireService.tourId);
-                                    //_setStartLocation();
-                                  },
+                                  onPressed: !_tourStarted ? () => startTour(startTime) : null,
                                   label: Text("Start tour"),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                  icon: Icon(Icons.add_location_alt),
-                                  onPressed: () async {
-                                    CDLKey.currentState!.stopCountdown();
-                                    DDLKey.currentState!.stopCountdown();
-                                    DBTKey.currentState!.stopCountdown();
-                                    GeoPoint currentLocation =
-                                        await getCurrentLocation();
-                                    fireService.addCheckpoint(
-                                        fireService.tourId!, currentLocation);
-                                    //_setCheckpointLocation();
-                                  },
-                                  label: Text("Checkpoint"),
+                                  backgroundColor: _tourStarted ? Color(0xb3d9dcd9) : null, // set the background color based on _tourStarted
                                 ),
                               ),
                             ),
@@ -214,72 +183,101 @@ class HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 10.0, left: 8.0, right: 8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                    icon: Icon(Icons.close_sharp),
-                                    onPressed: () async {
-                                      CDLKey.currentState!.clearTimer();
-                                      DDLKey.currentState!.clearTimer();
-                                      DBTKey.currentState!.clearTimer();
-                                      GeoPoint currentLocation =
-                                          await getCurrentLocation();
-                                      endTime = DateTime.now();
-                                      final duration =
-                                          endTime.difference(startTime);
-                                      final formattedDuration = Duration(
-                                        hours: duration.inHours,
-                                        minutes:
-                                            duration.inMinutes.remainder(60),
-                                        seconds:
-                                            duration.inSeconds.remainder(60),
-                                      );
-                                      final totalTime = formattedDuration
-                                          .toString()
-                                          .split('.')
-                                          .first;
-                                      await fireService.endTour(
-                                          fireService.tourId!,
-                                          currentLocation,
-                                          endTime,
-                                          totalTime);
-                                      //_setEndLocation();
+                    Visibility(
+                      visible: _tourStarted,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 10.0, left: 8.0, right: 8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: SizedBox(
+                                  height: 45.0,
+                                  child: FloatingActionButton.extended(
+                                    icon: Icon(Icons.restaurant),
+                                    onPressed: () {
+                                      _toggleResting();
+                                      setState(() {
+                                        _isResting = !_isResting;
+                                      });
                                     },
-                                    label: Text(" End tour")),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                  icon: Icon(Icons.restaurant),
-                                  onPressed: () {
-                                    _toggleResting();
-                                    setState(() {
-                                      _isResting = !_isResting;
-                                    });
-                                  },
-                                  label: Text(_isResting
-                                      ? "End resting"
-                                      : "Start rest"),
+                                    label: Text(_isResting
+                                        ? "End resting"
+                                        : "Start rest"),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: SizedBox(
+                                  height: 45.0,
+                                  child: FloatingActionButton.extended(
+                                    icon: Icon(Icons.add_location_alt),
+                                    onPressed: () async {
+                                      CDLKey.currentState!.stopCountdown();
+                                      DDLKey.currentState!.stopCountdown();
+                                      DBTKey.currentState!.stopCountdown();
+                                      //_setCheckpointLocation();
+                                      GeoPoint currentLocation =
+                                          await getCurrentLocation();
+                                      fireService.addCheckpoint(
+                                          fireService.tourId!, currentLocation);
+                                    },
+                                    label: Text("Checkpoint"),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: SizedBox(
+                                  height: 45.0,
+                                  child: FloatingActionButton.extended(
+                                      icon: Icon(Icons.close_sharp),
+                                      onPressed: () async {
+                                        //_setEndLocation();
+                                        CDLKey.currentState!.clearTimer();
+                                        DDLKey.currentState!.clearTimer();
+                                        DBTKey.currentState!.clearTimer();
+                                        GeoPoint currentLocation =
+                                            await getCurrentLocation();
+                                        endTime = DateTime.now();
+                                        final duration =
+                                            endTime.difference(startTime);
+                                        final formattedDuration = Duration(
+                                          hours: duration.inHours,
+                                          minutes:
+                                              duration.inMinutes.remainder(60),
+                                          seconds:
+                                              duration.inSeconds.remainder(60),
+                                        );
+                                        final totalTime = formattedDuration
+                                            .toString()
+                                            .split('.')
+                                            .first;
+                                        await fireService.endTour(
+                                            fireService.tourId!,
+                                            currentLocation,
+                                            endTime,
+                                            totalTime);
+                                        setState(() {
+                                          _tourStarted = false;
+                                        });
+                                      },
+                                      label: Text(" End tour")),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Flexible(
@@ -313,25 +311,35 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> startTour(DateTime startTime) async {
+
+    CDLKey.currentState!.startCountdown();
+    DDLKey.currentState!.startCountdown();
+    DBTKey.currentState!.stopCountdown();
+    GeoPoint currentLocation =
+        await getCurrentLocation();
+    await fireService.startTour(
+        currentLocation, startTime);
+    print(fireService.tourId);
+    setState(() {
+      _tourStarted = true;
+    });
+    //_setStartLocation();
+  }
+
   Future<void> _setStartLocation() async {
     final GoogleMapController controller = await _controller.future;
-    setState(() {
-      getCurrentLocation();
-      final Marker _startLocationMarker = Marker(
-          markerId: MarkerId("startLocation"),
-          infoWindow: InfoWindow(title: "Route start"),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          position: _latLng!);
-      _marker.add(_startLocationMarker);
-      controller.animateCamera(
-          CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
-    });
+    getCurrentLocation();
+    final Marker _startLocationMarker = Marker(
+        markerId: MarkerId("startLocation"),
+        infoWindow: InfoWindow(title: "Route start"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        position: _latLng!);
+    _marker.add(_startLocationMarker);
   }
 
   Future<void> _setCheckpointLocation() async {
     final GoogleMapController controller = await _controller.future;
-    setState(() {
       getCurrentLocation();
       final Marker _checkpointLocationMarker = Marker(
           markerId: MarkerId("checkpointLocation"),
@@ -340,14 +348,10 @@ class HomeScreenState extends State<HomeScreen> {
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
           position: _latLng!);
       _marker.add(_checkpointLocationMarker);
-      controller.animateCamera(
-          CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
-    });
   }
 
   Future<void> _setEndLocation() async {
     final GoogleMapController controller = await _controller.future;
-    setState(() {
       getCurrentLocation();
       final Marker _endLocationMarker = Marker(
           markerId: MarkerId("startLocation"),
@@ -355,9 +359,6 @@ class HomeScreenState extends State<HomeScreen> {
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           position: _latLng!);
       _marker.add(_endLocationMarker);
-      controller.animateCamera(
-          CameraUpdate.newCameraPosition(_currentLocationCameraPosition!));
-    });
   }
 
   LocationData? currentLocation;
