@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../models/util/gas_station.dart';
 import '../util/location_util.dart';
@@ -14,8 +14,7 @@ class GasStationWidget extends StatefulWidget {
 }
 
 class _GasStationState extends State<GasStationWidget> {
-  static const String apiKey = 'AIzaSyAlelbjxcRHvF6e8giNCx5NnsZ05ci_H_U';
-  static const String radius = '500';
+  late String radius;
   GasStation gasStation = GasStation();
 
   @override
@@ -32,8 +31,9 @@ class _GasStationState extends State<GasStationWidget> {
             children: [
               ElevatedButton(
                   onPressed: () async {
+                    radius = '2000';
                     GeoPoint currentLocation = await getCurrentLocation();
-                    await getNearByGasStations(currentLocation);
+                    await getNearByGasStations(currentLocation, radius);
                   },
                   child: const Text('Get nearby gas station')),
               if (gasStation.results != null)
@@ -46,11 +46,13 @@ class _GasStationState extends State<GasStationWidget> {
     );
   }
 
-  Future<void> getNearByGasStations(GeoPoint currentLocation) async {
+  Future<void> getNearByGasStations(GeoPoint currentLocation, String radius) async {
     try {
-      //Uri url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${currentLocation.latitude},${currentLocation.longitude}&radius=$radius&type=gas_station&key=$apiKey');
-      Uri url = Uri.parse(
-          'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=55.487770,8.446950&radius=2000&type=gas_station&key=AIzaSyAlelbjxcRHvF6e8giNCx5NnsZ05ci_H_U');
+      final String jsonString = await rootBundle.loadString('assets/config.json');
+      final jsonMap = json.decode(jsonString);
+      String apiKey = jsonMap['api_Key'];
+      String httpUrl = "${jsonMap['httpURL']}${currentLocation.latitude},${currentLocation.longitude}&radius=$radius&type=gas_station&key=$apiKey";
+      Uri url = Uri.parse(httpUrl);
       var response = await http.post(url);
 
       gasStation = GasStation.fromJson(jsonDecode(response.body));
