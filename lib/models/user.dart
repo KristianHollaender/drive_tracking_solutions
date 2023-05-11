@@ -1,11 +1,11 @@
-class UserKeys{
+class UserKeys {
   static const uid = 'uid';
   static const email = 'email';
   static const firstname = 'firstname';
   static const lastname = 'lastname';
 }
 
-class CustomUser{
+class CustomUser {
   final String uid;
   final String email;
   final String firstname;
@@ -15,13 +15,12 @@ class CustomUser{
 
   //Getting user from firebase, then mapping user to a dart object
   CustomUser.fromMap(Map<String, dynamic> data)
-      :
-        uid = data[UserKeys.uid],
+      : uid = data[UserKeys.uid],
         email = data[UserKeys.email],
         firstname = data[UserKeys.firstname],
         lastname = data[UserKeys.lastname];
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       UserKeys.uid: uid,
       UserKeys.email: email,

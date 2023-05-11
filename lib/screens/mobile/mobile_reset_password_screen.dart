@@ -23,20 +23,9 @@ class MobileResetPasswordScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              emailInput(emailController),
+              _emailInput(emailController),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () async {
-                  final email = emailController.text.trim();
-                  if (email.isNotEmpty) {
-                    fireService.resetPassword(email);
-                    _showSuccessSnackBar(context, 'Email sent to $email');
-                  } else {
-                    _showErrorSnackBar(context, 'Please enter an email');
-                  }
-                },
-                child: const Text('Send'),
-              ),
+              _buildResetPasswordBtn(emailController, fireService, context),
             ],
           ),
         ),
@@ -44,7 +33,23 @@ class MobileResetPasswordScreen extends StatelessWidget {
     );
   }
 
-  Widget emailInput(TextEditingController controller) {
+  ElevatedButton _buildResetPasswordBtn(TextEditingController emailController,
+      FirebaseService fireService, BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        final email = emailController.text.trim();
+        if (email.isNotEmpty) {
+          fireService.resetPassword(email);
+          _showSuccessSnackBar(context, 'Email sent to $email');
+        } else {
+          _showErrorSnackBar(context, 'Please enter an email');
+        }
+      },
+      child: const Text('Send'),
+    );
+  }
+
+  Widget _emailInput(TextEditingController controller) {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: controller,

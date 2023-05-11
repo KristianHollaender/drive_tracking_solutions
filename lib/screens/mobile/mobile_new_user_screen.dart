@@ -38,43 +38,47 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
             padding: const EdgeInsets.all(12),
             child: Form(
               key: _formKey,
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: firstNameInput(),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: lastNameInput(),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: emailInput(),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: passwordInput(),
-                  ),
-                  Center(
-                    child: _image == null
-                        ? const Text('No image selected.')
-                        : Image.file(_image!, height: 300, fit: BoxFit.cover),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      pickImageBtn(),
-                      createUserBtn(context),
-                    ],
-                  )
-                ],
-              ),
+              child: _buildUserForm(context),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Column _buildUserForm(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: firstNameInput(),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: lastNameInput(),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: emailInput(),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: passwordInput(),
+        ),
+        Center(
+          child: _image == null
+              ? const Text('No image selected.')
+              : Image.file(_image!, height: 300, fit: BoxFit.cover),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            pickImageBtn(),
+            createUserBtn(context),
+          ],
+        )
+      ],
     );
   }
 

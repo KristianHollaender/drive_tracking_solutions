@@ -21,35 +21,38 @@ class MobileLoginScreen extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child:
-                      Image.asset('assets/logo.png', width: 300.0, height: 300.0),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: emailInput(),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: passwordInput(),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    loginBtn(context),
-                    createUserBtn(context),
-                    forgotPasswordBtn(context),
-                  ],
-                )
-              ],
-            ),
+            child: _buildUserInputs(context),
           ),
         ),
       ),
+    );
+  }
+
+  Column _buildUserInputs(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Image.asset('assets/logo.png', width: 300.0, height: 300.0),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: emailInput(),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: passwordInput(),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            loginBtn(context),
+            createUserBtn(context),
+            forgotPasswordBtn(context),
+          ],
+        )
+      ],
     );
   }
 
@@ -120,7 +123,6 @@ class MobileLoginScreen extends StatelessWidget {
       },
     );
   }
-
 
   TextFormField emailInput() {
     return TextFormField(

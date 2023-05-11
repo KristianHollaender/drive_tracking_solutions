@@ -29,34 +29,39 @@ class MenuScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Menu'),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const SizedBox(
-              height: 12.0,
-            ),
-            _profilePictureBuilder(),
-            Container(
-              margin: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildUserInfo(fireService),
-                  _buildUserEmail(),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _logoutBtn(context),
-                ],
-              ),
-            ),
-          ],
-        ),
+        body: _buildUserInfoAndBtn(fireService, context),
       ),
+    );
+  }
+
+  Column _buildUserInfoAndBtn(
+      FirebaseService fireService, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        const SizedBox(
+          height: 12.0,
+        ),
+        _buildProfilePicture(),
+        Container(
+          margin: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildUserInfo(fireService),
+              _buildUserEmail(),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _logoutBtn(context),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -89,7 +94,7 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  FutureBuilder<String> _profilePictureBuilder() {
+  FutureBuilder<String> _buildProfilePicture() {
     return FutureBuilder<String>(
       future: _getImageUrl(),
       builder: (context, snapshot) {
