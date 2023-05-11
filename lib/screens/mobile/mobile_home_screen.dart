@@ -1,12 +1,13 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
+import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,9 +19,6 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-  final GlobalKey<TimerRowState> CDLKey = GlobalKey();
-  final GlobalKey<TimerRowState> DDLKey = GlobalKey();
-  final GlobalKey<TimerRowState> DBTKey = GlobalKey();
 
   CameraPosition? _initialCameraPosition;
   CameraPosition? _currentLocationCameraPosition;
@@ -30,8 +28,7 @@ class HomeScreenState extends State<HomeScreen> {
   List<Marker> _marker = [];
 
   bool _click = false;
-  bool _isResting = false;
-  bool _tourStarted = false;
+
 
   Future<GeoPoint> getCurrentLocation() async {
     Location location = Location();
@@ -72,28 +69,12 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  void _toggleResting() {
-    if (!_isResting) {
-      CDLKey.currentState!.stopCountdown();
-      DDLKey.currentState!.stopCountdown();
-      DBTKey.currentState!.startCountdown();
-      fireService.startPause(fireService.tourId!, DateTime.now());
-    } else {
-      CDLKey.currentState!.startCountdown();
-      DDLKey.currentState!.startCountdown();
-      DBTKey.currentState!.stopCountdown();
-      print("pause ID:${fireService.pauseId}");
-      fireService.stopPause(
-          fireService.tourId, fireService.pauseId, DateTime.now());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     DateTime startTime = DateTime.now();
-    DateTime endTime;
-    String totalTime;
-    DateTime pauseTime;
+    DateTime endTime = DateTime.now();
+
+    final tracker = Provider.of<DriveTracker>(context);
 
     return FutureBuilder(
       future: getCurrentLocation(),
@@ -168,11 +149,11 @@ class HomeScreenState extends State<HomeScreen> {
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.play_arrow_rounded),
-                                  onPressed: !_tourStarted
-                                      ? () => startTour(startTime)
+                                  onPressed: !tracker.tourStarted
+                                      ? () => startTour(startTime, tracker)
                                       : null,
                                   label: Text("Start tour"),
-                                  backgroundColor: _tourStarted
+                                  backgroundColor: tracker.tourStarted
                                       ? Color(0xb3d9dcd9)
                                       : null, // set the background color based on _tourStarted
                                 ),
@@ -183,9 +164,9 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Visibility(
-                      visible: _tourStarted,
+                      visible: tracker.tourStarted,
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                             bottom: 10.0, left: 8.0, right: 8.0),
                         child: Row(
                           children: [
@@ -199,11 +180,9 @@ class HomeScreenState extends State<HomeScreen> {
                                     icon: Icon(Icons.restaurant),
                                     onPressed: () {
                                       _toggleResting();
-                                      setState(() {
-                                        _isResting = !_isResting;
-                                      });
                                     },
-                                    label: Text(_isResting
+                                    label: Text
+                                      (tracker.isResting
                                         ? "End resting"
                                         : "Start rest"),
                                   ),
@@ -240,40 +219,7 @@ class HomeScreenState extends State<HomeScreen> {
                                       icon: Icon(Icons.close_sharp),
                                       onPressed: () async {
                                         //_setEndLocation();
-                                        CDLKey.currentState!.clearTimer();
-                                        DDLKey.currentState!.clearTimer();
-                                        DBTKey.currentState!.clearTimer();
-                                        GeoPoint currentLocation =
-                                            await getCurrentLocation();
-                                        endTime = DateTime.now();
-                                        final duration =
-                                            endTime.difference(startTime);
-                                        final formattedDuration = Duration(
-                                          hours: duration.inHours,
-                                          minutes:
-                                              duration.inMinutes.remainder(60),
-                                          seconds:
-                                              duration.inSeconds.remainder(60),
-                                        );
-                                        final totalTime = formattedDuration
-                                            .toString()
-                                            .split('.')
-                                            .first;
-                                        if (_isResting) {
-                                          await fireService.stopPause(
-                                              fireService.tourId!,
-                                              fireService.pauseId!,
-                                              endTime);
-                                        }
-                                        await fireService.endTour(
-                                            fireService.tourId!,
-                                            currentLocation,
-                                            endTime,
-                                            totalTime);
-                                        setState(() {
-                                          _isResting = false;
-                                          _tourStarted = false;
-                                        });
+                                        await endTour(endTime, startTime, tracker);
                                       },
                                       label: Text(" End tour")),
                                 ),
@@ -288,18 +234,7 @@ class HomeScreenState extends State<HomeScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            TimerRow(
-                                key: CDLKey,
-                                title: "Continuous driving limit",
-                                duration: Duration(hours: 4, minutes: 30)),
-                            TimerRow(
-                                key: DDLKey,
-                                title: "Daily driving limit",
-                                duration: Duration(hours: 9, minutes: 00)),
-                            TimerRow(
-                                key: DBTKey,
-                                title: "Daily break time",
-                                duration: Duration(minutes: 45)),
+                            TimerRow()
                           ],
                         ),
                       ),
@@ -314,18 +249,62 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> startTour(DateTime startTime) async {
-    CDLKey.currentState!.startCountdown();
-    DDLKey.currentState!.startCountdown();
-    DBTKey.currentState!.stopCountdown();
+  void _toggleResting() {
+    final tracker = Provider.of<DriveTracker>(context, listen: false);
+    if (!tracker.isResting) {
+      tracker.startResting();
+      fireService.startPause(fireService.tourId!, DateTime.now());
+    } else {
+      tracker.stopResting();
+      print("pause ID:${fireService.pauseId}");
+      fireService.stopPause(
+          fireService.tourId, fireService.pauseId, DateTime.now());
+    }
+  }
+
+  Future<void> startTour(DateTime startTime, DriveTracker tracker) async {
+    tracker.startTour();
     GeoPoint currentLocation = await getCurrentLocation();
     await fireService.startTour(currentLocation, startTime);
     print(fireService.tourId);
     setState(() {
-      _tourStarted = true;
+      tracker.tourStarted = true;
     });
     //_setStartLocation();
   }
+
+  Future<void> endTour(DateTime endTime, DateTime startTime, DriveTracker tracker) async {
+    tracker.endTour();
+    GeoPoint currentLocation =
+        await getCurrentLocation();
+    endTime = DateTime.now();
+    final duration =
+        endTime.difference(startTime);
+    final formattedDuration = Duration(
+      hours: duration.inHours,
+      minutes:
+          duration.inMinutes.remainder(60),
+      seconds:
+          duration.inSeconds.remainder(60),
+    );
+    final totalTime = formattedDuration
+        .toString()
+        .split('.')
+        .first;
+    if (tracker.isResting) {
+      await fireService.stopPause(
+          fireService.tourId!,
+          fireService.pauseId!,
+          endTime);
+    }
+    await fireService.endTour(
+        fireService.tourId!,
+        currentLocation,
+        endTime,
+        totalTime);
+  }
+
+
 
   Future<void> _setStartLocation() async {
     final GoogleMapController controller = await _controller.future;
