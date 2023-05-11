@@ -77,6 +77,16 @@ class FirebaseService {
       throw Exception(e.toString());
     }
   }
+
+  Future<void> addNote(String id, String note) async{
+    try{
+      await db.collection(CollectionNames.tour).doc(id).update({
+        TourKeys.note: note,
+      });
+    }catch(e){
+      throw Exception(e.toString());
+    }
+  }
   //#endregion
 
   //#region Pause

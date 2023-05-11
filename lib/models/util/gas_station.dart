@@ -36,7 +36,7 @@ class Results {
   String? placeId;
   PlusCode? plusCode;
   int? priceLevel;
-  dynamic? rating;
+  dynamic rating;
   String? reference;
   String? scope;
   List<String>? types;

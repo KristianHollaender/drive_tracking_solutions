@@ -9,6 +9,11 @@ class OverviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('TableCalendar - Events'),
+        actions: [
+          IconButton(onPressed: (){
+
+          }, icon: const Icon(Icons.newspaper))
+        ],
       ),
       body: const CalendarWidget(),
     );

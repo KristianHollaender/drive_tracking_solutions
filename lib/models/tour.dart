@@ -11,6 +11,7 @@ class TourKeys {
   static const startTime = 'startTime';
   static const endTime = 'endTime';
   static const totalTime = 'totalTime';
+  static const note = 'note';
 }
 
 class Tour {
@@ -23,8 +24,9 @@ class Tour {
   final DateTime? startTime;
   final DateTime? endTime;
   final String? totalTime;
+  final String? note;
 
-  Tour(this.tourId,this.uid, this.startPoint, this.pause, this.checkPoint, this.endPoint, this.startTime, this.endTime, this.totalTime);
+  Tour(this.tourId,this.uid, this.startPoint, this.pause, this.checkPoint, this.endPoint, this.startTime, this.endTime, this.totalTime, this.note);
 
   //Getting tour from firebase, then mapping tour to a dart object
   Tour.fromMap(Map<String, dynamic> data)
@@ -37,7 +39,8 @@ class Tour {
         checkPoint = data[CollectionNames.checkPoint],
         startTime = (data[TourKeys.startTime] as Timestamp).toDate(),
         endTime = (data[TourKeys.endTime] as Timestamp).toDate(),
-        totalTime = data[TourKeys.totalTime];
+        totalTime = data[TourKeys.totalTime],
+        note = data[TourKeys.note];
 
   //Mapping dart object to json object
   Map<String, dynamic> toMap(){
@@ -50,7 +53,8 @@ class Tour {
       CollectionNames.checkPoint: checkPoint,
       TourKeys.startTime: startTime,
       TourKeys.endTime: endTime,
-      TourKeys.totalTime: totalTime
+      TourKeys.totalTime: totalTime,
+      TourKeys.note: note
     };
   }
 
