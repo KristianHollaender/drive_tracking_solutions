@@ -72,11 +72,6 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void _toggleResting() {
     if (!_isResting) {
       CDLKey.currentState!.stopCountdown();
@@ -173,9 +168,13 @@ class HomeScreenState extends State<HomeScreen> {
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
                                   icon: Icon(Icons.play_arrow_rounded),
-                                  onPressed: !_tourStarted ? () => startTour(startTime) : null,
+                                  onPressed: !_tourStarted
+                                      ? () => startTour(startTime)
+                                      : null,
                                   label: Text("Start tour"),
-                                  backgroundColor: _tourStarted ? Color(0xb3d9dcd9) : null, // set the background color based on _tourStarted
+                                  backgroundColor: _tourStarted
+                                      ? Color(0xb3d9dcd9)
+                                      : null, // set the background color based on _tourStarted
                                 ),
                               ),
                             ),
@@ -220,9 +219,6 @@ class HomeScreenState extends State<HomeScreen> {
                                   child: FloatingActionButton.extended(
                                     icon: Icon(Icons.add_location_alt),
                                     onPressed: () async {
-                                      CDLKey.currentState!.stopCountdown();
-                                      DDLKey.currentState!.stopCountdown();
-                                      DBTKey.currentState!.stopCountdown();
                                       //_setCheckpointLocation();
                                       GeoPoint currentLocation =
                                           await getCurrentLocation();
@@ -263,12 +259,19 @@ class HomeScreenState extends State<HomeScreen> {
                                             .toString()
                                             .split('.')
                                             .first;
+                                        if (_isResting) {
+                                          await fireService.stopPause(
+                                              fireService.tourId!,
+                                              fireService.pauseId!,
+                                              endTime);
+                                        }
                                         await fireService.endTour(
                                             fireService.tourId!,
                                             currentLocation,
                                             endTime,
                                             totalTime);
                                         setState(() {
+                                          _isResting = false;
                                           _tourStarted = false;
                                         });
                                       },
@@ -312,14 +315,11 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> startTour(DateTime startTime) async {
-
     CDLKey.currentState!.startCountdown();
     DDLKey.currentState!.startCountdown();
     DBTKey.currentState!.stopCountdown();
-    GeoPoint currentLocation =
-        await getCurrentLocation();
-    await fireService.startTour(
-        currentLocation, startTime);
+    GeoPoint currentLocation = await getCurrentLocation();
+    await fireService.startTour(currentLocation, startTime);
     print(fireService.tourId);
     setState(() {
       _tourStarted = true;
@@ -340,25 +340,24 @@ class HomeScreenState extends State<HomeScreen> {
 
   Future<void> _setCheckpointLocation() async {
     final GoogleMapController controller = await _controller.future;
-      getCurrentLocation();
-      final Marker _checkpointLocationMarker = Marker(
-          markerId: MarkerId("checkpointLocation"),
-          infoWindow: InfoWindow(title: "Checkpoint"),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-          position: _latLng!);
-      _marker.add(_checkpointLocationMarker);
+    getCurrentLocation();
+    final Marker _checkpointLocationMarker = Marker(
+        markerId: MarkerId("checkpointLocation"),
+        infoWindow: InfoWindow(title: "Checkpoint"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+        position: _latLng!);
+    _marker.add(_checkpointLocationMarker);
   }
 
   Future<void> _setEndLocation() async {
     final GoogleMapController controller = await _controller.future;
-      getCurrentLocation();
-      final Marker _endLocationMarker = Marker(
-          markerId: MarkerId("startLocation"),
-          infoWindow: InfoWindow(title: "Route end"),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-          position: _latLng!);
-      _marker.add(_endLocationMarker);
+    getCurrentLocation();
+    final Marker _endLocationMarker = Marker(
+        markerId: MarkerId("startLocation"),
+        infoWindow: InfoWindow(title: "Route end"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        position: _latLng!);
+    _marker.add(_endLocationMarker);
   }
 
   LocationData? currentLocation;
