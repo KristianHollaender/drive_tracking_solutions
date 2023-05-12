@@ -5,7 +5,7 @@ import 'package:drive_tracking_solutions/models/pause.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'models/tour.dart';
+import '../models/tour.dart';
 
 class CollectionNames {
   static const user = 'User';

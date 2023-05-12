@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:drive_tracking_solutions/fire_service.dart';
+import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/models/check_point.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

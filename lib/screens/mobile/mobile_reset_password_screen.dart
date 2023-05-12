@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../fire_service.dart';
+import '../../logic/fire_service.dart';
 
 class MobileResetPasswordScreen extends StatelessWidget {
   const MobileResetPasswordScreen({Key? key}) : super(key: key);

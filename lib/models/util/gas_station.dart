@@ -15,11 +15,11 @@ class GasStation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['status'] = this.status;
+    data['status'] = status;
     return data;
   }
 }
@@ -94,32 +94,32 @@ class Results {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['business_status'] = this.businessStatus;
-    if (this.geometry != null) {
-      data['geometry'] = this.geometry!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['business_status'] = businessStatus;
+    if (geometry != null) {
+      data['geometry'] = geometry!.toJson();
     }
-    data['icon'] = this.icon;
-    data['icon_background_color'] = this.iconBackgroundColor;
-    data['icon_mask_base_uri'] = this.iconMaskBaseUri;
-    data['name'] = this.name;
-    if (this.openingHours != null) {
-      data['opening_hours'] = this.openingHours!.toJson();
+    data['icon'] = icon;
+    data['icon_background_color'] = iconBackgroundColor;
+    data['icon_mask_base_uri'] = iconMaskBaseUri;
+    data['name'] = name;
+    if (openingHours != null) {
+      data['opening_hours'] = openingHours!.toJson();
     }
-    if (this.photos != null) {
-      data['photos'] = this.photos!.map((v) => v.toJson()).toList();
+    if (photos != null) {
+      data['photos'] = photos!.map((v) => v.toJson()).toList();
     }
-    data['place_id'] = this.placeId;
-    if (this.plusCode != null) {
-      data['plus_code'] = this.plusCode!.toJson();
+    data['place_id'] = placeId;
+    if (plusCode != null) {
+      data['plus_code'] = plusCode!.toJson();
     }
-    data['price_level'] = this.priceLevel;
-    data['rating'] = this.rating;
-    data['reference'] = this.reference;
-    data['scope'] = this.scope;
-    data['types'] = this.types;
-    data['user_ratings_total'] = this.userRatingsTotal;
-    data['vicinity'] = this.vicinity;
+    data['price_level'] = priceLevel;
+    data['rating'] = rating;
+    data['reference'] = reference;
+    data['scope'] = scope;
+    data['types'] = types;
+    data['user_ratings_total'] = userRatingsTotal;
+    data['vicinity'] = vicinity;
     return data;
   }
 }
@@ -135,17 +135,17 @@ class Geometry {
         ? Location.fromJson(json['location'])
         : null;
     viewport = json['viewport'] != null
-        ? new Viewport.fromJson(json['viewport'])
+        ? Viewport.fromJson(json['viewport'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
-    if (this.viewport != null) {
-      data['viewport'] = this.viewport!.toJson();
+    if (viewport != null) {
+      data['viewport'] = viewport!.toJson();
     }
     return data;
   }
@@ -163,9 +163,9 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lng'] = lng;
     return data;
   }
 }
@@ -178,20 +178,20 @@ class Viewport {
 
   Viewport.fromJson(Map<String, dynamic> json) {
     northeast = json['northeast'] != null
-        ? new Location.fromJson(json['northeast'])
+        ? Location.fromJson(json['northeast'])
         : null;
     southwest = json['southwest'] != null
-        ? new Location.fromJson(json['southwest'])
+        ? Location.fromJson(json['southwest'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.northeast != null) {
-      data['northeast'] = this.northeast!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (northeast != null) {
+      data['northeast'] = northeast!.toJson();
     }
-    if (this.southwest != null) {
-      data['southwest'] = this.southwest!.toJson();
+    if (southwest != null) {
+      data['southwest'] = southwest!.toJson();
     }
     return data;
   }
@@ -207,8 +207,8 @@ class OpeningHours {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['open_now'] = this.openNow;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['open_now'] = openNow;
     return data;
   }
 }
@@ -229,11 +229,11 @@ class Photos {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['height'] = this.height;
-    data['html_attributions'] = this.htmlAttributions;
-    data['photo_reference'] = this.photoReference;
-    data['width'] = this.width;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['height'] = height;
+    data['html_attributions'] = htmlAttributions;
+    data['photo_reference'] = photoReference;
+    data['width'] = width;
     return data;
   }
 }
@@ -250,9 +250,9 @@ class PlusCode {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['compound_code'] = this.compoundCode;
-    data['global_code'] = this.globalCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['compound_code'] = compoundCode;
+    data['global_code'] = globalCode;
     return data;
   }
 }

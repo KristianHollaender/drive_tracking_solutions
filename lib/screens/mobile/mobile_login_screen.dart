@@ -3,7 +3,7 @@ import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.d
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../fire_service.dart';
+import '../../logic/fire_service.dart';
 import 'mobile_reset_password_screen.dart';
 
 class MobileLoginScreen extends StatelessWidget {

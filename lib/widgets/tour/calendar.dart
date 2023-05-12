@@ -100,7 +100,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         Align(
           alignment: Alignment.center,
           child: IconButton(
-            icon: Icon(Icons.newspaper),
+            icon: const Icon(Icons.newspaper),
             onPressed: (){
               excel.createExcel(_selectedTours.value);
             },

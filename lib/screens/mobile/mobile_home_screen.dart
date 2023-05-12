@@ -33,23 +33,23 @@ class HomeScreenState extends State<HomeScreen> {
   Future<GeoPoint> getCurrentLocation() async {
     Location location = Location();
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
     }
 
-    _locationData = await location.getLocation();
+    locationData = await location.getLocation();
 
-    _latLng = LatLng(_locationData.latitude!, _locationData.longitude!);
+    _latLng = LatLng(locationData.latitude!, locationData.longitude!);
 
     _initialCameraPosition = CameraPosition(
       target: _latLng!,
@@ -61,7 +61,7 @@ class HomeScreenState extends State<HomeScreen> {
       zoom: 17.5,
     );
 
-    return GeoPoint(_locationData.latitude!, _locationData.longitude!);
+    return GeoPoint(locationData.latitude!, locationData.longitude!);
   }
 
   @override
@@ -144,17 +144,17 @@ class HomeScreenState extends State<HomeScreen> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.all(4.0),
+                              padding: const EdgeInsets.all(4.0),
                               child: SizedBox(
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
-                                  icon: Icon(Icons.play_arrow_rounded),
+                                  icon: const Icon(Icons.play_arrow_rounded),
                                   onPressed: !tracker.tourStarted
                                       ? () => startTour(startTime, tracker)
                                       : null,
-                                  label: Text("Start tour"),
+                                  label: const Text("Start tour"),
                                   backgroundColor: tracker.tourStarted
-                                      ? Color(0xb3d9dcd9)
+                                      ? const Color(0xb3d9dcd9)
                                       : null, // set the background color based on _tourStarted
                                 ),
                               ),
@@ -166,18 +166,18 @@ class HomeScreenState extends State<HomeScreen> {
                     Visibility(
                       visible: tracker.tourStarted,
                       child: Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             bottom: 10.0, left: 8.0, right: 8.0),
                         child: Row(
                           children: [
                             Expanded(
                               flex: 1,
                               child: Padding(
-                                padding: EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: SizedBox(
                                   height: 45.0,
                                   child: FloatingActionButton.extended(
-                                    icon: Icon(Icons.restaurant),
+                                    icon: const Icon(Icons.restaurant),
                                     onPressed: () {
                                       _toggleResting();
                                     },
@@ -192,11 +192,11 @@ class HomeScreenState extends State<HomeScreen> {
                             Expanded(
                               flex: 1,
                               child: Padding(
-                                padding: EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: SizedBox(
                                   height: 45.0,
                                   child: FloatingActionButton.extended(
-                                    icon: Icon(Icons.add_location_alt),
+                                    icon: const Icon(Icons.add_location_alt),
                                     onPressed: () async {
                                       //_setCheckpointLocation();
                                       GeoPoint currentLocation =
@@ -204,7 +204,7 @@ class HomeScreenState extends State<HomeScreen> {
                                       fireService.addCheckpoint(
                                           fireService.tourId!, currentLocation);
                                     },
-                                    label: Text("Checkpoint"),
+                                    label: const Text("Checkpoint"),
                                   ),
                                 ),
                               ),
@@ -212,16 +212,16 @@ class HomeScreenState extends State<HomeScreen> {
                             Expanded(
                               flex: 1,
                               child: Padding(
-                                padding: EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: SizedBox(
                                   height: 45.0,
                                   child: FloatingActionButton.extended(
-                                      icon: Icon(Icons.close_sharp),
+                                      icon: const Icon(Icons.close_sharp),
                                       onPressed: () async {
                                         //_setEndLocation();
                                         await endTour(endTime, startTime, tracker);
                                       },
-                                      label: Text(" End tour")),
+                                      label: const Text(" End tour")),
                                 ),
                               ),
                             ),
@@ -309,34 +309,34 @@ class HomeScreenState extends State<HomeScreen> {
   Future<void> _setStartLocation() async {
     final GoogleMapController controller = await _controller.future;
     getCurrentLocation();
-    final Marker _startLocationMarker = Marker(
-        markerId: MarkerId("startLocation"),
-        infoWindow: InfoWindow(title: "Route start"),
+    final Marker startLocationMarker = Marker(
+        markerId: const MarkerId("startLocation"),
+        infoWindow: const InfoWindow(title: "Route start"),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         position: _latLng!);
-    _marker.add(_startLocationMarker);
+    _marker.add(startLocationMarker);
   }
 
   Future<void> _setCheckpointLocation() async {
     final GoogleMapController controller = await _controller.future;
     getCurrentLocation();
-    final Marker _checkpointLocationMarker = Marker(
-        markerId: MarkerId("checkpointLocation"),
-        infoWindow: InfoWindow(title: "Checkpoint"),
+    final Marker checkpointLocationMarker = Marker(
+        markerId: const MarkerId("checkpointLocation"),
+        infoWindow: const InfoWindow(title: "Checkpoint"),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         position: _latLng!);
-    _marker.add(_checkpointLocationMarker);
+    _marker.add(checkpointLocationMarker);
   }
 
   Future<void> _setEndLocation() async {
     final GoogleMapController controller = await _controller.future;
     getCurrentLocation();
-    final Marker _endLocationMarker = Marker(
-        markerId: MarkerId("startLocation"),
-        infoWindow: InfoWindow(title: "Route end"),
+    final Marker endLocationMarker = Marker(
+        markerId: const MarkerId("startLocation"),
+        infoWindow: const InfoWindow(title: "Route end"),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         position: _latLng!);
-    _marker.add(_endLocationMarker);
+    _marker.add(endLocationMarker);
   }
 
   LocationData? currentLocation;

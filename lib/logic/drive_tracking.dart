@@ -5,9 +5,9 @@ class DriveTracker {
   Stopwatch ddl = Stopwatch();
   Stopwatch dbt = Stopwatch();
 
-  Duration cdlDuration = Duration(hours: 4, minutes: 30);
-  Duration ddlDuration = Duration(hours: 9);
-  Duration dbtDuration = Duration(minutes: 45);
+  Duration cdlDuration = const Duration(hours: 4, minutes: 30);
+  Duration ddlDuration = const Duration(hours: 9);
+  Duration dbtDuration = const Duration(minutes: 45);
 
   bool tourStarted = false;
   bool isResting = false;
@@ -21,7 +21,7 @@ class DriveTracker {
   }
 
   void startTour(){
-    timer = Timer.periodic(Duration(seconds: 1), (i) {
+    timer = Timer.periodic(const Duration(seconds: 1), (i) {
       _ticker.sink.add(i.tick);
     });
     cdl.start();
@@ -76,8 +76,8 @@ class DriveTracker {
 extension DurationExtension on Duration {
   String durationToString() {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(this.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(this.inSeconds.remainder(60));
-    return "${twoDigits(this.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    String twoDigitMinutes = twoDigits(inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(inSeconds.remainder(60));
+    return "${twoDigits(inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

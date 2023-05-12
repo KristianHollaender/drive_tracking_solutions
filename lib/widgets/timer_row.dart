@@ -1,11 +1,9 @@
-import 'dart:ffi';
-
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TimerRow extends StatefulWidget {
-  TimerRow({super.key});
+  const TimerRow({super.key});
 
   @override
   TimerRowState createState() => TimerRowState();
@@ -33,9 +31,9 @@ class TimerRowState extends State<TimerRow> {
               padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xff000000)),
+                    border: Border.all(color: const Color(0xff000000)),
                     borderRadius: BorderRadius.circular(8.0),
-                    color: Color(0xff427e48)),
+                    color: const Color(0xff427e48)),
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 65.0,
                 child: Row(
@@ -49,7 +47,7 @@ class TimerRowState extends State<TimerRow> {
                           builder: (context, snapshot) {
                             return Text(
                               tracker.getCdl().durationToString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 35.0,
                                 fontWeight: FontWeight.bold,
@@ -60,22 +58,22 @@ class TimerRowState extends State<TimerRow> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
                             "Continous driving limit",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
                               value: null,
                             ),
@@ -95,9 +93,9 @@ class TimerRowState extends State<TimerRow> {
               padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xff000000)),
+                    border: Border.all(color: const Color(0xff000000)),
                     borderRadius: BorderRadius.circular(8.0),
-                    color: Color(0xff427e48)),
+                    color: const Color(0xff427e48)),
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 65.0,
                 child: Row(
@@ -111,7 +109,7 @@ class TimerRowState extends State<TimerRow> {
                           builder: (context, snapshot) {
                             return Text(
                               tracker.getDdl().durationToString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 35.0,
                                 fontWeight: FontWeight.bold,
@@ -122,22 +120,22 @@ class TimerRowState extends State<TimerRow> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Daily driving limit",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
                               value: null,
                             ),
@@ -157,9 +155,9 @@ class TimerRowState extends State<TimerRow> {
               padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xff000000)),
+                    border: Border.all(color: const Color(0xff000000)),
                     borderRadius: BorderRadius.circular(8.0),
-                    color: Color(0xff427e48)),
+                    color: const Color(0xff427e48)),
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 65.0,
                 child: Row(
@@ -173,7 +171,7 @@ class TimerRowState extends State<TimerRow> {
                           builder: (context, snapshot) {
                             return Text(
                               tracker.getRestingTime().durationToString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 35.0,
                                 fontWeight: FontWeight.bold,
@@ -184,22 +182,22 @@ class TimerRowState extends State<TimerRow> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
                             "Daily break time",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
                               value: null,
                             ),

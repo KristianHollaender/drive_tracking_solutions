@@ -1,84 +1,131 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/logic/gas_station_repo.dart';
+import 'package:drive_tracking_solutions/widgets/gas_station_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import '../models/util/gas_station.dart';
 import '../util/location_util.dart';
 
 class GasStationWidget extends StatefulWidget {
-  const GasStationWidget({Key? key}) : super(key: key);
+  GasStationWidget({Key? key}) : super(key: key);
 
   @override
-  State<GasStationWidget> createState() => _GasStationState();
+  State<GasStationWidget> createState() => _GasStationWidgetState();
 }
 
-class _GasStationState extends State<GasStationWidget> {
+class _GasStationWidgetState extends State<GasStationWidget> {
   late String radius;
-  GasStation gasStation = GasStation();
+
+  List<Marker> markers = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    final gasRepo = Provider.of<GasStationRepo>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Nearby gas stations'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Align(
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              ElevatedButton(
-                  onPressed: () async {
-                    radius = '2000';
-                    GeoPoint currentLocation = await getCurrentLocation();
-                    await getNearByGasStations(currentLocation, radius);
-                  },
-                  child: const Text('Get nearby gas station')),
-              if (gasStation.results != null)
-                for (int i = 0; i < gasStation.results!.length; i++)
-                  nearByGasStation(gasStation.results![i]),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> getNearByGasStations(GeoPoint currentLocation, String radius) async {
-    try {
-      final String jsonString = await rootBundle.loadString('assets/config.json');
-      final jsonMap = json.decode(jsonString);
-      String apiKey = jsonMap['api_Key'];
-      String httpUrl = "${jsonMap['httpURL']}${currentLocation.latitude},${currentLocation.longitude}&radius=$radius&type=gas_station&key=$apiKey";
-      Uri url = Uri.parse(httpUrl);
-      var response = await http.post(url);
-
-      gasStation = GasStation.fromJson(jsonDecode(response.body));
-
-      setState(() {});
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  Widget nearByGasStation(Results result) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(10)),
-      child: Column(
+      body: Column(
         children: [
-          Text("Name: ${result.name!}"),
-          Text(
-              "Location: ${result.geometry!.location!.lat} , ${result.geometry!.location!.lng}"),
-          Text(result.vicinity!),
+          Flexible(
+            flex: 1,
+            child: GasStationMap(markers: markers,),
+          ),
+          const Padding(padding: EdgeInsets.all(12)),
+          Flexible(
+            flex: 2,
+            child: SingleChildScrollView(
+              child: Align(
+                alignment: Alignment.center,
+                child: _getLocationBuilder(gasRepo),
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  FutureBuilder<GeoPoint> _getLocationBuilder(GasStationRepo gasRepo) {
+    return FutureBuilder(
+      future: getCurrentLocation(),
+      builder: (context, locationSnapshot) {
+        if (locationSnapshot.hasData) {
+          return _getNearByGasStationsWidget(gasRepo, locationSnapshot);
+        } else if (locationSnapshot.hasError) {
+          return Text(locationSnapshot.error.toString());
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  FutureBuilder<dynamic> _getNearByGasStationsWidget(
+      GasStationRepo gasRepo, AsyncSnapshot<GeoPoint> locationSnapshot) {
+    return FutureBuilder(
+      future: gasRepo.getNearByGasStations(
+          GeoPoint(locationSnapshot.data!.latitude,
+              locationSnapshot.data!.longitude),
+          '2000'),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        } else if (snapshot.hasData) {
+          final result =
+              GasStation.fromJson(snapshot.data as Map<String, dynamic>);
+          return SizedBox(
+            height: 500,
+            child: ListView.builder(
+              itemCount: result.results?.length,
+              itemBuilder: (context, index) {
+                addToMarkersList(result);
+                return Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Text("Name: ${result.results?[index].name}"),
+                      Text(
+                          "Location: ${result.results?[index].geometry!.location!.lat} , ${result.results?[index].geometry!.location!.lng}"),
+                      Text(result.results![index].vicinity!),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  void addToMarkersList(GasStation result){
+    for(int i = 0; i < result.results!.length; i++){
+      Marker marker = Marker(
+        markerId: MarkerId(result.results![i].name!),
+        position: LatLng(result.results![i].geometry!.location!.lat!, result.results![i].geometry!.location!.lng!),
+        infoWindow: InfoWindow(title: result.results![i].name!),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      );
+      markers.add(marker);
+    }
+
   }
 }
