@@ -1,30 +1,61 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:drive_tracking_solutions/logic/fire_service.dart';
+import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-import 'package:drive_tracking_solutions/main.dart';
+class MockFirebaseService extends FirebaseService {
+
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Login Screen - Email and Password Input Validation',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Provider<FirebaseService>(
+          create: (_) => MockFirebaseService(), // Provide the mock implementation
+          child: MobileLoginScreen(),
+        ),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Find the email and password text fields
+    final emailField = find.widgetWithText(TextFormField, 'Email');
+    final passwordField = find.widgetWithText(TextFormField, 'Password');
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Enter valid email and password
+    await tester.enterText(emailField, 'test@example.com');
+    await tester.enterText(passwordField, 'password');
+
+    // Trigger the login button press
+    final loginButton = find.widgetWithText(ElevatedButton, 'Login');
+    await tester.tap(loginButton);
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the login process is successful
+    expect(find.text('Logged in successfully'), findsOneWidget);
+
+    // Enter invalid email (without '@') and valid password
+    await tester.enterText(emailField, 'invalid_email');
+    await tester.enterText(passwordField, 'password');
+
+    // Trigger the login button press
+    await tester.tap(loginButton);
+    await tester.pump();
+
+    // Verify that the email validation error message is shown
+    expect(find.text('Email required'), findsOneWidget);
+
+    // Enter valid email and invalid password (less than 6 characters)
+    await tester.enterText(emailField, 'test@example.com');
+    await tester.enterText(passwordField, 'pass');
+
+    // Trigger the login button press
+    await tester.tap(loginButton);
+    await tester.pump();
+
+    // Verify that the password validation error message is shown
+    expect(find.text('Password required (min 6 chars)'), findsOneWidget);
   });
 }
