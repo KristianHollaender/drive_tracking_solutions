@@ -37,7 +37,7 @@ class FirebaseService {
         await db.collection(CollectionNames.tour).doc(value.id).get();
         tourId = tourDoc.id;
         return tourId;
-      }).catchError((e) => print(e.toString()));
+      });
     }catch(e){
       throw Exception(e.toString());
     }
@@ -114,7 +114,7 @@ class FirebaseService {
             .get();
         pauseId = pauseDoc.id;
         return pauseId;
-      }).catchError((e) => print(e.toString()));
+      });
     }catch(e){
       throw Exception(e.toString());
     }

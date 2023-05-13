@@ -10,8 +10,7 @@ class TourMap extends StatelessWidget {
 
   TourMap({super.key, required this.tour});
 
-  final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
   late CameraPosition _startPoint;
   late CameraPosition _endPoint;

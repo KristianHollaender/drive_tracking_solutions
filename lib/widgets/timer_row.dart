@@ -125,8 +125,8 @@ class TimerRowState extends State<TimerRow> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             "Daily driving limit",
                             style: TextStyle(
                               fontSize: 14.0,
@@ -134,7 +134,7 @@ class TimerRowState extends State<TimerRow> {
                               color: Colors.white,
                             ),
                           ),
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
                               value: null,

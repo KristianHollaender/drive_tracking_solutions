@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore_platform_interface/src/geo_point.dart';
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
+import 'package:drive_tracking_solutions/widgets/gas_stations_widget.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -25,10 +25,9 @@ class HomeScreenState extends State<HomeScreen> {
   LatLng? _latLng;
   StreamSubscription<LocationData>? sub;
 
-  List<Marker> _marker = [];
+  final Set<Marker> _marker = {};
 
   bool _click = false;
-
 
   Future<GeoPoint> getCurrentLocation() async {
     Location location = Location();
@@ -181,8 +180,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     onPressed: () {
                                       _toggleResting();
                                     },
-                                    label: Text
-                                      (tracker.isResting
+                                    label: Text(tracker.isResting
                                         ? "End resting"
                                         : "Start rest"),
                                   ),
@@ -219,7 +217,8 @@ class HomeScreenState extends State<HomeScreen> {
                                       icon: const Icon(Icons.close_sharp),
                                       onPressed: () async {
                                         //_setEndLocation();
-                                        await endTour(endTime, startTime, tracker);
+                                        await endTour(
+                                            endTime, startTime, tracker);
                                       },
                                       label: const Text(" End tour")),
                                 ),
@@ -233,15 +232,22 @@ class HomeScreenState extends State<HomeScreen> {
                       flex: 1,
                       child: SingleChildScrollView(
                         child: Column(
-                          children: [
-                            TimerRow()
-                          ],
+                          children: const [TimerRow()],
                         ),
                       ),
                     )
                   ],
                 ),
               ),
+              FloatingActionButton.extended(
+                  onPressed: () async{
+                    GeoPoint currentLocation =
+                    await getCurrentLocation();
+                    showDialog(
+                      context: context,
+                      builder: (context) => GasStationWidget(geoPoint: currentLocation),
+                    );
+                  }, label: const Text('View Gas stations'),)
             ],
           ),
         );
@@ -256,7 +262,6 @@ class HomeScreenState extends State<HomeScreen> {
       fireService.startPause(fireService.tourId!, DateTime.now());
     } else {
       tracker.stopResting();
-      print("pause ID:${fireService.pauseId}");
       fireService.stopPause(
           fireService.tourId, fireService.pauseId, DateTime.now());
     }
@@ -273,38 +278,25 @@ class HomeScreenState extends State<HomeScreen> {
     //_setStartLocation();
   }
 
-  Future<void> endTour(DateTime endTime, DateTime startTime, DriveTracker tracker) async {
+  Future<void> endTour(
+      DateTime endTime, DateTime startTime, DriveTracker tracker) async {
     tracker.endTour();
-    GeoPoint currentLocation =
-        await getCurrentLocation();
+    GeoPoint currentLocation = await getCurrentLocation();
     endTime = DateTime.now();
-    final duration =
-        endTime.difference(startTime);
+    final duration = endTime.difference(startTime);
     final formattedDuration = Duration(
       hours: duration.inHours,
-      minutes:
-          duration.inMinutes.remainder(60),
-      seconds:
-          duration.inSeconds.remainder(60),
+      minutes: duration.inMinutes.remainder(60),
+      seconds: duration.inSeconds.remainder(60),
     );
-    final totalTime = formattedDuration
-        .toString()
-        .split('.')
-        .first;
+    final totalTime = formattedDuration.toString().split('.').first;
     if (tracker.isResting) {
       await fireService.stopPause(
-          fireService.tourId!,
-          fireService.pauseId!,
-          endTime);
+          fireService.tourId!, fireService.pauseId!, endTime);
     }
     await fireService.endTour(
-        fireService.tourId!,
-        currentLocation,
-        endTime,
-        totalTime);
+        fireService.tourId!, currentLocation, endTime, totalTime);
   }
-
-
 
   Future<void> _setStartLocation() async {
     final GoogleMapController controller = await _controller.future;

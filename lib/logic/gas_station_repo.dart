@@ -10,8 +10,8 @@ class GasStationRepo{
       final String jsonString = await rootBundle.loadString('assets/config.json');
       final jsonMap = json.decode(jsonString);
       String apiKey = jsonMap['api_Key'];
-      //String httpUrl = "${jsonMap['httpURL']}${currentLocation.latitude},${currentLocation.longitude}&radius=$radius&type=gas_station&key=$apiKey";
-      String httpUrl = "";
+      String httpUrl = "${jsonMap['httpURL']}${currentLocation.latitude},${currentLocation.longitude}&radius=$radius&type=gas_station&key=$apiKey";
+      //String httpUrl = "";
       Uri url = Uri.parse(httpUrl);
       var response = await http.get(url);
 

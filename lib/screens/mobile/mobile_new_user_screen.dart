@@ -89,7 +89,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        throw Exception();
       }
     });
   }
