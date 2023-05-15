@@ -3,6 +3,8 @@ import 'package:excel/excel.dart';
 import '../models/tour.dart';
 import '../util/map_geo_util.dart';
 
+/// This only works when opening the app in the browser
+
 class ExcelConverter{
   Future<Excel> createExcel(List<Tour> tours) async{
     final excel = Excel.createExcel();
