@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
@@ -5,6 +7,7 @@ import 'package:drive_tracking_solutions/widgets/gas_stations_widget.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,9 +19,44 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
 
+  final Completer<GoogleMapController> mapsController =
+  Completer<GoogleMapController>();
+  LocationData? currentLocation;
+  StreamSubscription<LocationData>? _sub;
+
   @override
   void initState() {
     super.initState();
+  }
+
+  void listenToCurrentLocation() async {
+    Location location = Location();
+    location.getLocation().then(
+          (location) {
+        currentLocation = location;
+      },
+    );
+    GoogleMapController googleMapController = await mapsController.future;
+    _sub = location.onLocationChanged.listen(
+          (newLoc) {
+        currentLocation = newLoc;
+        googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              zoom: 17.5,
+              target: LatLng(
+                newLoc.latitude!,
+                newLoc.longitude!,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void stopListeningToLocation() async {
+    _sub!.cancel();
   }
 
   @override
@@ -55,7 +93,7 @@ class HomeScreenState extends State<HomeScreen> {
                         markers: Set<Marker>.of(tracker.marker),
                         initialCameraPosition: tracker.initialCameraPosition!,
                         onMapCreated: (GoogleMapController controller) {
-                          tracker.mapsController.complete(controller);
+                          mapsController.complete(controller);
                         },
                       ),
                       Positioned(
@@ -70,9 +108,9 @@ class HomeScreenState extends State<HomeScreen> {
                               tracker.click = !tracker.click;
                             });
                             if (tracker.click) {
-                              tracker.listenToCurrentLocation();
+                              listenToCurrentLocation();
                             } else {
-                              tracker.stopListeningToLocation();
+                              stopListeningToLocation();
                             }
                           },
                           label: tracker.click
@@ -116,14 +154,9 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: FloatingActionButton.extended(
                                   heroTag: "startTourBtn",
                                   icon: const Icon(Icons.play_arrow_rounded),
-                                  onPressed: !tracker.tourStarted
-                                      ? () {
-                                    setState(() {
-                                      tracker.tourStarted = true;
-                                    });
-                                    tracker.startTour();
-                                  }
-                                      : null,
+                                  onPressed: (){
+                                    tracker.startTour;
+                                  },
                                   label: const Text("Start tour"),
                                   backgroundColor: tracker.tourStarted
                                       ? const Color(0xb3d9dcd9)
@@ -135,85 +168,82 @@ class HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: tracker.tourStarted,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10.0, left: 8.0, right: 8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: SizedBox(
-                                  height: 45.0,
-                                  child: FloatingActionButton.extended(
-                                    heroTag: "startRestingBtn",
-                                    icon: const Icon(Icons.restaurant),
-                                    onPressed: () {
-                                      if (!tracker.isResting) {
-                                        tracker.startResting();
-                                      } else {
-                                        tracker.stopResting();
-                                      }
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 10.0, left: 8.0, right: 8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  heroTag: "startRestingBtn",
+                                  icon: const Icon(Icons.restaurant),
+                                  onPressed: () {
+                                    if (!tracker.isResting) {
+                                      tracker.startResting();
+                                    } else {
+                                      tracker.stopResting();
+                                    }
+                                  },
+                                  label: StreamBuilder<void>(
+                                    stream: tracker.tickerStream,
+                                    builder: (context, snapshot) {
+                                      return Text(tracker.isResting
+                                          ? "End resting"
+                                          : "Start rest");
                                     },
-                                    label: StreamBuilder<void>(
-                                      stream: tracker.tickerStream,
-                                      builder: (context, snapshot) {
-                                        return Text(tracker.isResting
-                                            ? "End resting"
-                                            : "Start rest");
-                                      },
-                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: SizedBox(
-                                  height: 45.0,
-                                  child: FloatingActionButton.extended(
-                                    heroTag: "checkpointBtn",
-                                    icon: const Icon(Icons.add_location_alt),
-                                    onPressed: () async {
-                                      //_setCheckpointLocation();
-                                      GeoPoint currentLocation =
-                                      await tracker.getCurrentLocation();
-                                      fireService.addCheckpoint(
-                                          fireService.tourId!, currentLocation);
-                                    },
-                                    label: const Text("Checkpoint"),
-                                  ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  heroTag: "checkpointBtn",
+                                  icon: const Icon(Icons.add_location_alt),
+                                  onPressed: () async {
+                                    //_setCheckpointLocation();
+                                    GeoPoint currentLocation =
+                                    await tracker.getCurrentLocation();
+                                    fireService.addCheckpoint(
+                                        fireService.tourId!, currentLocation);
+                                  },
+                                  label: const Text("Checkpoint"),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: SizedBox(
-                                  height: 45.0,
-                                  child: FloatingActionButton.extended(
-                                    heroTag: "endTourBtn",
-                                    icon: const Icon(Icons.close_sharp),
-                                    onPressed: () async {
-                                      //_setEndLocation();
-                                      tracker.endTour();
-                                      setState(() {
-                                        tracker.tourStarted = false;
-                                      });
-                                    },
-                                    label: const Text("End tour"),
-                                  ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                height: 45.0,
+                                child: FloatingActionButton.extended(
+                                  heroTag: "endTourBtn",
+                                  icon: const Icon(Icons.close_sharp),
+                                  onPressed: () async {
+                                    //_setEndLocation();
+                                    tracker.endTour();
+                                    setState(() {
+                                      tracker.tourStarted = false;
+                                    });
+                                  },
+                                  label: const Text("End tour"),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Flexible(

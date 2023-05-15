@@ -27,10 +27,7 @@ class DriveTracker {
   CameraPosition? initialCameraPosition;
   CameraPosition? currentLocationCameraPosition;
   LatLng? latLng;
-  StreamSubscription<LocationData>? _sub;
-  LocationData? currentLocation;
-  final Completer<GoogleMapController> mapsController =
-  Completer<GoogleMapController>();
+
 
   final Set<Marker> marker = {};
 
@@ -108,36 +105,6 @@ class DriveTracker {
 
   Duration getRestingTime() {
     return _dailyBreakDuration - _dailyBreakTimeTimer.elapsed;
-  }
-
-  void listenToCurrentLocation() async {
-    Location location = Location();
-    location.getLocation().then(
-          (location) {
-        currentLocation = location;
-      },
-    );
-    GoogleMapController googleMapController = await mapsController.future;
-    _sub = location.onLocationChanged.listen(
-          (newLoc) {
-        currentLocation = newLoc;
-        googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              zoom: 17.5,
-              target: LatLng(
-                newLoc.latitude!,
-                newLoc.longitude!,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void stopListeningToLocation() async {
-    _sub!.cancel();
   }
 
   Future<GeoPoint> getCurrentLocation() async {
