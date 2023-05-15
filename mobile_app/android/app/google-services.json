@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64233866167",
+    "project_id": "drivetrackingsolution",
+    "storage_bucket": "drivetrackingsolution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64233866167:android:54a25927e91f7cb5851e32",
+        "android_client_info": {
+          "package_name": "com.example.drive_tracking_solutions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64233866167-dhse164h3ef9qpdrqq59b4v1s4a0nql0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz0zJAeGu4g85_-s5B6xuQ3brTO1ywy28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64233866167-dhse164h3ef9qpdrqq59b4v1s4a0nql0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
