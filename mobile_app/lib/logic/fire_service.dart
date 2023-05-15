@@ -161,6 +161,7 @@ class FirebaseService {
         UserKeys.email: email,
         UserKeys.firstname: firstname,
         UserKeys.lastname: lastname,
+        UserKeys.role: 'User',
       });
     }catch(e){
       throw Exception(e.toString());
