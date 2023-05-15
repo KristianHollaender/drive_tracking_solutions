@@ -24,10 +24,8 @@ class HomeScreenState extends State<HomeScreen> {
   LocationData? currentLocation;
   StreamSubscription<LocationData>? _sub;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool _tourStarted = false;
+
 
   void listenToCurrentLocation() async {
     Location location = Location();
@@ -155,10 +153,11 @@ class HomeScreenState extends State<HomeScreen> {
                                   heroTag: "startTourBtn",
                                   icon: const Icon(Icons.play_arrow_rounded),
                                   onPressed: (){
-                                    tracker.startTour;
+                                    tracker.startTour();
+                                    _tourStarted = true;
                                   },
                                   label: const Text("Start tour"),
-                                  backgroundColor: tracker.tourStarted
+                                  backgroundColor: _tourStarted
                                       ? const Color(0xb3d9dcd9)
                                       : null,
                                 ),
@@ -234,9 +233,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   onPressed: () async {
                                     //_setEndLocation();
                                     tracker.endTour();
-                                    setState(() {
-                                      tracker.tourStarted = false;
-                                    });
+                                    _tourStarted = false;
                                   },
                                   label: const Text("End tour"),
                                 ),

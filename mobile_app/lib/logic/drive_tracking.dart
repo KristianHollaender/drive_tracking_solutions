@@ -16,10 +16,9 @@ class DriveTracker {
   Duration _dailyBreakDuration = const Duration(minutes: 45);
 
   bool isResting = false;
-  bool tourStarted = false;
 
-  DateTime _startTime = DateTime.now();
-  DateTime _endTime = DateTime.now();
+  late DateTime _startTime;
+  late DateTime _endTime;
 
   Timer? _timer;
   final _ticker = StreamController<int>();
@@ -38,7 +37,7 @@ class DriveTracker {
   }
 
   Future<void> startTour() async {
-    tourStarted = true;
+    _startTime = DateTime.now();
     _timer = Timer.periodic(const Duration(seconds: 1), (i) {
       _ticker.sink.add(i.tick);
     });
@@ -53,7 +52,6 @@ class DriveTracker {
     _timer?.cancel();
     _timer = null;
     isResting = false;
-    tourStarted = false;
     _continuousDrivingLimitTimer.stop();
     _dailyDrivingLimitTimer.stop();
     _dailyBreakTimeTimer.stop();
@@ -75,6 +73,7 @@ class DriveTracker {
     }
     await fireService.endTour(
         fireService.tourId!, currentLocation, _endTime, totalTime);
+    print("Tour has ended");
   }
 
   Duration getCdl() {
