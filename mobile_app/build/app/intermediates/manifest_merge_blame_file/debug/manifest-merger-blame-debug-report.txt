@@ -13,29 +13,29 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:4:5-67
-15-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:4:22-64
+15-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:4:5-67
+15-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:4:22-64
 16    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-16-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:5:5-79
-16-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:5:22-76
+16-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:5:5-79
+16-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:5:22-76
 17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-17-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:6:5-81
-17-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:6:22-78
+17-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:6:5-81
+17-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:6:22-78
 18    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-18-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:7:5-77
-18-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:7:22-74
+18-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:7:5-77
+18-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:7:22-74
 19    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-19-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:8:5-84
-19-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\android\app\src\main\AndroidManifest.xml:8:22-82
+19-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:8:5-84
+19-->C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\android\app\src\main\AndroidManifest.xml:8:22-82
 20    <uses-permission android:name="android.permission.WAKE_LOCK" />
-20-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-68
-20-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-65
+20-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-68
+20-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-65
 21    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permissions options for the `notification` group -->
-21-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-79
-21-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-76
+21-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-79
+21-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-76
 22    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-22-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-77
-22-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
+22-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-77
+22-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
 23
 24    <uses-feature
 24-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\Krist\.gradle\caches\transforms-3\a0e34175b89fa528462076cc4208822f\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:26:5-28:35
@@ -112,43 +112,43 @@
 82            android:value="2" />
 83
 84        <service
-84-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+84-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 85            android:name="com.google.firebase.components.ComponentDiscoveryService"
-85-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+85-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 86            android:directBootAware="true"
 86-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Krist\.gradle\caches\transforms-3\ac7b423c18e0e9c28c2a8c784d1125eb\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:34:13-43
 87            android:exported="false" >
 87-->[com.google.firebase:firebase-auth:21.3.0] C:\Users\Krist\.gradle\caches\transforms-3\58e5e05b4b803d2f200c44bd64fbdce6\transformed\jetified-firebase-auth-21.3.0\AndroidManifest.xml:68:13-37
 88            <meta-data
-88-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+88-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 89                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-89-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+89-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 90                android:value="com.google.firebase.components.ComponentRegistrar" />
-90-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+90-->[:firebase_auth] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 91            <meta-data
-91-->[:firebase_storage] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+91-->[:firebase_storage] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 92                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
-92-->[:firebase_storage] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
+92-->[:firebase_storage] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
 93                android:value="com.google.firebase.components.ComponentRegistrar" />
-93-->[:firebase_storage] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+93-->[:firebase_storage] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 94            <meta-data
-94-->[:cloud_firestore] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+94-->[:cloud_firestore] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 95                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-95-->[:cloud_firestore] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
+95-->[:cloud_firestore] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 96                android:value="com.google.firebase.components.ComponentRegistrar" />
-96-->[:cloud_firestore] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+96-->[:cloud_firestore] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 97            <meta-data
-97-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:38:13-40:85
+97-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:38:13-40:85
 98                android:name="com.google.firebase.components:io.flutter.plugins.firebase.messaging.FlutterFirebaseAppRegistrar"
-98-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:39:17-128
+98-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:39:17-128
 99                android:value="com.google.firebase.components.ComponentRegistrar" />
-99-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:40:17-82
+99-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:40:17-82
 100            <meta-data
-100-->[:firebase_core] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+100-->[:firebase_core] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 101                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-101-->[:firebase_core] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+101-->[:firebase_core] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 102                android:value="com.google.firebase.components.ComponentRegistrar" />
-102-->[:firebase_core] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+102-->[:firebase_core] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 103            <meta-data
 103-->[com.google.firebase:firebase-auth:21.3.0] C:\Users\Krist\.gradle\caches\transforms-3\58e5e05b4b803d2f200c44bd64fbdce6\transformed\jetified-firebase-auth-21.3.0\AndroidManifest.xml:69:13-71:85
 104                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
@@ -193,81 +193,81 @@
 123-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\Krist\.gradle\caches\transforms-3\6ee35129f48582a6ca9bacb0d0103f7a\transformed\jetified-firebase-datatransport-18.1.7\AndroidManifest.xml:29:17-82
 124        </service>
 125        <service
-125-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-19:72
+125-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-19:72
 126            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService"
-126-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-107
+126-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-107
 127            android:exported="false"
-127-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
+127-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
 128            android:permission="android.permission.BIND_JOB_SERVICE" />
-128-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-69
+128-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-69
 129        <service
-129-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-26:19
+129-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-26:19
 130            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingService"
-130-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-97
+130-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-97
 131            android:exported="false" >
-131-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-37
+131-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-37
 132            <intent-filter>
-132-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
+132-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
 133                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-133-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
-133-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
+133-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
+133-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
 134            </intent-filter>
 135        </service>
 136
 137        <receiver
-137-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-35:20
+137-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-35:20
 138            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver"
-138-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-98
+138-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-98
 139            android:exported="true"
-139-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-36
+139-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-36
 140            android:permission="com.google.android.c2dm.permission.SEND" >
-140-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:31:13-73
+140-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:31:13-73
 141            <intent-filter>
-141-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
+141-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
 142                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-142-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
-142-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
+142-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
+142-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
 143            </intent-filter>
 144        </receiver>
 145
 146        <provider
-146-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:43:9-47:38
+146-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:43:9-47:38
 147            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider"
-147-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-102
+147-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-102
 148            android:authorities="com.example.drive_tracking_solutions.flutterfirebasemessaginginitprovider"
-148-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:45:13-88
+148-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:45:13-88
 149            android:exported="false"
-149-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:46:13-37
+149-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:46:13-37
 150            android:initOrder="99" />
-150-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:47:13-35
+150-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:47:13-35
 151        <provider
-151-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+151-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 152            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-152-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+152-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 153            android:authorities="com.example.drive_tracking_solutions.flutter.image_provider"
-153-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+153-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 154            android:exported="false"
-154-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+154-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 155            android:grantUriPermissions="true" >
-155-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+155-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 156            <meta-data
-156-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+156-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 157                android:name="android.support.FILE_PROVIDER_PATHS"
-157-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+157-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 158                android:resource="@xml/flutter_image_picker_file_paths" />
-158-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+158-->[:image_picker_android] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 159        </provider>
 160
 161        <service
-161-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-17:56
+161-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-17:56
 162            android:name="com.lyokone.location.FlutterLocationService"
-162-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-71
+162-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-71
 163            android:enabled="true"
-163-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-35
+163-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-35
 164            android:exported="false"
-164-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-37
+164-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-37
 165            android:foregroundServiceType="location" /> <!-- Needs to be explicitly declared on P+ -->
-165-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-53
+165-->[:location] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\location\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-53
 166        <uses-library
 166-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\Krist\.gradle\caches\transforms-3\a0e34175b89fa528462076cc4208822f\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:39:9-41:40
 167            android:name="org.apache.http.legacy"
@@ -355,10 +355,10 @@
 210            android:permission="com.google.android.c2dm.permission.SEND" >
 210-->[com.google.firebase:firebase-messaging:23.1.2] C:\Users\Krist\.gradle\caches\transforms-3\7b6984d056f2514a4364a36c1bf50e5c\transformed\jetified-firebase-messaging-23.1.2\AndroidManifest.xml:34:13-73
 211            <intent-filter>
-211-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
+211-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
 212                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-212-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
-212-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
+212-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
+212-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
 213            </intent-filter>
 214        </receiver>
 215        <!--
@@ -374,10 +374,10 @@
 222            android:exported="false" >
 222-->[com.google.firebase:firebase-messaging:23.1.2] C:\Users\Krist\.gradle\caches\transforms-3\7b6984d056f2514a4364a36c1bf50e5c\transformed\jetified-firebase-messaging-23.1.2\AndroidManifest.xml:47:13-37
 223            <intent-filter android:priority="-500" >
-223-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
+223-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
 224                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-224-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
-224-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
+224-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
+224-->[:firebase_messaging] C:\Users\Krist\StudioProjects\drive_tracking_solutions\mobile_app\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
 225            </intent-filter>
 226        </service>
 227
