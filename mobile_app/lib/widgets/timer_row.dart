@@ -20,6 +20,7 @@ class TimerRowState extends State<TimerRow> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final tracker = Provider.of<DriveTracker>(context);
@@ -43,18 +44,18 @@ class TimerRowState extends State<TimerRow> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: StreamBuilder<int>(
-                          stream: tracker.tickerStream,
-                          builder: (context, snapshot) {
-                            return Text(
-                              tracker.getCdl().durationToString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 35.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            );
-                          }
+                            stream: tracker.tickerStream,
+                            builder: (context, snapshot) {
+                              return Text(
+                                tracker.getCdl().durationToString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              );
+                            }
                         ),
                       ),
                     ),
@@ -63,7 +64,7 @@ class TimerRowState extends State<TimerRow> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             "Continous driving limit",
                             style: TextStyle(
@@ -75,7 +76,7 @@ class TimerRowState extends State<TimerRow> {
                           Padding(
                             padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
-                              value: null,
+                              value: tracker.calculateCdlProgress(),
                             ),
                           ),
                         ],
@@ -105,18 +106,18 @@ class TimerRowState extends State<TimerRow> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: StreamBuilder<Object>(
-                          stream: tracker.tickerStream,
-                          builder: (context, snapshot) {
-                            return Text(
-                              tracker.getDdl().durationToString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 35.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            );
-                          }
+                            stream: tracker.tickerStream,
+                            builder: (context, snapshot) {
+                              return Text(
+                                tracker.getDdl().durationToString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              );
+                            }
                         ),
                       ),
                     ),
@@ -125,7 +126,7 @@ class TimerRowState extends State<TimerRow> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             "Daily driving limit",
                             style: TextStyle(
@@ -137,7 +138,7 @@ class TimerRowState extends State<TimerRow> {
                           Padding(
                             padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
-                              value: null,
+                              value: tracker.calculateDdlProgress(),
                             ),
                           ),
                         ],
@@ -167,18 +168,18 @@ class TimerRowState extends State<TimerRow> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: StreamBuilder<void>(
-                          stream: tracker.tickerStream,
-                          builder: (context, snapshot) {
-                            return Text(
-                              tracker.getRestingTime().durationToString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 35.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            );
-                          }
+                            stream: tracker.tickerStream,
+                            builder: (context, snapshot) {
+                              return Text(
+                                tracker.getRestingTime().durationToString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              );
+                            }
                         ),
                       ),
                     ),
@@ -187,7 +188,7 @@ class TimerRowState extends State<TimerRow> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             "Daily break time",
                             style: TextStyle(
@@ -199,7 +200,7 @@ class TimerRowState extends State<TimerRow> {
                           Padding(
                             padding: EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
-                              value: null,
+                              value: tracker.calculateRestingProgress(),
                             ),
                           ),
                         ],

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
@@ -6,7 +5,6 @@ import 'package:drive_tracking_solutions/widgets/gas_stations_widget.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,51 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
-
-  CameraPosition? _initialCameraPosition;
-  CameraPosition? _currentLocationCameraPosition;
-  LatLng? _latLng;
-  StreamSubscription<LocationData>? sub;
-
-  final Set<Marker> _marker = {};
-
-  bool _click = false;
-
-  Future<GeoPoint> getCurrentLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-    }
-
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-    }
-
-    locationData = await location.getLocation();
-
-    _latLng = LatLng(locationData.latitude!, locationData.longitude!);
-
-    _initialCameraPosition = CameraPosition(
-      target: _latLng!,
-      zoom: 17.5,
-    );
-
-    _currentLocationCameraPosition = CameraPosition(
-      target: _latLng!,
-      zoom: 17.5,
-    );
-
-    return GeoPoint(locationData.latitude!, locationData.longitude!);
-  }
 
   @override
   void initState() {
@@ -70,15 +23,12 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime startTime = DateTime.now();
-    DateTime endTime = DateTime.now();
-
     final tracker = Provider.of<DriveTracker>(context);
 
     return FutureBuilder(
-      future: getCurrentLocation(),
+      future: tracker.getCurrentLocation(),
       builder: (context, snapshot) {
-        if (_latLng == null || _initialCameraPosition == null) {
+        if (tracker.latLng == null || tracker.initialCameraPosition == null) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
@@ -102,10 +52,10 @@ class HomeScreenState extends State<HomeScreen> {
                         myLocationButtonEnabled: true,
                         myLocationEnabled: true,
                         compassEnabled: true,
-                        markers: Set<Marker>.of(_marker),
-                        initialCameraPosition: _initialCameraPosition!,
+                        markers: Set<Marker>.of(tracker.marker),
+                        initialCameraPosition: tracker.initialCameraPosition!,
                         onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
+                          tracker.mapsController.complete(controller);
                         },
                       ),
                       Positioned(
@@ -113,20 +63,37 @@ class HomeScreenState extends State<HomeScreen> {
                         right: 165.0,
                         left: 165.0,
                         child: FloatingActionButton.extended(
+                          heroTag: "followBtn",
                           backgroundColor: const Color(0xb3d9dcd9),
                           onPressed: () {
                             setState(() {
-                              _click = !_click;
+                              tracker.click = !tracker.click;
                             });
-                            if (_click) {
-                              _listenToCurrentLocation();
+                            if (tracker.click) {
+                              tracker.listenToCurrentLocation();
                             } else {
-                              _stopListeningToLocation();
+                              tracker.stopListeningToLocation();
                             }
                           },
-                          label: _click
+                          label: tracker.click
                               ? const Icon(Icons.navigation)
                               : const Icon(Icons.navigation_outlined),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 245.0,
+                        right: 285.0,
+                        left: 15.0,
+                        child: FloatingActionButton.extended(
+                          backgroundColor: const Color(0xb3d9dcd9),
+                          onPressed: () async {
+                            GeoPoint currentLocation =
+                            await tracker.getCurrentLocation();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => GasStationWidget(
+                                    geoPoint: currentLocation)));
+                          },
+                          label: const Text('Gas Stations'),
                         ),
                       )
                     ],
@@ -147,14 +114,20 @@ class HomeScreenState extends State<HomeScreen> {
                               child: SizedBox(
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
+                                  heroTag: "startTourBtn",
                                   icon: const Icon(Icons.play_arrow_rounded),
                                   onPressed: !tracker.tourStarted
-                                      ? () => startTour(startTime, tracker)
+                                      ? () {
+                                    setState(() {
+                                      tracker.tourStarted = true;
+                                    });
+                                    tracker.startTour();
+                                  }
                                       : null,
                                   label: const Text("Start tour"),
                                   backgroundColor: tracker.tourStarted
                                       ? const Color(0xb3d9dcd9)
-                                      : null, // set the background color based on _tourStarted
+                                      : null,
                                 ),
                               ),
                             ),
@@ -176,13 +149,23 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                   height: 45.0,
                                   child: FloatingActionButton.extended(
+                                    heroTag: "startRestingBtn",
                                     icon: const Icon(Icons.restaurant),
                                     onPressed: () {
-                                      _toggleResting();
+                                      if (!tracker.isResting) {
+                                        tracker.startResting();
+                                      } else {
+                                        tracker.stopResting();
+                                      }
                                     },
-                                    label: Text(tracker.isResting
-                                        ? "End resting"
-                                        : "Start rest"),
+                                    label: StreamBuilder<void>(
+                                      stream: tracker.tickerStream,
+                                      builder: (context, snapshot) {
+                                        return Text(tracker.isResting
+                                            ? "End resting"
+                                            : "Start rest");
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -194,11 +177,12 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                   height: 45.0,
                                   child: FloatingActionButton.extended(
+                                    heroTag: "checkpointBtn",
                                     icon: const Icon(Icons.add_location_alt),
                                     onPressed: () async {
                                       //_setCheckpointLocation();
                                       GeoPoint currentLocation =
-                                          await getCurrentLocation();
+                                      await tracker.getCurrentLocation();
                                       fireService.addCheckpoint(
                                           fireService.tourId!, currentLocation);
                                     },
@@ -214,13 +198,17 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                   height: 45.0,
                                   child: FloatingActionButton.extended(
-                                      icon: const Icon(Icons.close_sharp),
-                                      onPressed: () async {
-                                        //_setEndLocation();
-                                        await endTour(
-                                            endTime, startTime, tracker);
-                                      },
-                                      label: const Text(" End tour")),
+                                    heroTag: "endTourBtn",
+                                    icon: const Icon(Icons.close_sharp),
+                                    onPressed: () async {
+                                      //_setEndLocation();
+                                      tracker.endTour();
+                                      setState(() {
+                                        tracker.tourStarted = false;
+                                      });
+                                    },
+                                    label: const Text("End tour"),
+                                  ),
                                 ),
                               ),
                             ),
@@ -239,128 +227,10 @@ class HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              FloatingActionButton.extended(
-                  onPressed: () async{
-                    GeoPoint currentLocation =
-                    await getCurrentLocation();
-                    showDialog(
-                      context: context,
-                      builder: (context) => GasStationWidget(geoPoint: currentLocation),
-                    );
-                  }, label: const Text('View Gas stations'),)
             ],
           ),
         );
       },
     );
-  }
-
-  void _toggleResting() {
-    final tracker = Provider.of<DriveTracker>(context, listen: false);
-    if (!tracker.isResting) {
-      tracker.startResting();
-      fireService.startPause(fireService.tourId!, DateTime.now());
-    } else {
-      tracker.stopResting();
-      fireService.stopPause(
-          fireService.tourId, fireService.pauseId, DateTime.now());
-    }
-  }
-
-  Future<void> startTour(DateTime startTime, DriveTracker tracker) async {
-    tracker.startTour();
-    GeoPoint currentLocation = await getCurrentLocation();
-    await fireService.startTour(currentLocation, startTime);
-    print(fireService.tourId);
-    setState(() {
-      tracker.tourStarted = true;
-    });
-    //_setStartLocation();
-  }
-
-  Future<void> endTour(
-      DateTime endTime, DateTime startTime, DriveTracker tracker) async {
-    tracker.endTour();
-    GeoPoint currentLocation = await getCurrentLocation();
-    endTime = DateTime.now();
-    final duration = endTime.difference(startTime);
-    final formattedDuration = Duration(
-      hours: duration.inHours,
-      minutes: duration.inMinutes.remainder(60),
-      seconds: duration.inSeconds.remainder(60),
-    );
-    final totalTime = formattedDuration.toString().split('.').first;
-    if (tracker.isResting) {
-      await fireService.stopPause(
-          fireService.tourId!, fireService.pauseId!, endTime);
-    }
-    await fireService.endTour(
-        fireService.tourId!, currentLocation, endTime, totalTime);
-  }
-
-  Future<void> _setStartLocation() async {
-    final GoogleMapController controller = await _controller.future;
-    getCurrentLocation();
-    final Marker startLocationMarker = Marker(
-        markerId: const MarkerId("startLocation"),
-        infoWindow: const InfoWindow(title: "Route start"),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        position: _latLng!);
-    _marker.add(startLocationMarker);
-  }
-
-  Future<void> _setCheckpointLocation() async {
-    final GoogleMapController controller = await _controller.future;
-    getCurrentLocation();
-    final Marker checkpointLocationMarker = Marker(
-        markerId: const MarkerId("checkpointLocation"),
-        infoWindow: const InfoWindow(title: "Checkpoint"),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-        position: _latLng!);
-    _marker.add(checkpointLocationMarker);
-  }
-
-  Future<void> _setEndLocation() async {
-    final GoogleMapController controller = await _controller.future;
-    getCurrentLocation();
-    final Marker endLocationMarker = Marker(
-        markerId: const MarkerId("startLocation"),
-        infoWindow: const InfoWindow(title: "Route end"),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        position: _latLng!);
-    _marker.add(endLocationMarker);
-  }
-
-  LocationData? currentLocation;
-
-  void _listenToCurrentLocation() async {
-    Location location = Location();
-    location.getLocation().then(
-      (location) {
-        currentLocation = location;
-      },
-    );
-    GoogleMapController googleMapController = await _controller.future;
-    sub = location.onLocationChanged.listen(
-      (newLoc) {
-        currentLocation = newLoc;
-        googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              zoom: 17.5,
-              target: LatLng(
-                newLoc.latitude!,
-                newLoc.longitude!,
-              ),
-            ),
-          ),
-        );
-        setState(() {});
-      },
-    );
-  }
-
-  void _stopListeningToLocation() async {
-    sub!.cancel();
   }
 }
