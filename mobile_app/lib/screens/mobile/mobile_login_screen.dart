@@ -32,9 +32,11 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Image.asset('assets/logo.png', width: 300.0, height: 300.0),
+        Center(
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Image.asset('assets/Logo-inverted.png', width: 400.0, height: 375.0),
+          ),
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),

@@ -157,9 +157,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     _tourStarted = true;
                                   },
                                   label: const Text("Start tour"),
-                                  backgroundColor: _tourStarted
-                                      ? const Color(0xb3d9dcd9)
-                                      : null,
+                                  backgroundColor: Color(0xff26752b)
                                 ),
                               ),
                             ),
@@ -196,6 +194,7 @@ class HomeScreenState extends State<HomeScreen> {
                                           : "Start rest");
                                     },
                                   ),
+                                  backgroundColor: Color(0xff26752b),
                                 ),
                               ),
                             ),
@@ -217,6 +216,7 @@ class HomeScreenState extends State<HomeScreen> {
                                         fireService.tourId!, currentLocation);
                                   },
                                   label: const Text("Checkpoint"),
+                                  backgroundColor: Color(0xff26752b),
                                 ),
                               ),
                             ),
@@ -236,6 +236,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     _tourStarted = false;
                                   },
                                   label: const Text("End tour"),
+                                  backgroundColor: Color(0xff26752b),
                                 ),
                               ),
                             ),

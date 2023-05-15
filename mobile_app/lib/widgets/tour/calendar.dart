@@ -3,6 +3,7 @@ import 'package:drive_tracking_solutions/widgets/tour/tour_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 import '../../models/tour.dart';
 import '../../util/calender_util.dart';
 
@@ -89,19 +90,22 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.black),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: Colors.white),
+                  color: const Color(0x77AEBEAE)),
+              child: _buildTableCalendar(),
             ),
-            child: _buildTableCalendar(),
           ),
         ),
         Align(
           alignment: Alignment.center,
           child: IconButton(
             icon: const Icon(Icons.newspaper),
-            onPressed: (){
+            onPressed: () {
               excel.createExcel(_selectedTours.value);
             },
           ),
@@ -124,7 +128,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       eventLoader: _getToursForDay,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: const CalendarStyle(
-          outsideDaysVisible: false,
+          outsideDaysVisible: true,
+          outsideTextStyle: TextStyle(color: Color(0xff2d4f31)
+          ),
+          weekendTextStyle: TextStyle(color: Color(0xffb8e0bd),
+          ),
           todayDecoration: BoxDecoration(
             color: Color(0x8007460b),
             shape: BoxShape.circle,
@@ -146,12 +154,12 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             color: Color(0x3325ea31),
             shape: BoxShape.circle,
           ),
-          rangeEndTextStyle: TextStyle(color: Colors.black)),
+          rangeEndTextStyle: TextStyle(color: Colors.grey)),
       headerStyle: HeaderStyle(
         titleCentered: true,
         decoration: BoxDecoration(
           color: const Color(0xff07460b),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(35),
         ),
         titleTextStyle: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
@@ -164,6 +172,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           color: Colors.white,
         ),
         formatButtonVisible: false,
+      ),
+      daysOfWeekStyle: const DaysOfWeekStyle(
+
+          weekendStyle:
+              TextStyle(color: Color(0xff8dea91), fontWeight: FontWeight.bold),
+          weekdayStyle:
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
       ),
       onDaySelected: _onDaySelected,
       onRangeSelected: _onRangeSelected,
@@ -186,8 +201,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black)),
-                  height: 140,
+                      border: Border.all(color: Colors.white)),
+                  height: 95,
                   width: double.infinity,
                   child: GestureDetector(
                     child: Card(
@@ -197,47 +212,48 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                           Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: Container(
-                                  height: 70,
-                                  width: 70,
+                                  height: 75,
+                                  width: 75,
                                   decoration: const BoxDecoration(
                                       color: Color(0x8007460b),
                                       shape: BoxShape.circle),
-                                  child: Center(
-                                      child: Text(
-                                    '${tours[index].startTime?.day}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Center(
+                                            child: Text(
+                                          '${tours[index].startTime?.day}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 30,
+                                              color: Colors.white),
+                                        )),
+                                        Text(
+                                          tours[index].getMonth(
+                                              tours[index].startTime!),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                tours[index].getMonth(tours[index].startTime!),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 25),
                               ),
                             ],
                           ),
                           Expanded(
                             flex: 1,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
+                              padding: const EdgeInsets.only(left: 26.0),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Start time: ${tours[index].startTime?.hour}:${tours[index].startTime?.minute}:${tours[index].startTime?.second}',
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  Text(
-                                    'End time: ${tours[index].endTime?.hour}:${tours[index].endTime?.minute}:${tours[index].endTime?.second}',
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
                                   Text(
                                     'Total time: ${tours[index].totalTime}',
                                     style: const TextStyle(fontSize: 20),
@@ -246,9 +262,18 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                               ),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Icon(Icons.hourglass_empty_sharp),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 4.0, top: 12.0),
+                              child: Column(
+                                children: [
+                                  const Icon(Icons.hourglass_empty_sharp, size: 35.0),
+                                  const Text("Review")
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),

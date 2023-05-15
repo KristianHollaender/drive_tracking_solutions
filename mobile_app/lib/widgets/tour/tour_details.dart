@@ -15,7 +15,7 @@ class TourDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(tour.tourId),
+          title: Text("Tour Details"),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

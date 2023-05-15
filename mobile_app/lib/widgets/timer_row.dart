@@ -34,7 +34,7 @@ class TimerRowState extends State<TimerRow> {
                 decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xff000000)),
                     borderRadius: BorderRadius.circular(8.0),
-                    color: const Color(0xff427e48)),
+                    color: const Color(0x7795C495)),
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 65.0,
                 child: Row(
@@ -96,7 +96,7 @@ class TimerRowState extends State<TimerRow> {
                 decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xff000000)),
                     borderRadius: BorderRadius.circular(8.0),
-                    color: const Color(0xff427e48)),
+                    color: const Color(0x7795C495)),
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 65.0,
                 child: Row(
@@ -158,7 +158,7 @@ class TimerRowState extends State<TimerRow> {
                 decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xff000000)),
                     borderRadius: BorderRadius.circular(8.0),
-                    color: const Color(0xff427e48)),
+                    color: const Color(0x7795C495)),
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 65.0,
                 child: Row(

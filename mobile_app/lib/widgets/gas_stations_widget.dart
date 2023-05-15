@@ -20,7 +20,7 @@ class GasStationWidget extends StatelessWidget {
     final gasRepo = Provider.of<GasStationRepo>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nearby gas stations', style: TextStyle(color: Colors.black),),
+        title: const Text('Nearby gas stations', style: TextStyle(color: Colors.white),),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -53,15 +53,16 @@ class GasStationWidget extends StatelessWidget {
                                 top: 10, left: 10, right: 10),
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
+                              color: Color(0x7784E784),
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
                               children: [
-                                Text("Name: ${result.results?[index].name}", style: const TextStyle(color: Colors.black),),
+                                Text("Name: ${result.results?[index].name}", style: const TextStyle(color: Colors.white),),
                                 Text(
-                                    "Location: ${result.results?[index].geometry!.location!.lat} , ${result.results?[index].geometry!.location!.lng}", style: const TextStyle(color: Colors.black),),
-                                Text(result.results![index].vicinity!, style: const TextStyle(color: Colors.black),),
+                                    "Location: ${result.results?[index].geometry!.location!.lat} , ${result.results?[index].geometry!.location!.lng}", style: const TextStyle(color: Colors.white),),
+                                Text(result.results![index].vicinity!, style: const TextStyle(color: Colors.white),),
                               ],
                             ),
                           );

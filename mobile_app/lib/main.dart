@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
-          theme: ThemeData(
-            colorSchemeSeed: const Color(0xff07460b), useMaterial3: true,
+          theme: ThemeData.dark().copyWith(
+            primaryColor: const Color(0xff07460b), useMaterial3: true,
           ),
           home: SafeArea(top: true, child: MobileLoginScreen()),
         );

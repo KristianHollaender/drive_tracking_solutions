@@ -14,6 +14,7 @@ class TourMap extends StatelessWidget {
 
   late CameraPosition _startPoint;
   late CameraPosition _endPoint;
+  late CameraPosition _fullTour;
   late Marker _startMarker;
   late Marker _endMarker;
   late LatLng _startLatLng;
@@ -44,6 +45,11 @@ class TourMap extends StatelessWidget {
         infoWindow: const InfoWindow(title: 'End point'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         position: _endLatLng);
+
+    _fullTour = CameraPosition(
+        target: _endLatLng,
+      zoom: 5.5,
+    );
     
     return Column(
       children: [
@@ -60,13 +66,28 @@ class TourMap extends StatelessWidget {
         ),
         Flexible(
           flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FloatingActionButton.extended(
-              onPressed: _goToTheEndPoint,
-              label: const Text('To the end point'),
-              icon: const Icon(Icons.accessible_forward_outlined),
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: FloatingActionButton.extended(
+                  backgroundColor: Color(0xff26752b),
+                  onPressed: _goToTheEndPoint,
+                  label: const Text('To the end point'),
+                  icon: const Icon(Icons.my_location_rounded),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: FloatingActionButton.extended(
+                  backgroundColor: Color(0xff26752b),
+                  onPressed: _goToFullTour,
+                  label: const Text(' Route overview '),
+                  icon: const Icon(Icons.directions),
+                ),
+              ),
+            ],
           ),
         )
       ],
@@ -76,5 +97,10 @@ class TourMap extends StatelessWidget {
   Future<void> _goToTheEndPoint() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_endPoint));
+  }
+
+  Future<void> _goToFullTour() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_fullTour));
   }
 }
