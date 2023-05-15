@@ -93,25 +93,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Krist\\StudioProjects\\drive_tracking_solutions\\mobile_app\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,832",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "483,998"
-                    },
-                    "to": {
-                        "startLines": "135,139",
-                        "startColumns": "4,4",
-                        "startOffsets": "9548,9729",
-                        "endLines": "138,141",
-                        "endColumns": "12,12",
-                        "endOffsets": "9724,9893"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Krist\\.gradle\\caches\\transforms-3\\2d6c9b034c7ce74e94b0e64e13eab90c\\transformed\\jetified-activity-1.6.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -143,6 +124,25 @@
                         "startOffsets": "9395",
                         "endColumns": "81",
                         "endOffsets": "9472"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Krist\\StudioProjects\\drive_tracking_solutions\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,832",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "483,998"
+                    },
+                    "to": {
+                        "startLines": "135,139",
+                        "startColumns": "4,4",
+                        "startOffsets": "9548,9729",
+                        "endLines": "138,141",
+                        "endColumns": "12,12",
+                        "endOffsets": "9724,9893"
                     }
                 },
                 {
