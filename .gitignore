@@ -56,3 +56,4 @@ linux/flutter/generated_plugin_registrant.cc
 
 # Google api key
 assets/config.json
+admin_panel/AdminPanel/firebaseConfig.js
