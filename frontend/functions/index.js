@@ -45,7 +45,8 @@ app.get('/tour/totalTime/:tourId', async (req, res) => {
 });
 //#endregion
 
-app.get('/pause/totalPauseTime/:tourId/:pauseId', async (req, res) => {
+//#region Get total pause time on one pause
+app.get('/pause/totalTime/:tourId/:pauseId', async (req, res) => {
   // Gets the tour id from url
   const tourId = req.params.tourId;
 
@@ -80,8 +81,9 @@ app.get('/pause/totalPauseTime/:tourId/:pauseId', async (req, res) => {
     return res.status(500).json({status: 'Failed', error: e.error});
   }
 });
+//#endregion
 
-// Gets and calculates the total pause time
+//#region Gets and calculates the total pause time on the tour
 app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
   // Variable used to calculate total pause time
   let totalTime = 0;
@@ -94,9 +96,6 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 
   // Gets all pauses as Query snapshot
   const doc = await db.collection('Tour').doc(tourId).collection('Pause').get();
-
-  // Gets all pauses from a single tour
-  const pauseDocs = await db.collection('Tour').doc(tourId).collection('Pause');
 
   // Get tour doc
   const tourDoc = await  db.collection('Tour').doc(tourId);
@@ -111,14 +110,6 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 
       // Calculates the difference in milliseconds, between end time and start time
       const ms = Math.abs(endTime - startTime);
-
-      // Converts ms to a more readable text
-      const pauseTime = millisToTime(ms);
-
-      // Adds the calculated pause,
-      await pauseDocs.doc(doc.docs[i].id).update({
-        totalTime: pauseTime,
-      });
 
       // Calculates the all the pauses, which will be stored in the tour document.
       totalTime += ms;
@@ -137,6 +128,7 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
     return res.status(500).json({status: 'Failed', error: error.error});
   }
 });
+//#endregion
 
 //Converts ms into more readable time
 function millisToTime(ms) {

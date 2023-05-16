@@ -1,14 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../models/tour.dart';
 
 class TourMap extends StatelessWidget {
   final Tour tour;
+  final Set<Marker> markers;
 
-  TourMap({super.key, required this.tour});
+  TourMap({super.key, required this.tour, required this.markers});
 
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
@@ -19,6 +18,7 @@ class TourMap extends StatelessWidget {
   late Marker _endMarker;
   late LatLng _startLatLng;
   late LatLng _endLatLng;
+
 
 
   @override
@@ -50,7 +50,10 @@ class TourMap extends StatelessWidget {
         target: _endLatLng,
       zoom: 5.5,
     );
-    
+
+    markers.add(_startMarker);
+    markers.add(_endMarker);
+
     return Column(
       children: [
         Flexible(
@@ -61,7 +64,7 @@ class TourMap extends StatelessWidget {
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            markers: {_startMarker, _endMarker},
+            markers: Set.of(markers),
           ),
         ),
         Flexible(
@@ -72,7 +75,7 @@ class TourMap extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: FloatingActionButton.extended(
-                  backgroundColor: Color(0xff26752b),
+                  backgroundColor: const Color(0xff26752b),
                   onPressed: _goToTheEndPoint,
                   label: const Text('To the end point'),
                   icon: const Icon(Icons.my_location_rounded),
@@ -81,7 +84,7 @@ class TourMap extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: FloatingActionButton.extended(
-                  backgroundColor: Color(0xff26752b),
+                  backgroundColor: const Color(0xff26752b),
                   onPressed: _goToFullTour,
                   label: const Text(' Route overview '),
                   icon: const Icon(Icons.directions),
@@ -103,4 +106,5 @@ class TourMap extends StatelessWidget {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_fullTour));
   }
+
 }

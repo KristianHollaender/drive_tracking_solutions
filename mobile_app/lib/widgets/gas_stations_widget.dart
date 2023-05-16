@@ -41,7 +41,7 @@ class GasStationWidget extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: SingleChildScrollView(
-                    child: Container(
+                    child: SizedBox(
                       height: 500,
                       child: ListView.builder(
                         itemCount: result.results?.length,
@@ -53,7 +53,7 @@ class GasStationWidget extends StatelessWidget {
                                 top: 10, left: 10, right: 10),
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                              color: Color(0x7784E784),
+                              color: const Color(0x7784E784),
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -74,7 +74,7 @@ class GasStationWidget extends StatelessWidget {
               ],
             );
           } else {
-            return Center(child: const CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
