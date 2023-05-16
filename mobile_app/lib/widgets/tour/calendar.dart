@@ -1,4 +1,3 @@
-import 'package:drive_tracking_solutions/logic/excel_converter.dart';
 import 'package:drive_tracking_solutions/widgets/tour/tour_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +84,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final excel = Provider.of<ExcelConverter>(context);
     return Column(
       children: [
         Padding(
@@ -99,15 +97,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   color: const Color(0x77AEBEAE)),
               child: _buildTableCalendar(),
             ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: IconButton(
-            icon: const Icon(Icons.newspaper),
-            onPressed: () {
-              excel.createExcel(_selectedTours.value);
-            },
           ),
         ),
         const SizedBox(height: 8.0),

@@ -1,6 +1,5 @@
 import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/firebase_options.dart';
-import 'package:drive_tracking_solutions/logic/excel_converter.dart';
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:drive_tracking_solutions/logic/gas_station_repo.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
           initialData: null,
         ),
         Provider(create: (context) => FirebaseService()),
-        Provider(create: (context) => ExcelConverter()),
         Provider(create: (context) => DriveTracker()),
         Provider(create: (context) => GasStationRepo()),
       ],
