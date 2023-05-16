@@ -75,7 +75,7 @@ class DriveTracker {
         fireService.tourId!, currentLocation, _endTime, totalTime);
   }
 
-  Duration getContinousDrivingLimit() {
+  Duration getContinuousDrivingLimit() {
     return _continuousDrivingDuration - _continuousDrivingLimitTimer.elapsed;
   }
 
@@ -139,7 +139,7 @@ class DriveTracker {
   }
 
   double calculateCDLProgress() {
-    final Duration elapsedTime = getContinousDrivingLimit();
+    final Duration elapsedTime = getContinuousDrivingLimit();
     final double progress = 1 -
         (elapsedTime.inMilliseconds /
             _continuousDrivingDuration.inMilliseconds);

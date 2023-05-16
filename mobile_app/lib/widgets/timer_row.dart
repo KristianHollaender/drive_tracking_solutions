@@ -47,7 +47,7 @@ class TimerRowState extends State<TimerRow> {
                             stream: tracker.tickerStream,
                             builder: (context, snapshot) {
                               return Text(
-                                tracker.getContinousDrivingLimit().durationToString(),
+                                tracker.getContinuousDrivingLimit().durationToString(),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 35.0,
