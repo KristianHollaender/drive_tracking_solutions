@@ -22,6 +22,26 @@ class MobileResetPasswordScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 80.0),
+                child: Center(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    child: Image.asset(
+                      'assets/Logo-lighter.png',
+                      width: MediaQuery.of(context).size.width * 0.75,
+                    ),
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0, bottom: 4.0),
+                child: Text("By writing your email and pressing send - "),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left:4.0, bottom: 40),
+                child: Text("a password reset link will be sent via email")
+              ),
               _emailInput(emailController),
               const SizedBox(height: 16.0),
               _buildResetPasswordBtn(emailController, fireService, context),
@@ -32,9 +52,9 @@ class MobileResetPasswordScreen extends StatelessWidget {
     );
   }
 
-  ElevatedButton _buildResetPasswordBtn(TextEditingController emailController,
+  Widget _buildResetPasswordBtn(TextEditingController emailController,
       FirebaseService fireService, BuildContext context) {
-    return ElevatedButton(
+    return FloatingActionButton.extended(
       onPressed: () async {
         final email = emailController.text.trim();
         if (email.isNotEmpty) {
@@ -44,7 +64,8 @@ class MobileResetPasswordScreen extends StatelessWidget {
           _showErrorSnackBar(context, 'Please enter an email');
         }
       },
-      child: const Text('Send'),
+      label: const Text('Send'),
+      backgroundColor: const Color(0xff26752b),
     );
   }
 
@@ -52,9 +73,26 @@ class MobileResetPasswordScreen extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: controller,
-      decoration: const InputDecoration(labelText: 'Email'),
+      style: const TextStyle(fontSize: 18),
+      decoration: const InputDecoration(
+        labelText: 'Email',
+        labelStyle: TextStyle(fontSize: 20, color: Colors.white),
+        prefixIcon: Icon(Icons.email, size: 28),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.green, width: 2.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 1.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 2.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+      ),
       validator: (value) =>
-          (value == null || !value.contains("@")) ? 'Email required' : null,
+      (value == null || !value.contains("@")) ? 'Email required' : null,
     );
   }
 
