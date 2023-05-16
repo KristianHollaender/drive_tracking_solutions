@@ -16,36 +16,38 @@ class MobileResetPasswordScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Reset Password'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 80.0),
-                child: Center(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: Image.asset(
-                      'assets/Logo-lighter.png',
-                      width: MediaQuery.of(context).size.width * 0.75,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 60.0, top: 20),
+                  child: Center(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: Image.asset(
+                        'assets/Logo-lighter.png',
+                        width: MediaQuery.of(context).size.width * 0.75,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 4.0, bottom: 4.0),
-                child: Text("By writing your email and pressing send - "),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left:4.0, bottom: 40),
-                child: Text("a password reset link will be sent via email")
-              ),
-              _emailInput(emailController),
-              const SizedBox(height: 16.0),
-              _buildResetPasswordBtn(emailController, fireService, context),
-            ],
+                const Padding(
+                  padding: EdgeInsets.only(left: 4.0, bottom: 4.0),
+                  child: Text("By writing your email and pressing send - "),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left:4.0, bottom: 40),
+                  child: Text("a password reset link will be sent via email")
+                ),
+                _emailInput(emailController),
+                const SizedBox(height: 16.0),
+                _buildResetPasswordBtn(emailController, fireService, context),
+              ],
+            ),
           ),
         ),
       ),
