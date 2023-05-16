@@ -14,6 +14,13 @@ The web application uses the same Firebase backend as the Flutter app.
 
 The admin page is made using the Angular Framework. 
 
+##
+
+Before running, make sure you:
+ -
+ -
+ -
+
 
 ## Authors
 
