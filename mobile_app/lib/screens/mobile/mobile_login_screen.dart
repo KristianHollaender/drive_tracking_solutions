@@ -90,6 +90,7 @@ class MobileLoginScreen extends StatelessWidget {
     return SizedBox(
       width: 150.0,
       child: FloatingActionButton.extended(
+        heroTag: 'loginBtn',
         onPressed: () async {
           if (!_formKey.currentState!.validate()) {
             return;
@@ -118,6 +119,7 @@ class MobileLoginScreen extends StatelessWidget {
     return SizedBox(
       width: 150.0,
       child: FloatingActionButton.extended(
+        heroTag: 'signUpBtn',
         onPressed: () async {
           Navigator.push(
             context,

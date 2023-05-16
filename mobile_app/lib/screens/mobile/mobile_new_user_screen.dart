@@ -128,10 +128,10 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
           setState(() {});
           return;
         }
-        final firstname = _firstName.value.text;
-        final lastname = _lastName.value.text;
-        final email = _email.value.text;
-        final password = _password.value.text;
+        final firstname = _firstName.value.text.trim();
+        final lastname = _lastName.value.text.trim();
+        final email = _email.value.text.trim();
+        final password = _password.value.text.trim();
 
         await fireService.signUp(email, password, firstname, lastname);
 
