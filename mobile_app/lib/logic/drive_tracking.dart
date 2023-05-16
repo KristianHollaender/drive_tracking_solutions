@@ -11,9 +11,9 @@ class DriveTracker {
   Stopwatch _dailyDrivingLimitTimer = Stopwatch();
   Stopwatch _dailyBreakTimeTimer = Stopwatch();
 
-  Duration _continuousDrivingDuration = const Duration(minutes: 2);
-  Duration _dailyDrivingDuration = const Duration(minutes: 4);
-  Duration _dailyBreakDuration = const Duration(minutes: 5);
+  Duration _continuousDrivingDuration = const Duration(hours: 4, minutes: 30);
+  Duration _dailyDrivingDuration = const Duration(hours: 9);
+  Duration _dailyBreakDuration = const Duration(minutes: 45);
 
   bool isResting = false;
   bool tourStarted = false;
