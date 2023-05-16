@@ -101,9 +101,16 @@ class MenuScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return CircleAvatar(
             radius: 65,
-            backgroundImage: NetworkImage(snapshot.data!),
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.transparent,
+            child: ClipOval(
+              child: Image.network(
+                snapshot.data!,
+                fit: BoxFit.cover,
+                width: 130,
+                height: 130,
+              ),
+            ),
           );
         } else if (snapshot.hasError) {
           return const Text('Error loading image');
@@ -113,6 +120,8 @@ class MenuScreen extends StatelessWidget {
       },
     );
   }
+
+
 
   Widget _logoutBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
