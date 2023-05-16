@@ -16,11 +16,11 @@ The admin page is made using the Angular Framework.
 
 ##
 
-Before running, make sure you:
+Before running, make sure you
  -
  -
  -
-
+ -
 
 ## Authors
 
