@@ -35,7 +35,6 @@ class GasStationMap extends StatelessWidget {
         _controller.complete(controller);
       },
       markers: Set.of(markers),
-      //markers: {_startMarker},
     );
   }
 }

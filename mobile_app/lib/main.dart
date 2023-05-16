@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
           theme: ThemeData.dark().copyWith(
-            primaryColor: const Color(0xff07460b), useMaterial3: true,
+            primaryColor: const Color(0xff07460b),
+            useMaterial3: true,
           ),
           home: SafeArea(top: true, child: MobileLoginScreen()),
         );

@@ -1,8 +1,6 @@
 import 'package:drive_tracking_solutions/widgets/tour/tour_details.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../../models/tour.dart';
 import '../../util/calender_util.dart';
 
@@ -54,7 +52,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
+        _rangeStart = null;
         _rangeEnd = null;
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
@@ -72,7 +70,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       _rangeSelectionMode = RangeSelectionMode.toggledOn;
     });
 
-    // `start` or `end` could be null
     if (start != null && end != null) {
       _selectedTours.value = _getToursForRange(start, end);
     } else if (start != null) {
@@ -117,33 +114,34 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       eventLoader: _getToursForDay,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: const CalendarStyle(
-          outsideDaysVisible: true,
-          outsideTextStyle: TextStyle(color: Color(0xff2d4f31)
-          ),
-          weekendTextStyle: TextStyle(color: Color(0xffb8e0bd),
-          ),
-          todayDecoration: BoxDecoration(
-            color: Color(0x8007460b),
-            shape: BoxShape.circle,
-          ),
-          selectedDecoration: BoxDecoration(
-            color: Color(0xff07460b),
-            shape: BoxShape.circle,
-          ),
-          markerDecoration: BoxDecoration(
-            color: Color(0xFFDC5507),
-            shape: BoxShape.circle,
-          ),
-          rangeHighlightColor: Color(0x3307460b),
-          rangeStartDecoration: BoxDecoration(
-            color: Color(0xff47b64f),
-            shape: BoxShape.circle,
-          ),
-          rangeEndDecoration: BoxDecoration(
-            color: Color(0x3325ea31),
-            shape: BoxShape.circle,
-          ),
-          rangeEndTextStyle: TextStyle(color: Colors.grey)),
+        outsideDaysVisible: true,
+        outsideTextStyle: TextStyle(color: Color(0xff2d4f31)),
+        weekendTextStyle: TextStyle(
+          color: Color(0xffb8e0bd),
+        ),
+        todayDecoration: BoxDecoration(
+          color: Color(0x8007460b),
+          shape: BoxShape.circle,
+        ),
+        selectedDecoration: BoxDecoration(
+          color: Color(0xff07460b),
+          shape: BoxShape.circle,
+        ),
+        markerDecoration: BoxDecoration(
+          color: Color(0xFFDC5507),
+          shape: BoxShape.circle,
+        ),
+        rangeHighlightColor: Color(0x3307460b),
+        rangeStartDecoration: BoxDecoration(
+          color: Color(0xff47b64f),
+          shape: BoxShape.circle,
+        ),
+        rangeEndDecoration: BoxDecoration(
+          color: Color(0x3325ea31),
+          shape: BoxShape.circle,
+        ),
+        rangeEndTextStyle: TextStyle(color: Colors.grey),
+      ),
       headerStyle: HeaderStyle(
         titleCentered: true,
         decoration: BoxDecoration(
@@ -163,12 +161,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         formatButtonVisible: false,
       ),
       daysOfWeekStyle: const DaysOfWeekStyle(
-
           weekendStyle:
               TextStyle(color: Color(0xff8dea91), fontWeight: FontWeight.bold),
           weekdayStyle:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
-      ),
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       onDaySelected: _onDaySelected,
       onRangeSelected: _onRangeSelected,
       onPageChanged: (focusedDay) {
@@ -252,13 +248,15 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(right: 4.0, top: 12.0),
                               child: Column(
                                 children: [
-                                  const Icon(Icons.hourglass_empty_sharp, size: 35.0),
+                                  const Icon(Icons.hourglass_empty_sharp,
+                                      size: 35.0),
                                   const Text("Review")
                                 ],
                               ),

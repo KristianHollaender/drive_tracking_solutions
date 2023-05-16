@@ -20,11 +20,11 @@ class FirebaseService {
   String? tourId;
   String? pauseId;
 
-
   //#region Tour
   // Create
-  Future<DocumentSnapshot<Map<String, dynamic>>?> startTour(GeoPoint startPoint, DateTime startTime) async {
-    try{
+  Future<DocumentSnapshot<Map<String, dynamic>>?> startTour(
+      GeoPoint startPoint, DateTime startTime) async {
+    try {
       await db.collection(CollectionNames.tour).add({
         TourKeys.uid: _auth.currentUser?.uid,
         TourKeys.startPoint: startPoint,
@@ -34,74 +34,76 @@ class FirebaseService {
           TourKeys.tourId: value.id,
         });
         DocumentSnapshot tourDoc =
-        await db.collection(CollectionNames.tour).doc(value.id).get();
+            await db.collection(CollectionNames.tour).doc(value.id).get();
         tourId = tourDoc.id;
         return tourId;
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
     return null;
   }
 
   // Read
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getTourSnapshotStream(String tourId) {
-    try{
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getTourSnapshotStream(
+      String tourId) {
+    try {
       return db.collection(CollectionNames.tour).doc(tourId).snapshots();
-    }
-    catch (e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
 
-  Future<QuerySnapshot> tours(String uid) async {
-    try{
+  Future<QuerySnapshot> getAllTours(String uid) async {
+    try {
       return await db
           .collection(CollectionNames.tour)
           .where('uid', isEqualTo: uid)
           .get();
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
-
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> tour(String tourId) async {
-    try{
+  Future<DocumentSnapshot<Map<String, dynamic>>> getTourByID(
+      String tourId) async {
+    try {
       return await db.collection(CollectionNames.tour).doc(tourId).get();
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
 
   // Update
-  Future<void> endTour(String id, GeoPoint endPoint, DateTime endTime, String totalTime) async {
-    try{
+  Future<void> endTour(
+      String id, GeoPoint endPoint, DateTime endTime, String totalTime) async {
+    try {
       await db.collection(CollectionNames.tour).doc(id).update({
         TourKeys.endPoint: endPoint,
         TourKeys.endTime: endTime,
         TourKeys.totalTime: totalTime,
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
 
-  Future<void> addNote(String id, String note) async{
-    try{
+  Future<void> addNote(String id, String note) async {
+    try {
       await db.collection(CollectionNames.tour).doc(id).update({
         TourKeys.note: note,
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
+
   //#endregion
 
   //#region Pause
   // Create
   Future<String?> startPause(String? id, DateTime? pauseStartTime) async {
-    try{
+    try {
       await db
           .collection(CollectionNames.tour)
           .doc(id)
@@ -124,7 +126,7 @@ class FirebaseService {
         pauseId = pauseDoc.id;
         return pauseId;
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
     return null;
@@ -144,8 +146,9 @@ class FirebaseService {
   }
 
   // Update
-  Future<void> stopPause(String? tourId, String? pauseId, DateTime? pauseEndTime) async {
-    try{
+  Future<void> stopPause(
+      String? tourId, String? pauseId, DateTime? pauseEndTime) async {
+    try {
       await db
           .collection(CollectionNames.tour)
           .doc(tourId)
@@ -154,17 +157,19 @@ class FirebaseService {
           .update({
         TourKeys.endTime: pauseEndTime,
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
+
   //#endregion
 
-
   //#region User
-  Future<void> signUp(String email, String password, String firstname, String lastname) async {
-    try{
-      final user = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+  Future<void> signUp(
+      String email, String password, String firstname, String lastname) async {
+    try {
+      final user = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       await db.collection(CollectionNames.user).doc(user.user?.uid).set({
         UserKeys.uid: user.user?.uid,
         UserKeys.email: email,
@@ -172,31 +177,31 @@ class FirebaseService {
         UserKeys.lastname: lastname,
         UserKeys.role: 'User',
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
 
   Future<void> signIn(String email, String password) async {
-    try{
+    try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
 
   Future<void> signOut() async {
-    try{
+    try {
       await _auth.signOut();
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
 
   Future<void> resetPassword(String email) async {
-    try{
+    try {
       await _auth.sendPasswordResetEmail(email: email);
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
     }
   }
@@ -208,8 +213,8 @@ class FirebaseService {
       throw Exception(e.toString());
     }
   }
-  //#endregion
 
+  //#endregion
 
   //#region CheckPoint
   // Create
@@ -226,6 +231,7 @@ class FirebaseService {
       throw Exception(e.toString());
     }
   }
+
   // Read
   Future<QuerySnapshot> getCheckPointFromTour(String id) async {
     try {
@@ -238,7 +244,5 @@ class FirebaseService {
       throw Exception(e.toString());
     }
   }
-  //#endregion
-
-
+//#endregion
 }

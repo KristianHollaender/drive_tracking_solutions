@@ -27,7 +27,6 @@ class DriveTracker {
   CameraPosition? currentLocationCameraPosition;
   LatLng? latLng;
 
-
   final Set<Marker> marker = {};
 
   bool click = false;
@@ -73,17 +72,15 @@ class DriveTracker {
     }
     await fireService.endTour(
         fireService.tourId!, currentLocation, _endTime, totalTime);
-    print("Tour has ended");
   }
 
-  Duration getCdl() {
+  Duration getContinousDrivingLimit() {
     return _continuousDrivingDuration - _continuousDrivingLimitTimer.elapsed;
   }
 
-  Duration getDdl() {
+  Duration getDailyDrivingLimit() {
     return _dailyDrivingDuration - _dailyDrivingLimitTimer.elapsed;
   }
-
 
   void startResting() {
     isResting = true;
@@ -140,22 +137,25 @@ class DriveTracker {
     return GeoPoint(locationData.latitude!, locationData.longitude!);
   }
 
-
-  double calculateCdlProgress() {
-    final Duration elapsedTime = getCdl();
-    final double progress = 1 - (elapsedTime.inMilliseconds / _continuousDrivingDuration.inMilliseconds);
+  double calculateCDLProgress() {
+    final Duration elapsedTime = getContinousDrivingLimit();
+    final double progress = 1 -
+        (elapsedTime.inMilliseconds /
+            _continuousDrivingDuration.inMilliseconds);
     return progress.clamp(0.0, 1.0);
   }
 
-  double calculateDdlProgress() {
-    final Duration elapsedTime = getDdl();
-    final double progress = 1 - (elapsedTime.inMilliseconds / _dailyDrivingDuration.inMilliseconds);
+  double calculateDDLProgress() {
+    final Duration elapsedTime = getDailyDrivingLimit();
+    final double progress =
+        1 - (elapsedTime.inMilliseconds / _dailyDrivingDuration.inMilliseconds);
     return progress.clamp(0.0, 1.0);
   }
 
   double calculateRestingProgress() {
     final Duration elapsedTime = getRestingTime();
-    final double progress = 1 - (elapsedTime.inMilliseconds / _dailyBreakDuration.inMilliseconds);
+    final double progress =
+        1 - (elapsedTime.inMilliseconds / _dailyBreakDuration.inMilliseconds);
     return progress.clamp(0.0, 1.0);
   }
 }

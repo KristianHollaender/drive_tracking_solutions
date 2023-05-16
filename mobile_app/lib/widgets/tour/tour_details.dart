@@ -14,29 +14,30 @@ class TourDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Tour Details"),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                '${tour.startTime?.day} ${tour.getMonth(tour.startTime!)}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                ),
+      appBar: AppBar(
+        title: Text("Tour Details"),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              '${tour.startTime?.day} ${tour.getMonth(tour.startTime!)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 40,
               ),
             ),
-            SizedBox(
-              height: 300,
-              child: TourMap(tour: tour),
-            ),
-            CardDetailsWidget(
-              tour: tour,
-            ),
-          ],
-        ));
+          ),
+          SizedBox(
+            height: 300,
+            child: TourMap(tour: tour),
+          ),
+          CardDetailsWidget(
+            tour: tour,
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -47,7 +47,7 @@ class TimerRowState extends State<TimerRow> {
                             stream: tracker.tickerStream,
                             builder: (context, snapshot) {
                               return Text(
-                                tracker.getCdl().durationToString(),
+                                tracker.getContinousDrivingLimit().durationToString(),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 35.0,
@@ -65,7 +65,7 @@ class TimerRowState extends State<TimerRow> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Continous driving limit",
                             style: TextStyle(
                               fontSize: 14.0,
@@ -74,9 +74,9 @@ class TimerRowState extends State<TimerRow> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
-                              value: tracker.calculateCdlProgress(),
+                              value: tracker.calculateCDLProgress(),
                             ),
                           ),
                         ],
@@ -109,7 +109,7 @@ class TimerRowState extends State<TimerRow> {
                             stream: tracker.tickerStream,
                             builder: (context, snapshot) {
                               return Text(
-                                tracker.getDdl().durationToString(),
+                                tracker.getDailyDrivingLimit().durationToString(),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 35.0,
@@ -127,7 +127,7 @@ class TimerRowState extends State<TimerRow> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Daily driving limit",
                             style: TextStyle(
                               fontSize: 14.0,
@@ -136,9 +136,9 @@ class TimerRowState extends State<TimerRow> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
-                              value: tracker.calculateDdlProgress(),
+                              value: tracker.calculateDDLProgress(),
                             ),
                           ),
                         ],
@@ -189,7 +189,7 @@ class TimerRowState extends State<TimerRow> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Daily break time",
                             style: TextStyle(
                               fontSize: 14.0,
@@ -198,7 +198,7 @@ class TimerRowState extends State<TimerRow> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: 8.0),
                             child: LinearProgressIndicator(
                               value: tracker.calculateRestingProgress(),
                             ),

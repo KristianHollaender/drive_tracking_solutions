@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CheckPointKeys{
+class CheckPointKeys {
   static const truckStop = 'truckStop';
 }
 
-class CheckPoint{
+class CheckPoint {
   final GeoPoint truckStop;
 
   CheckPoint(this.truckStop);
@@ -12,7 +12,7 @@ class CheckPoint{
   CheckPoint.fromMap(Map<String, dynamic> data)
       : truckStop = data[CheckPointKeys.truckStop];
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       CheckPointKeys.truckStop: truckStop,
     };

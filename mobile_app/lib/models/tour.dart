@@ -26,12 +26,12 @@ class Tour {
   final String? totalTime;
   final String? note;
 
-  Tour(this.tourId,this.uid, this.startPoint, this.pause, this.checkPoint, this.endPoint, this.startTime, this.endTime, this.totalTime, this.note);
+  Tour(this.tourId, this.uid, this.startPoint, this.pause, this.checkPoint,
+      this.endPoint, this.startTime, this.endTime, this.totalTime, this.note);
 
   //Getting tour from firebase, then mapping tour to a dart object
   Tour.fromMap(Map<String, dynamic> data)
-      :
-        tourId = data[TourKeys.tourId],
+      : tourId = data[TourKeys.tourId],
         uid = data[TourKeys.uid],
         startPoint = data[TourKeys.startPoint],
         endPoint = data[TourKeys.endPoint],
@@ -43,7 +43,7 @@ class Tour {
         note = data[TourKeys.note];
 
   //Mapping dart object to json object
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       TourKeys.tourId: tourId,
       TourKeys.uid: uid,
@@ -79,8 +79,8 @@ class Tour {
     }
   }
 
-  String getMonth(DateTime dateTime){
-    switch(dateTime.month){
+  String getMonth(DateTime dateTime) {
+    switch (dateTime.month) {
       case DateTime.january:
         return 'January';
       case DateTime.february:

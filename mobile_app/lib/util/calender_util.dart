@@ -21,7 +21,7 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
   final dayCount = last.difference(first).inDays + 1;
   return List.generate(
     dayCount,
-        (index) => DateTime.utc(first.year, first.month, first.day + index),
+    (index) => DateTime.utc(first.year, first.month, first.day + index),
   );
 }
 
@@ -30,8 +30,8 @@ void clearTours() {
 }
 
 Future<void> populateTours() async {
-  final snapshot = await fireService.tours(_auth.currentUser!.uid);
-  if(snapshot.docs.isEmpty){
+  final snapshot = await fireService.getAllTours(_auth.currentUser!.uid);
+  if (snapshot.docs.isEmpty) {
     kTours.clear();
   }
   for (final doc in snapshot.docs) {
