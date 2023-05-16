@@ -1,3 +1,6 @@
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,13 +88,26 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        throw Exception();
-      }
-    });
+    if (pickedFile != null) {
+      // Get the temporary directory path
+      final directory = await getTemporaryDirectory();
+      final targetPath = path.join(directory.path, 'compressed_image.jpg');
+
+      // Compress and resize the image
+      await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        targetPath,
+        quality: 70, // Adjust the quality as desired (0 - 100)
+        minHeight: 500, // Set the minimum height
+        minWidth: 500, // Set the minimum width
+      );
+
+      setState(() {
+        _image = File(targetPath);
+      });
+    } else {
+      throw Exception();
+    }
   }
 
   ElevatedButton pickImageBtn() {
