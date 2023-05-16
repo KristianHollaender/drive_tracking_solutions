@@ -3,6 +3,7 @@ import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/models/check_point.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../models/pause.dart';
 import '../../models/tour.dart';
@@ -24,6 +25,7 @@ class CardDetailsWidget extends StatelessWidget {
           elevation: 4.0,
           child: Column(
             children: [
+              _buildNoteField(),
               ListTile(
                 title: const Text('Start time'),
                 subtitle: Text('${tour.startTime}'),
@@ -43,7 +45,6 @@ class CardDetailsWidget extends StatelessWidget {
               _buildCheckPointPanel(fireService),
               _buildLocator(tour.startPoint, 'From'),
               _buildLocator(tour.endPoint, 'To'),
-              _buildNoteField(),
             ],
           ),
         ),
@@ -60,14 +61,60 @@ class CardDetailsWidget extends StatelessWidget {
           final tourNote = tourData['note'] as String?;
           notesController.text = tourNote ?? '';
         }
-        return TextField(
-          controller: notesController,
-          decoration: const InputDecoration(
-            labelText: 'Notes',
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
           ),
-          onSubmitted: (value) {
-            fireService.addNote(tour.tourId, value);
-          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          'Add Note to Tour',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      TextField(
+                        maxLines: null,
+                        maxLength: 50,
+                        controller: notesController,
+                        onSubmitted: (value) async {
+                          await fireService.addNote(tour.tourId, value).then(
+                                (value) => {
+                                  SystemChannels.textInput
+                                      .invokeListMethod('TextInput.hide'),
+                                },
+                              );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send), // Add send icon
+                  onPressed: () async {
+                    await fireService
+                        .addNote(tour.tourId, notesController.text)
+                        .then(
+                          (value) => {
+                            SystemChannels.textInput
+                                .invokeListMethod('TextInput.hide'),
+                          },
+                        );
+                  },
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

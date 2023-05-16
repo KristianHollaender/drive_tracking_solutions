@@ -1,6 +1,7 @@
 import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.dart';
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../logic/fire_service.dart';
 import 'mobile_reset_password_screen.dart';
@@ -67,7 +68,8 @@ class MobileLoginScreen extends StatelessWidget {
   TextButton forgotPasswordBtn(BuildContext context) {
     return TextButton(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(const Color(0xff26752b)),
+        foregroundColor:
+            MaterialStateProperty.all<Color>(const Color(0xff26752b)),
       ),
       child: const Text('Forgot Password?'),
       onPressed: () async {
@@ -105,6 +107,21 @@ class MobileLoginScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
+          await fireService.signIn(email, password).then(
+                (value) => {
+                  SystemChannels.textInput.invokeListMethod('TextInput.hide'),
+                },
+              );
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const NavBar(),
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Logged in successfully'),
+            ),
+          );
         },
         backgroundColor: const Color(0xff26752b),
         label: const Text("Log in"),
@@ -154,7 +171,7 @@ class MobileLoginScreen extends StatelessWidget {
         ),
       ),
       validator: (value) =>
-      (value == null || !value.contains("@")) ? 'Email required' : null,
+          (value == null || !value.contains("@")) ? 'Email required' : null,
     );
   }
 
@@ -180,10 +197,9 @@ class MobileLoginScreen extends StatelessWidget {
         ),
       ),
       obscureText: true,
-      validator: (value) =>
-      (value == null || value.length < 6) ? 'Password required (min 6 chars)' : null,
+      validator: (value) => (value == null || value.length < 6)
+          ? 'Password required (min 6 chars)'
+          : null,
     );
   }
-
-
 }

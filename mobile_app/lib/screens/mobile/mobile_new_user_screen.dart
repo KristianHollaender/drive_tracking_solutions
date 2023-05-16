@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -133,7 +134,11 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
         final email = _email.value.text.trim();
         final password = _password.value.text.trim();
 
-        await fireService.signUp(email, password, firstname, lastname);
+        await fireService.signUp(email, password, firstname, lastname).then(
+              (value) => {
+                SystemChannels.textInput.invokeListMethod('TextInput.hide'),
+              },
+            );
 
         if (_image != null) {
           final fileName = _auth.currentUser?.uid;
