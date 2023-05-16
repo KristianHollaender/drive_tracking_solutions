@@ -115,7 +115,7 @@ class MenuScreen extends StatelessWidget {
         } else if (snapshot.hasError) {
           return const Text('Error loading image');
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
