@@ -72,7 +72,7 @@ class TourMap extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: FloatingActionButton.extended(
-                  backgroundColor: Color(0xff26752b),
+                  backgroundColor: const Color(0xff26752b),
                   onPressed: _goToTheEndPoint,
                   label: const Text('To the end point'),
                   icon: const Icon(Icons.my_location_rounded),
@@ -81,7 +81,7 @@ class TourMap extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: FloatingActionButton.extended(
-                  backgroundColor: Color(0xff26752b),
+                  backgroundColor: const Color(0xff26752b),
                   onPressed: _goToFullTour,
                   label: const Text(' Route overview '),
                   icon: const Icon(Icons.directions),

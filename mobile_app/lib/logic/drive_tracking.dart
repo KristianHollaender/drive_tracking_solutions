@@ -7,13 +7,13 @@ import 'package:location/location.dart';
 import '../util/calender_util.dart';
 
 class DriveTracker {
-  Stopwatch _continuousDrivingLimitTimer = Stopwatch();
-  Stopwatch _dailyDrivingLimitTimer = Stopwatch();
-  Stopwatch _dailyBreakTimeTimer = Stopwatch();
+  final Stopwatch _continuousDrivingLimitTimer = Stopwatch();
+  final Stopwatch _dailyDrivingLimitTimer = Stopwatch();
+  final Stopwatch _dailyBreakTimeTimer = Stopwatch();
 
-  Duration _continuousDrivingDuration = const Duration(hours: 4, minutes: 30);
-  Duration _dailyDrivingDuration = const Duration(hours: 9);
-  Duration _dailyBreakDuration = const Duration(minutes: 45);
+  final Duration _continuousDrivingDuration = const Duration(hours: 4, minutes: 30);
+  final Duration _dailyDrivingDuration = const Duration(hours: 9);
+  final Duration _dailyBreakDuration = const Duration(minutes: 45);
 
   bool isResting = false;
   bool tourStarted = false;

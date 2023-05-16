@@ -41,7 +41,7 @@ class _NavBarState extends State<NavBar> {
           currentIndex: _selectedIndex,
           onTap: _navigateBottomBar,
           type: BottomNavigationBarType.fixed,
-          fixedColor: Color(0xff3dcb46),
+          fixedColor: const Color(0xff3dcb46),
           items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart), label: 'Overview'),

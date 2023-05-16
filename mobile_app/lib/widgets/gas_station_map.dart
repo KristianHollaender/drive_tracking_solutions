@@ -11,7 +11,6 @@ class GasStationMap extends StatelessWidget {
   Completer<GoogleMapController>();
 
   late CameraPosition _startPoint;
-  late Marker _startMarker;
   late LatLng _startLatLng;
 
   @override

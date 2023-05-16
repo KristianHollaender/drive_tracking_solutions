@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.dart';
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../logic/fire_service.dart';
 import 'mobile_reset_password_screen.dart';
 
@@ -33,10 +31,8 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: Container(
-            child: Image.asset('assets/Logo-lighter.png',
-                width: 400.0, height: 375.0),
-          ),
+          child: Image.asset('assets/Logo-lighter.png',
+              width: 400.0, height: 375.0),
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
@@ -139,7 +135,7 @@ class MobileLoginScreen extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: _email,
-      style: TextStyle(fontSize: 18),
+      style: const TextStyle(fontSize: 18),
       decoration: const InputDecoration(
         labelText: 'Email',
         labelStyle: TextStyle(fontSize: 20, color: Colors.white),
@@ -165,7 +161,7 @@ class MobileLoginScreen extends StatelessWidget {
   TextFormField passwordInput() {
     return TextFormField(
       controller: _password,
-      style: TextStyle(fontSize: 18),
+      style: const TextStyle(fontSize: 18),
       decoration: const InputDecoration(
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 20, color: Colors.white),

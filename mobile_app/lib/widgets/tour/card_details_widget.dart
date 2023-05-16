@@ -102,8 +102,8 @@ class CardDetailsWidget extends StatelessWidget {
       title: const Text('Check points'),
       subtitle: const Text('Click to view check points'),
       trailing: const Icon(Icons.not_listed_location),
-      textColor: Color(0xff41a949),
-      iconColor: Color(0xff41a949),
+      textColor: const Color(0xff41a949),
+      iconColor: const Color(0xff41a949),
       children: [
         FutureBuilder<QuerySnapshot>(
           future: fireService.getCheckPointFromTour(tour.tourId),
@@ -157,8 +157,8 @@ class CardDetailsWidget extends StatelessWidget {
       title: const Text('Pause'),
       subtitle: const Text('Click to view pauses'),
       trailing: const Icon(Icons.pause_circle_outlined),
-      textColor: Color(0xff41a949),
-      iconColor: Color(0xff41a949),
+      textColor: const Color(0xff41a949),
+      iconColor: const Color(0xff41a949),
       children: [
         FutureBuilder<QuerySnapshot>(
           future: fireService.getPauseFromTour(tour.tourId),

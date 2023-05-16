@@ -163,7 +163,7 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 },
-                label: Icon(Icons.local_gas_station),
+                label: const Icon(Icons.local_gas_station),
               ),
             )
           ],
@@ -203,7 +203,7 @@ class HomeScreenState extends State<HomeScreen> {
                 : null,
             label: const Text("End tour"),
             backgroundColor: tracker.tourStarted
-                ? Color(0xff26752b)
+                ? const Color(0xff26752b)
                 : const Color(0x6effffff),
           ),
         ),
@@ -231,7 +231,7 @@ class HomeScreenState extends State<HomeScreen> {
                 : null,
             label: const Text("Checkpoint"),
             backgroundColor: tracker.tourStarted
-                ? Color(0xff26752b)
+                ? const Color(0xff26752b)
                 : const Color(0x6effffff),
           ),
         ),
@@ -265,7 +265,7 @@ class HomeScreenState extends State<HomeScreen> {
               },
             ),
             backgroundColor: tracker.tourStarted
-                ? Color(0xff26752b)
+                ? const Color(0xff26752b)
                 : const Color(0x6effffff),
           ),
         ),
