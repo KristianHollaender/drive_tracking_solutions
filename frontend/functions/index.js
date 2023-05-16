@@ -7,39 +7,147 @@ admin.initializeApp({projectId: 'drivetrackingsolution'});
 
 app.use(cors());
 
+// Reference to db
 const db = admin.firestore();
 
-//Get total tour time
+//#region Get total tour time
 app.get('/tour/totalTime/:tourId', async (req, res) => {
+  // Gets the tour id from url
   const tourId = req.params.tourId;
-  const doc = await db.collection('Tour').doc(tourId).get();
-  const data = doc.data();
+
+  // Gets the tour document
+  const doc = await db.collection('Tour').doc(tourId);
+
+  // Get the data from the tour document
+  const data = (await doc.get()).data();
+
+  // Converts start time to date
   const startTime = data['startTime'].toDate();
+
+  // Converts end time to date
   const endTime = data['endTime'].toDate();
+
+  // Calculates the difference in milliseconds, between end time and start time
   const ms = Math.abs(endTime - startTime);
 
-
+  // Converts total to a more readable text
   const totalTime = millisToTime(ms);
 
   try {
-    //return res.status(200).json({status: 'Success', startTime: startTime, endTime: endTime});
-    return res.status(200).json({id:doc.id, startTime: startTime, endTime: endTime, totalTime: totalTime});
-  }catch (e) {
+    // Adds the calculated total time to the tour
+    await doc.update({
+      totalTime: totalTime,
+    });
+    return res.status(200).json({status: 'Successful', totalTime: totalTime});
+  } catch (e) {
+    return res.status(500).json({status: 'Failed', error: e.error});
+  }
+});
+//#endregion
+
+app.get('/pause/totalPauseTime/:tourId/:pauseId', async (req, res) => {
+  // Gets the tour id from url
+  const tourId = req.params.tourId;
+
+  // Gets the pause id from url
+  const pauseId = req.params.pauseId;
+
+  // Gets the tour document
+  const doc = await db.collection('Tour').doc(tourId).collection('Pause').doc(pauseId);
+
+  // Get the data from the tour document
+  const data = (await doc.get()).data();
+
+  // Converts start time to date
+  const startTime = data['startTime'].toDate();
+
+  // Converts end time to date
+  const endTime = data['endTime'].toDate();
+
+  // Calculates the difference in milliseconds, between end time and start time
+  const ms = Math.abs(endTime - startTime);
+
+  // Converts total to a more readable text
+  const totalTime = millisToTime(ms);
+
+  try {
+    // Adds the calculated total time to the tour
+    await doc.update({
+      totalTime: totalTime,
+    });
+    return res.status(200).json({status: 'Successful',totalTime: totalTime});
+  } catch (e) {
     return res.status(500).json({status: 'Failed', error: e.error});
   }
 });
 
+// Gets and calculates the total pause time
+app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
+  // Variable used to calculate total pause time
+  let totalTime = 0;
+
+  // Variable used to represent the total pause time, to be more readable
+  let totalTimeToString = '';
+
+  // Gets the tourId from the url
+  const tourId = req.params.tourId;
+
+  // Gets all pauses as Query snapshot
+  const doc = await db.collection('Tour').doc(tourId).collection('Pause').get();
+
+  // Gets all pauses from a single tour
+  const pauseDocs = await db.collection('Tour').doc(tourId).collection('Pause');
+
+  // Get tour doc
+  const tourDoc = await  db.collection('Tour').doc(tourId);
+
+  try {
+    for (let i = 0; i < doc.docs.length; i++) {
+      // Get the start time, converted to date
+      const startTime = doc.docs[i].data().startTime.toDate();
+
+      // Get the end time, converted to date
+      const endTime = doc.docs[i].data().endTime.toDate();
+
+      // Calculates the difference in milliseconds, between end time and start time
+      const ms = Math.abs(endTime - startTime);
+
+      // Converts ms to a more readable text
+      const pauseTime = millisToTime(ms);
+
+      // Adds the calculated pause,
+      await pauseDocs.doc(doc.docs[i].id).update({
+        totalTime: pauseTime,
+      });
+
+      // Calculates the all the pauses, which will be stored in the tour document.
+      totalTime += ms;
+
+      // Converts total to a more readable text
+      totalTimeToString = millisToTime(totalTime);
+
+      // Add the total pause to the tour document
+      await tourDoc.update({
+        totalPauseTime: totalTimeToString,
+      });
+    }
+    return res.status(200).json({status: 'Successful', totalTime: totalTimeToString});
+
+  } catch (error) {
+    return res.status(500).json({status: 'Failed', error: error.error});
+  }
+});
+
 //Converts ms into more readable time
-function millisToTime(ms){
-  let x = ms / 1000;
-  let seconds = Math.round(x % 60);
-  x /= 60;
-  let minutes = Math.round(x % 60);
-  x /= 60;
-  let hours = Math.round(x % 24);
-  x /= 24;
-  let days = Math.round(x);
-  return `Days : ${days}, Hours : ${hours}, Minutes : ${minutes}, Seconds : ${seconds}`;
+function millisToTime(ms) {
+  const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+  const daysms = ms % (24 * 60 * 60 * 1000);
+  const hours = Math.floor(daysms / (60 * 60 * 1000));
+  const hoursms = ms % (60 * 60 * 1000);
+  const minutes = Math.floor(hoursms / (60 * 1000));
+  const minutesms = ms % (60 * 1000);
+  const sec = Math.floor(minutesms / 1000);
+  return `days ${days}: hours ${hours}: min ${minutes}: sec ${sec}`;
 }
 
 exports.api = functions.https.onRequest(app);
