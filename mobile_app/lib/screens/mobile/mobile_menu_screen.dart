@@ -40,8 +40,14 @@ class MenuScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         const SizedBox(
-          height: 12.0,
+          child: Center(
+              child: Text(
+            "User Information",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          )),
+          height: 45.0,
         ),
+        _buildProfilePicture(),
         Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,8 +60,25 @@ class MenuScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              _buildAboutUs(context),
               _logoutBtn(context),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAboutUs(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: Container(
+            child: Image.asset(
+              'assets/Logo-lighter.png',
+              width: MediaQuery.of(context).size.width * 0.75,
+            ),
+            height: MediaQuery.of(context).size.height * 0.25,
           ),
         ),
       ],
@@ -79,108 +102,75 @@ class MenuScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.white),
                     color: const Color(0x77AEBEAE)),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          FutureBuilder<String>(
-                            future: _getImageUrl(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return CircleAvatar(
-                                  radius: 65,
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.transparent,
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      snapshot.data!,
-                                      fit: BoxFit.cover,
-                                      width: 130,
-                                      height: 130,
-                                    ),
-                                  ),
-                                );
-                              } else if (snapshot.hasError) {
-                                return const Text('Error loading image');
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            },
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: 16.0, top: 8.0, bottom: 8.0, right: 16.0),
+                          child: Icon(
+                            Icons.person,
+                            size: 30.0,
+                            color: Color(0xff70c776),
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.person,
-                              size: 35.0,
-                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15.0,
+                            top: 8.0,
+                            bottom: 8.0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 15.0,
-                              top: 8.0,
-                              bottom: 8.0,
-                            ),
-                            child: Text(
-                              "First name:  $firstName",
-                              style: TextStyle(fontSize: 20.0),
-                            ),
+                          child: Text(
+                            "First name:  $firstName",
+                            style: const TextStyle(fontSize: 20.0),
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.person,
-                              size: 35.0,
-                            ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: 16.0, top: 8.0, bottom: 8.0, right: 16.0),
+                          child: Icon(Icons.person,
+                              size: 30.0, color: Color(0xff70c776)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15.0,
+                            top: 8.0,
+                            bottom: 8.0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 15.0,
-                              top: 8.0,
-                              bottom: 8.0,
-                            ),
-                            child: Text(
-                              "Last name:  $lastName",
-                              style: TextStyle(fontSize: 20.0),
-                            ),
+                          child: Text(
+                            "Last name:  $lastName",
+                            style: const TextStyle(fontSize: 20.0),
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.email_outlined,
-                              size: 35.0,
-                            ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: 16.0, top: 8.0, bottom: 8.0, right: 16.0),
+                          child: Icon(Icons.email_outlined,
+                              size: 30.0, color: Color(0xff70c776)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15.0,
+                            top: 8.0,
+                            bottom: 8.0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 15.0,
-                              top: 8.0,
-                              bottom: 8.0,
-                            ),
-                            child: Text(
-                              "Email:  ${_auth.currentUser?.email}",
-                              style: TextStyle(fontSize: 20.0),
-                            ),
+                          child: Text(
+                            "Email:  ${_auth.currentUser?.email}",
+                            style: const TextStyle(fontSize: 20.0),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -228,7 +218,8 @@ class MenuScreen extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: FloatingActionButton.extended(
-          backgroundColor: Color(0xff26752b),
+          backgroundColor: const Color(0xff26752b),
+          icon: const Icon(Icons.logout_outlined, size: 35.0),
           onPressed: () async {
             await fireService.signOut().then(
                   (_) => {
@@ -241,7 +232,10 @@ class MenuScreen extends StatelessWidget {
                   },
                 );
           },
-          label: Text("Log out"),
+          label: const Text(
+            "Log out",
+            style: TextStyle(fontSize: 20.0),
+          ),
         ),
       ),
     );

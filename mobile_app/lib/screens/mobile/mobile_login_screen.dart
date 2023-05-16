@@ -32,6 +32,9 @@ class MobileLoginScreen extends StatelessWidget {
   Column _buildUserInputs(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 25.0,
+        ),
         Center(
           child: Container(
             child: Image.asset('assets/Logo-lighter.png',
@@ -40,12 +43,12 @@ class MobileLoginScreen extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
-          width: 315,
+          width: 375,
           child: emailInput(),
         ),
         Container(
-          padding: const EdgeInsets.only(bottom: 25),
-          width: 315,
+          padding: const EdgeInsets.only(bottom: 28),
+          width: 375,
           child: passwordInput(),
         ),
         Column(
@@ -54,7 +57,7 @@ class MobileLoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   signUpBtn(context),
                   loginBtn(context),
@@ -73,7 +76,7 @@ class MobileLoginScreen extends StatelessWidget {
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all<Color>(const Color(0xff26752b)),
       ),
-      child: const Text('Forgot Password?'),
+      child: const Text('Forgot Password?', style: TextStyle(fontSize: 16),),
       onPressed: () async {
         Navigator.push(
           context,
@@ -88,7 +91,7 @@ class MobileLoginScreen extends StatelessWidget {
   SizedBox loginBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
     return SizedBox(
-      width: 150.0,
+      width: 170.0,
       child: FloatingActionButton.extended(
         heroTag: 'loginBtn',
         onPressed: () async {
@@ -111,14 +114,14 @@ class MobileLoginScreen extends StatelessWidget {
             );
         },
         backgroundColor: const Color(0xff26752b),
-        label: const Text("Log in"),
+        label: const Text("Log in", style: TextStyle(fontSize: 17),),
       ),
     );
   }
 
   SizedBox signUpBtn(BuildContext context) {
     return SizedBox(
-      width: 150.0,
+      width: 170.0,
       child: FloatingActionButton.extended(
         heroTag: 'signUpBtn',
         onPressed: () async {
@@ -130,7 +133,7 @@ class MobileLoginScreen extends StatelessWidget {
           );
         },
         backgroundColor: const Color(0xff26752b),
-        label: const Text('Sign up'),
+        label: const Text('Sign up', style: TextStyle(fontSize: 17)),
       ),
     );
   }
