@@ -74,7 +74,7 @@ class GasStationWidget extends StatelessWidget {
               ],
             );
           } else {
-            return const CircularProgressIndicator();
+            return Center(child: const CircularProgressIndicator());
           }
         },
       ),

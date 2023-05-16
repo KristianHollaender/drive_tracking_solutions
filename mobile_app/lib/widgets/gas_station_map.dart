@@ -20,16 +20,18 @@ class GasStationMap extends StatelessWidget {
         geoPoint.latitude, geoPoint.longitude);
     _startPoint = CameraPosition(
       target: _startLatLng,
-      zoom: 20,
+      zoom: 12,
     );
     _startMarker = Marker(
         markerId: const MarkerId('Current location'),
         infoWindow: const InfoWindow(title: 'Current location'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        position: _startLatLng);
+        position: _startLatLng,);
     markers.add(_startMarker);
     return GoogleMap(
       mapType: MapType.hybrid,
+      compassEnabled: true,
+
       initialCameraPosition: _startPoint,
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);

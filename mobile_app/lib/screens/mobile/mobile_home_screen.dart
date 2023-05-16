@@ -117,9 +117,9 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Positioned(
-                        bottom: 245.0,
-                        right: 285.0,
-                        left: 15.0,
+                        bottom: 16.0,
+                        right: 65.0,
+                        left: 245.0,
                         child: FloatingActionButton.extended(
                           backgroundColor: const Color(0xb3d9dcd9),
                           onPressed: () async {
@@ -129,7 +129,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 builder: (context) => GasStationWidget(
                                     geoPoint: currentLocation)));
                           },
-                          label: const Text('Gas Stations'),
+                          label: Icon(Icons.local_gas_station)
                         ),
                       )
                     ],
