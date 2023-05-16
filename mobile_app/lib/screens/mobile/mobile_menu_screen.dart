@@ -42,14 +42,11 @@ class MenuScreen extends StatelessWidget {
         const SizedBox(
           height: 12.0,
         ),
-        _buildProfilePicture(),
         Container(
-          margin: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildUserInfo(fireService),
-              _buildUserEmail(),
             ],
           ),
         ),
@@ -74,9 +71,119 @@ class MenuScreen extends StatelessWidget {
           final data = snapshot.data!.data() as Map<String, dynamic>;
           final firstName = data['firstname'] as String;
           final lastName = data['lastname'] as String;
-          return Text(
-            '$firstName $lastName',
-            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          return SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white),
+                    color: const Color(0x77AEBEAE)),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          FutureBuilder<String>(
+                            future: _getImageUrl(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return CircleAvatar(
+                                  radius: 65,
+                                  backgroundColor: Colors.transparent,
+                                  foregroundColor: Colors.transparent,
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      snapshot.data!,
+                                      fit: BoxFit.cover,
+                                      width: 130,
+                                      height: 130,
+                                    ),
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                return const Text('Error loading image');
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.person,
+                              size: 35.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 15.0,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              "First name:  $firstName",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.person,
+                              size: 35.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 15.0,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              "Last name:  $lastName",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.email_outlined,
+                              size: 35.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 15.0,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              "Email:  ${_auth.currentUser?.email}",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           );
         } else if (snapshot.hasError) {
           return const Text('Error loading user data');
@@ -84,13 +191,6 @@ class MenuScreen extends StatelessWidget {
           return const CircularProgressIndicator();
         }
       },
-    );
-  }
-
-  Widget _buildUserEmail() {
-    return Text(
-      "${_auth.currentUser?.email}",
-      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
     );
   }
 
@@ -121,57 +221,29 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  SizedBox _logoutBtn(BuildContext context) {
-    final fireService = Provider.of<FirebaseService>(context);
-    return SizedBox(
-      width: 250,
-      child: FloatingActionButton.extended(
-        onPressed: () async {
-          await fireService.signOut().then(
-                (_) => {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MobileLoginScreen(),
-                    ),
-                  ),
-                },
-              );
-        },
-        label: Text("Log out"),
-      ),
-    );
-  }
-
-  /*
   Widget _logoutBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
-    return ElevatedButton(
-      onPressed: () async {
-        await fireService.signOut().then(
-              (_) => {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MobileLoginScreen(),
-                  ),
-                ),
-              },
-            );
-      },
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(32.0),
-        ),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-        child: Text(
-          'Log out',
-          style: TextStyle(fontSize: 20.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: FloatingActionButton.extended(
+          backgroundColor: Color(0xff26752b),
+          onPressed: () async {
+            await fireService.signOut().then(
+                  (_) => {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MobileLoginScreen(),
+                      ),
+                    ),
+                  },
+                );
+          },
+          label: Text("Log out"),
         ),
       ),
     );
   }
-   */
 }

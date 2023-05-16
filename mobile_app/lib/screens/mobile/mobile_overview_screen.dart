@@ -8,7 +8,7 @@ class OverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TableCalendar - Events'),
+        title: const Text('Overview'),
       ),
       body: const CalendarWidget(),
     );

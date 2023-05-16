@@ -22,16 +22,11 @@ class GasStationMap extends StatelessWidget {
       target: _startLatLng,
       zoom: 12,
     );
-    _startMarker = Marker(
-        markerId: const MarkerId('Current location'),
-        infoWindow: const InfoWindow(title: 'Current location'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        position: _startLatLng,);
-    markers.add(_startMarker);
     return GoogleMap(
       mapType: MapType.hybrid,
       compassEnabled: true,
-
+      myLocationEnabled: true,
+      myLocationButtonEnabled: true,
       initialCameraPosition: _startPoint,
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);

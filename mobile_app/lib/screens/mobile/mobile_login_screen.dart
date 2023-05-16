@@ -106,6 +106,7 @@ class MobileLoginScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Logged in successfully'),
+                backgroundColor: Colors.green,
               ),
             );
         },
