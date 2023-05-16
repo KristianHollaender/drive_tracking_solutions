@@ -60,8 +60,12 @@ class MobileResetPasswordScreen extends StatelessWidget {
       onPressed: () async {
         final email = emailController.text.trim();
         if (email.isNotEmpty) {
-          fireService.resetPassword(email);
-          _showSuccessSnackBar(context, 'Email sent to $email');
+          try {
+            await fireService.resetPassword(email);
+            _showSuccessSnackBar(context, 'Email sent to $email');
+          } catch (e) {
+            _showErrorSnackBar(context, 'The email doesn\'t exist');
+          }
         } else {
           _showErrorSnackBar(context, 'Please enter an email');
         }
@@ -70,6 +74,7 @@ class MobileResetPasswordScreen extends StatelessWidget {
       backgroundColor: const Color(0xff26752b),
     );
   }
+
 
   Widget _emailInput(TextEditingController controller) {
     return TextFormField(

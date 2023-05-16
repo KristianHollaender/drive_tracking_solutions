@@ -88,7 +88,7 @@ class CardDetailsWidget extends StatelessWidget {
                         maxLength: 50,
                         controller: notesController,
                         onSubmitted: (value) async {
-                          await fireService.addNote(tour.tourId, value).then(
+                          await fireService.addNote(tour.tourId, value.trim()).then(
                                 (value) => {
                                   SystemChannels.textInput
                                       .invokeListMethod('TextInput.hide'),
@@ -103,7 +103,7 @@ class CardDetailsWidget extends StatelessWidget {
                   icon: Icon(Icons.send), // Add send icon
                   onPressed: () async {
                     await fireService
-                        .addNote(tour.tourId, notesController.text)
+                        .addNote(tour.tourId, notesController.text.trim())
                         .then(
                           (value) => {
                             SystemChannels.textInput
