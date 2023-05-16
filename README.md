@@ -5,7 +5,7 @@ This project makes it easier for truck drivers to keep track of how much they ha
 
 ## Flutter App
 
-The primary focus of this project is an app made using the Flutter Framework, in combination with a Firebase backend. 
+The primary focus of this project is an app, made using the Flutter Framework, in combination with a Firebase backend. 
 ## Web application
 
 This project also consist of an admin page, that allows administrators to see how much each trucker is driving, where they have been, and if they are taking the required pauses. 
