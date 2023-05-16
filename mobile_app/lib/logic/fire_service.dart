@@ -45,6 +45,15 @@ class FirebaseService {
   }
 
   // Read
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getTourSnapshotStream(String tourId) {
+    try{
+      return db.collection(CollectionNames.tour).doc(tourId).snapshots();
+    }
+    catch (e){
+      throw Exception(e.toString());
+    }
+  }
+
   Future<QuerySnapshot> tours(String uid) async {
     try{
       return await db
@@ -57,9 +66,9 @@ class FirebaseService {
 
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> tour(String id) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> tour(String tourId) async {
     try{
-      return await db.collection(CollectionNames.tour).doc(id).get();
+      return await db.collection(CollectionNames.tour).doc(tourId).get();
     }catch(e){
       throw Exception(e.toString());
     }

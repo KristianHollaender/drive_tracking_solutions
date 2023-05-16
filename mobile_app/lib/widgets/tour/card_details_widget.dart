@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/models/check_point.dart';
+import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/pause.dart';
 import '../../models/tour.dart';
 import '../../util/map_geo_util.dart';
 
 class CardDetailsWidget extends StatelessWidget {
   final Tour tour;
+  final TextEditingController notesController = TextEditingController();
 
-  const CardDetailsWidget({Key? key, required this.tour}) : super(key: key);
+  CardDetailsWidget({Key? key, required this.tour}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +43,33 @@ class CardDetailsWidget extends StatelessWidget {
               _buildCheckPointPanel(fireService),
               _buildLocator(tour.startPoint, 'From'),
               _buildLocator(tour.endPoint, 'To'),
+              _buildNoteField(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNoteField() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: fireService.getTourSnapshotStream(tour.tourId),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data!.exists) {
+          final tourData = snapshot.data!.data() as Map<String, dynamic>;
+          final tourNote = tourData['note'] as String?;
+          notesController.text = tourNote ?? '';
+        }
+        return TextField(
+          controller: notesController,
+          decoration: const InputDecoration(
+            labelText: 'Notes',
+          ),
+          onSubmitted: (value) {
+            fireService.addNote(tour.tourId, value);
+          },
+        );
+      },
     );
   }
 
