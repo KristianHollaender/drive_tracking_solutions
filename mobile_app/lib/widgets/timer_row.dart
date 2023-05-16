@@ -73,11 +73,16 @@ class TimerRowState extends State<TimerRow> {
                               color: Colors.white,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: LinearProgressIndicator(
-                              value: tracker.calculateCDLProgress(),
-                            ),
+                          StreamBuilder<void>(
+                            stream: tracker.tickerStream,
+                            builder: (context, snapshot) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: LinearProgressIndicator(
+                                  value: tracker.calculateCDLProgress(),
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),
@@ -135,11 +140,16 @@ class TimerRowState extends State<TimerRow> {
                               color: Colors.white,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: LinearProgressIndicator(
-                              value: tracker.calculateDDLProgress(),
-                            ),
+                          StreamBuilder<void>(
+                            stream: tracker.tickerStream,
+                            builder: (context, snapshot) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: LinearProgressIndicator(
+                                  value: tracker.calculateDDLProgress(),
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),
@@ -197,11 +207,16 @@ class TimerRowState extends State<TimerRow> {
                               color: Colors.white,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: LinearProgressIndicator(
-                              value: tracker.calculateRestingProgress(),
-                            ),
+                          StreamBuilder<void>(
+                            stream: tracker.tickerStream,
+                            builder: (context, snapshot) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: LinearProgressIndicator(
+                                  value: tracker.calculateRestingProgress(),
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),

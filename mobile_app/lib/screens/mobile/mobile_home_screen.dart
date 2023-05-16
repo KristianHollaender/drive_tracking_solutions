@@ -18,25 +18,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-
   final Completer<GoogleMapController> mapsController =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
   LocationData? currentLocation;
   StreamSubscription<LocationData>? _sub;
-
-  bool _tourStarted = false;
-
 
   void listenToCurrentLocation() async {
     Location location = Location();
     location.getLocation().then(
-          (location) {
+      (location) {
         currentLocation = location;
       },
     );
     GoogleMapController googleMapController = await mapsController.future;
     _sub = location.onLocationChanged.listen(
-          (newLoc) {
+      (newLoc) {
         currentLocation = newLoc;
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -121,16 +117,15 @@ class HomeScreenState extends State<HomeScreen> {
                         right: 65.0,
                         left: 245.0,
                         child: FloatingActionButton.extended(
-                          backgroundColor: const Color(0xb3d9dcd9),
-                          onPressed: () async {
-                            GeoPoint currentLocation =
-                            await tracker.getCurrentLocation();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => GasStationWidget(
-                                    geoPoint: currentLocation)));
-                          },
-                          label: Icon(Icons.local_gas_station)
-                        ),
+                            backgroundColor: const Color(0xb3d9dcd9),
+                            onPressed: () async {
+                              GeoPoint currentLocation =
+                                  await tracker.getCurrentLocation();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => GasStationWidget(
+                                      geoPoint: currentLocation)));
+                            },
+                            label: Icon(Icons.local_gas_station)),
                       )
                     ],
                   ),
@@ -150,15 +145,20 @@ class HomeScreenState extends State<HomeScreen> {
                               child: SizedBox(
                                 height: 45.0,
                                 child: FloatingActionButton.extended(
-                                  heroTag: "startTourBtn",
-                                  icon: const Icon(Icons.play_arrow_rounded),
-                                  onPressed: (){
-                                    tracker.startTour();
-                                    _tourStarted = true;
-                                  },
-                                  label: const Text("Start tour"),
-                                  backgroundColor: Color(0xff26752b)
-                                ),
+                                    heroTag: "startTourBtn",
+                                    icon: const Icon(Icons.play_arrow_rounded),
+                                    onPressed: !tracker.tourStarted
+                                        ? () async {
+                                            await tracker.startTour();
+                                            setState(() {
+                                              tracker.tourStarted = true;
+                                            });
+                                          }
+                                        : null,
+                                    label: const Text("Start tour"),
+                                    backgroundColor: !tracker.tourStarted
+                                        ? const Color(0xff26752b)
+                                        : const Color(0x6effffff)),
                               ),
                             ),
                           ),
@@ -179,13 +179,15 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: FloatingActionButton.extended(
                                   heroTag: "startRestingBtn",
                                   icon: const Icon(Icons.restaurant),
-                                  onPressed: () {
-                                    if (!tracker.isResting) {
-                                      tracker.startResting();
-                                    } else {
-                                      tracker.stopResting();
-                                    }
-                                  },
+                                  onPressed: tracker.tourStarted
+                                      ? () {
+                                          if (!tracker.isResting) {
+                                            tracker.startResting();
+                                          } else {
+                                            tracker.stopResting();
+                                          }
+                                        }
+                                      : null,
                                   label: StreamBuilder<void>(
                                     stream: tracker.tickerStream,
                                     builder: (context, snapshot) {
@@ -194,7 +196,8 @@ class HomeScreenState extends State<HomeScreen> {
                                           : "Start rest");
                                     },
                                   ),
-                                  backgroundColor: Color(0xff26752b),
+                                  backgroundColor: tracker.tourStarted ? Color(0xff26752b)
+                                      : const Color(0x6effffff),
                                 ),
                               ),
                             ),
@@ -208,15 +211,19 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: FloatingActionButton.extended(
                                   heroTag: "checkpointBtn",
                                   icon: const Icon(Icons.add_location_alt),
-                                  onPressed: () async {
-                                    //_setCheckpointLocation();
-                                    GeoPoint currentLocation =
-                                    await tracker.getCurrentLocation();
-                                    fireService.addCheckpoint(
-                                        fireService.tourId!, currentLocation);
-                                  },
+                                  onPressed: tracker.tourStarted
+                                      ? () async {
+                                          GeoPoint currentLocation =
+                                              await tracker
+                                                  .getCurrentLocation();
+                                          fireService.addCheckpoint(
+                                              fireService.tourId!,
+                                              currentLocation);
+                                        }
+                                      : null,
                                   label: const Text("Checkpoint"),
-                                  backgroundColor: Color(0xff26752b),
+                                  backgroundColor: tracker.tourStarted ? Color(0xff26752b)
+                                      : const Color(0x6effffff),
                                 ),
                               ),
                             ),
@@ -230,13 +237,17 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: FloatingActionButton.extended(
                                   heroTag: "endTourBtn",
                                   icon: const Icon(Icons.close_sharp),
-                                  onPressed: () async {
-                                    //_setEndLocation();
-                                    tracker.endTour();
-                                    _tourStarted = false;
-                                  },
+                                  onPressed: tracker.tourStarted
+                                      ? () async {
+                                          await tracker.endTour();
+                                          setState(() {
+                                            tracker.tourStarted = false;
+                                          });
+                                        }
+                                      : null,
                                   label: const Text("End tour"),
-                                  backgroundColor: Color(0xff26752b),
+                                  backgroundColor: tracker.tourStarted ? Color(0xff26752b)
+                                      : const Color(0x6effffff),
                                 ),
                               ),
                             ),

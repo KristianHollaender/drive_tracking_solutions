@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -121,8 +121,29 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
+  SizedBox _logoutBtn(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
+    return SizedBox(
+      width: 250,
+      child: FloatingActionButton.extended(
+        onPressed: () async {
+          await fireService.signOut().then(
+                (_) => {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MobileLoginScreen(),
+                    ),
+                  ),
+                },
+              );
+        },
+        label: Text("Log out"),
+      ),
+    );
+  }
 
-
+  /*
   Widget _logoutBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
     return ElevatedButton(
@@ -152,4 +173,5 @@ class MenuScreen extends StatelessWidget {
       ),
     );
   }
+   */
 }
