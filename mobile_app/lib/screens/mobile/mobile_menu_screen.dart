@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -101,19 +101,49 @@ class MenuScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return CircleAvatar(
             radius: 65,
-            backgroundImage: NetworkImage(snapshot.data!),
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.transparent,
+            child: ClipOval(
+              child: Image.network(
+                snapshot.data!,
+                fit: BoxFit.cover,
+                width: 130,
+                height: 130,
+              ),
+            ),
           );
         } else if (snapshot.hasError) {
           return const Text('Error loading image');
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
   }
 
+  SizedBox _logoutBtn(BuildContext context) {
+    final fireService = Provider.of<FirebaseService>(context);
+    return SizedBox(
+      width: 250,
+      child: FloatingActionButton.extended(
+        onPressed: () async {
+          await fireService.signOut().then(
+                (_) => {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MobileLoginScreen(),
+                    ),
+                  ),
+                },
+              );
+        },
+        label: Text("Log out"),
+      ),
+    );
+  }
+
+  /*
   Widget _logoutBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
     return ElevatedButton(
@@ -143,4 +173,5 @@ class MenuScreen extends StatelessWidget {
       ),
     );
   }
+   */
 }

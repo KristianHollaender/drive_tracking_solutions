@@ -18,25 +18,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-
   final Completer<GoogleMapController> mapsController =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
   LocationData? currentLocation;
   StreamSubscription<LocationData>? _sub;
-
-  bool _tourStarted = false;
-
 
   void listenToCurrentLocation() async {
     Location location = Location();
     location.getLocation().then(
-          (location) {
+      (location) {
         currentLocation = location;
       },
     );
     GoogleMapController googleMapController = await mapsController.future;
     _sub = location.onLocationChanged.listen(
-          (newLoc) {
+      (newLoc) {
         currentLocation = newLoc;
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -77,65 +73,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           body: Column(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.40,
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Stack(
-                    children: [
-                      GoogleMap(
-                        mapType: MapType.hybrid,
-                        myLocationButtonEnabled: true,
-                        myLocationEnabled: true,
-                        compassEnabled: true,
-                        markers: Set<Marker>.of(tracker.marker),
-                        initialCameraPosition: tracker.initialCameraPosition!,
-                        onMapCreated: (GoogleMapController controller) {
-                          mapsController.complete(controller);
-                        },
-                      ),
-                      Positioned(
-                        bottom: 16.0,
-                        right: 165.0,
-                        left: 165.0,
-                        child: FloatingActionButton.extended(
-                          heroTag: "followBtn",
-                          backgroundColor: const Color(0xb3d9dcd9),
-                          onPressed: () {
-                            setState(() {
-                              tracker.click = !tracker.click;
-                            });
-                            if (tracker.click) {
-                              listenToCurrentLocation();
-                            } else {
-                              stopListeningToLocation();
-                            }
-                          },
-                          label: tracker.click
-                              ? const Icon(Icons.navigation)
-                              : const Icon(Icons.navigation_outlined),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 245.0,
-                        right: 285.0,
-                        left: 15.0,
-                        child: FloatingActionButton.extended(
-                          backgroundColor: const Color(0xb3d9dcd9),
-                          onPressed: () async {
-                            GeoPoint currentLocation =
-                            await tracker.getCurrentLocation();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => GasStationWidget(
-                                    geoPoint: currentLocation)));
-                          },
-                          label: const Text('Gas Stations'),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              _buildGoogleMap(context, tracker),
               Flexible(
                 flex: 1,
                 child: Column(
@@ -144,24 +82,7 @@ class HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Row(
                         children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                  heroTag: "startTourBtn",
-                                  icon: const Icon(Icons.play_arrow_rounded),
-                                  onPressed: (){
-                                    tracker.startTour();
-                                    _tourStarted = true;
-                                  },
-                                  label: const Text("Start tour"),
-                                  backgroundColor: Color(0xff26752b)
-                                ),
-                              ),
-                            ),
-                          ),
+                          _buildStartTourBtn(tracker),
                         ],
                       ),
                     ),
@@ -170,88 +91,13 @@ class HomeScreenState extends State<HomeScreen> {
                           bottom: 10.0, left: 8.0, right: 8.0),
                       child: Row(
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                  heroTag: "startRestingBtn",
-                                  icon: const Icon(Icons.restaurant),
-                                  onPressed: () {
-                                    if (!tracker.isResting) {
-                                      tracker.startResting();
-                                    } else {
-                                      tracker.stopResting();
-                                    }
-                                  },
-                                  label: StreamBuilder<void>(
-                                    stream: tracker.tickerStream,
-                                    builder: (context, snapshot) {
-                                      return Text(tracker.isResting
-                                          ? "End resting"
-                                          : "Start rest");
-                                    },
-                                  ),
-                                  backgroundColor: Color(0xff26752b),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                  heroTag: "checkpointBtn",
-                                  icon: const Icon(Icons.add_location_alt),
-                                  onPressed: () async {
-                                    //_setCheckpointLocation();
-                                    GeoPoint currentLocation =
-                                    await tracker.getCurrentLocation();
-                                    fireService.addCheckpoint(
-                                        fireService.tourId!, currentLocation);
-                                  },
-                                  label: const Text("Checkpoint"),
-                                  backgroundColor: Color(0xff26752b),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SizedBox(
-                                height: 45.0,
-                                child: FloatingActionButton.extended(
-                                  heroTag: "endTourBtn",
-                                  icon: const Icon(Icons.close_sharp),
-                                  onPressed: () async {
-                                    //_setEndLocation();
-                                    tracker.endTour();
-                                    _tourStarted = false;
-                                  },
-                                  label: const Text("End tour"),
-                                  backgroundColor: Color(0xff26752b),
-                                ),
-                              ),
-                            ),
-                          ),
+                          _buildStartRestBtn(tracker),
+                          _buildCheckpointBtn(tracker),
+                          _buildEndTourBtn(tracker),
                         ],
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: const [TimerRow()],
-                        ),
-                      ),
-                    )
+                    _buildScrollView()
                   ],
                 ),
               ),
@@ -259,6 +105,198 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildGoogleMap(BuildContext context, DriveTracker tracker) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.40,
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Stack(
+          children: [
+            GoogleMap(
+              mapType: MapType.hybrid,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              compassEnabled: true,
+              markers: Set<Marker>.of(tracker.marker),
+              initialCameraPosition: tracker.initialCameraPosition!,
+              onMapCreated: (GoogleMapController controller) {
+                mapsController.complete(controller);
+              },
+            ),
+            Positioned(
+              bottom: 16.0,
+              right: 165.0,
+              left: 165.0,
+              child: FloatingActionButton.extended(
+                heroTag: "followBtn",
+                backgroundColor: const Color(0xb3d9dcd9),
+                onPressed: () {
+                  setState(() {
+                    tracker.click = !tracker.click;
+                  });
+                  if (tracker.click) {
+                    listenToCurrentLocation();
+                  } else {
+                    stopListeningToLocation();
+                  }
+                },
+                label: tracker.click
+                    ? const Icon(Icons.navigation)
+                    : const Icon(Icons.navigation_outlined),
+              ),
+            ),
+            Positioned(
+              bottom: 16.0,
+              right: 65.0,
+              left: 245.0,
+              child: FloatingActionButton.extended(
+                backgroundColor: const Color(0xb3d9dcd9),
+                onPressed: () async {
+                  GeoPoint currentLocation = await tracker.getCurrentLocation();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          GasStationWidget(geoPoint: currentLocation),
+                    ),
+                  );
+                },
+                label: Icon(Icons.local_gas_station),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScrollView() {
+    return Flexible(
+      flex: 1,
+      child: SingleChildScrollView(
+        child: Column(
+          children: const [TimerRow()],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEndTourBtn(DriveTracker tracker) {
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SizedBox(
+          height: 45.0,
+          child: FloatingActionButton.extended(
+            heroTag: "endTourBtn",
+            icon: const Icon(Icons.close_sharp),
+            onPressed: tracker.tourStarted
+                ? () async {
+                    await tracker.endTour();
+                    setState(() {
+                      tracker.tourStarted = false;
+                    });
+                  }
+                : null,
+            label: const Text("End tour"),
+            backgroundColor: tracker.tourStarted
+                ? Color(0xff26752b)
+                : const Color(0x6effffff),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCheckpointBtn(DriveTracker tracker) {
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SizedBox(
+          height: 45.0,
+          child: FloatingActionButton.extended(
+            heroTag: "checkpointBtn",
+            icon: const Icon(Icons.add_location_alt),
+            onPressed: tracker.tourStarted
+                ? () async {
+                    GeoPoint currentLocation =
+                        await tracker.getCurrentLocation();
+                    fireService.addCheckpoint(
+                        fireService.tourId!, currentLocation);
+                  }
+                : null,
+            label: const Text("Checkpoint"),
+            backgroundColor: tracker.tourStarted
+                ? Color(0xff26752b)
+                : const Color(0x6effffff),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStartRestBtn(DriveTracker tracker) {
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SizedBox(
+          height: 45.0,
+          child: FloatingActionButton.extended(
+            heroTag: "startRestingBtn",
+            icon: const Icon(Icons.restaurant),
+            onPressed: tracker.tourStarted
+                ? () {
+                    if (!tracker.isResting) {
+                      tracker.startResting();
+                    } else {
+                      tracker.stopResting();
+                    }
+                  }
+                : null,
+            label: StreamBuilder<void>(
+              stream: tracker.tickerStream,
+              builder: (context, snapshot) {
+                return Text(tracker.isResting ? "End resting" : "Start rest");
+              },
+            ),
+            backgroundColor: tracker.tourStarted
+                ? Color(0xff26752b)
+                : const Color(0x6effffff),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStartTourBtn(DriveTracker tracker) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SizedBox(
+          height: 45.0,
+          child: FloatingActionButton.extended(
+            heroTag: "startTourBtn",
+            icon: const Icon(Icons.play_arrow_rounded),
+            onPressed: !tracker.tourStarted
+                ? () async {
+                    await tracker.startTour();
+                    setState(() {
+                      tracker.tourStarted = true;
+                    });
+                  }
+                : null,
+            label: const Text("Start tour"),
+            backgroundColor: !tracker.tourStarted
+                ? const Color(0xff26752b)
+                : const Color(0x6effffff),
+          ),
+        ),
+      ),
     );
   }
 }

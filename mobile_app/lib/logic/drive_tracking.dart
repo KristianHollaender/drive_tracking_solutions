@@ -16,6 +16,7 @@ class DriveTracker {
   Duration _dailyBreakDuration = const Duration(minutes: 45);
 
   bool isResting = false;
+  bool tourStarted = false;
 
   late DateTime _startTime;
   late DateTime _endTime;
