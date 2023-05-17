@@ -66,7 +66,7 @@ class TourDetails extends StatelessWidget {
         markerId: MarkerId('Marker $i'),
         position: LatLng(checkPoint.truckStop.latitude, checkPoint.truckStop.longitude),
         infoWindow: InfoWindow(title: 'Marker $i'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       );
       markers.add(marker);
     }

@@ -223,10 +223,9 @@ class HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.add_location_alt),
             onPressed: tracker.tourStarted
                 ? () async {
-                    GeoPoint currentLocation =
-                        await tracker.getCurrentLocation();
-                    fireService.addCheckpoint(
-                        fireService.tourId!, currentLocation);
+                    await tracker.setCheckpoint();
+                    setState(() {
+                    });
                   }
                 : null,
             label: const Text("Checkpoint"),

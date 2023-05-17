@@ -40,12 +40,12 @@ class MobileLoginScreen extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
-          width: 375,
+          width: MediaQuery.of(context).size.width * 0.85,
           child: emailInput(),
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 28),
-          width: 375,
+          width: MediaQuery.of(context).size.width * 0.85,
           child: passwordInput(),
         ),
         Column(
@@ -53,12 +53,15 @@ class MobileLoginScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  signUpBtn(context),
-                  loginBtn(context),
-                ],
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    signUpBtn(context),
+                    loginBtn(context),
+                  ],
+                ),
               ),
             ),
             forgotPasswordBtn(context),
@@ -89,7 +92,7 @@ class MobileLoginScreen extends StatelessWidget {
   SizedBox loginBtn(BuildContext context) {
     final fireService = Provider.of<FirebaseService>(context);
     return SizedBox(
-      width: 170.0,
+      width: MediaQuery.of(context).size.width * 0.41,
       child: FloatingActionButton.extended(
         heroTag: 'loginBtn',
         onPressed: () async {
@@ -134,7 +137,7 @@ class MobileLoginScreen extends StatelessWidget {
 
   SizedBox signUpBtn(BuildContext context) {
     return SizedBox(
-      width: 170.0,
+      width: MediaQuery.of(context).size.width * 0.41,
       child: FloatingActionButton.extended(
         heroTag: 'signUpBtn',
         onPressed: () async {

@@ -65,18 +65,22 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
         ),
         const SizedBox(height: 16),
         Container(
+          width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.only(bottom: 16),
           child: firstNameInput(),
         ),
         Container(
+          width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.only(bottom: 16),
           child: lastNameInput(),
         ),
         Container(
+          width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.only(bottom: 16),
           child: emailInput(),
         ),
         Container(
+          width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.only(bottom: 16),
           child: passwordInput(),
         ),
@@ -85,10 +89,16 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Center(
-                  child: _image == null
-                      ? const Text('No image selected.')
-                      : Image.file(_image!, height: MediaQuery.of(context).size.height * 0.27, fit: BoxFit.cover),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: _image == null
+                        ? const Text('No image selected.')
+                        : Image.file(_image!,
+                            height: MediaQuery.of(context).size.height * 0.20,
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            fit: BoxFit.cover),
+                  ),
                 ),
               ],
             ),
@@ -134,8 +144,9 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: SizedBox(
-        width: 175,
+        width: MediaQuery.of(context).size.width * 0.45,
         child: FloatingActionButton.extended(
+          heroTag: 'selectImgBtn',
           onPressed: () {
             pickImage();
           },
@@ -152,8 +163,9 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: 175,
+        width: MediaQuery.of(context).size.width * 0.45,
         child: FloatingActionButton.extended(
+          heroTag: 'createAccountBtn',
           backgroundColor: Color(0xff26752b),
           label: const Text('Create Account'),
           onPressed: () async {

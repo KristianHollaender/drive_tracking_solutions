@@ -11,7 +11,8 @@ class DriveTracker {
   final Stopwatch _dailyDrivingLimitTimer = Stopwatch();
   final Stopwatch _dailyBreakTimeTimer = Stopwatch();
 
-  final Duration _continuousDrivingDuration = const Duration(hours: 4, minutes: 30);
+  final Duration _continuousDrivingDuration =
+      const Duration(hours: 4, minutes: 30);
   final Duration _dailyDrivingDuration = const Duration(hours: 9);
   final Duration _dailyBreakDuration = const Duration(minutes: 45);
 
@@ -27,6 +28,7 @@ class DriveTracker {
   CameraPosition? initialCameraPosition;
   CameraPosition? currentLocationCameraPosition;
   LatLng? latLng;
+  late int checkpointNumber;
 
   final Set<Marker> marker = {};
 
@@ -34,9 +36,11 @@ class DriveTracker {
 
   DriveTracker() {
     tickerStream = _ticker.stream.asBroadcastStream();
+    checkpointNumber = 0;
   }
 
   Future<void> startTour() async {
+    marker.clear();
     _startTime = DateTime.now();
     _timer = Timer.periodic(const Duration(seconds: 1), (i) {
       _ticker.sink.add(i.tick);
@@ -45,10 +49,33 @@ class DriveTracker {
     _dailyDrivingLimitTimer.start();
     GeoPoint currentLocation = await getCurrentLocation();
     await fireService.startTour(currentLocation, _startTime);
+    setMarker(
+        currentLocation,
+        BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        const MarkerId("startPoint"),
+        const InfoWindow(title: "Start point"));
     print(fireService.tourId);
   }
 
+  Future<void> setCheckpoint() async {
+    GeoPoint currentLocation = await getCurrentLocation();
+    fireService.addCheckpoint(fireService.tourId!, currentLocation);
+
+    checkpointNumber++; // Increment the checkpoint number for the next checkpoint
+    String markerId = "Checkpoint $checkpointNumber"; // Construct the marker ID
+    String title = "Checkpoint $checkpointNumber"; // Construct the title for infoWindow
+
+    setMarker(
+        currentLocation,
+        BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+        MarkerId(markerId), // Use the constructed marker ID
+        InfoWindow(title: title)
+    );
+  }
+
+
   Future<void> endTour() async {
+    checkpointNumber = 0;
     _timer?.cancel();
     _timer = null;
     isResting = false;
@@ -73,6 +100,17 @@ class DriveTracker {
     }
     await fireService.endTour(
         fireService.tourId!, currentLocation, _endTime, totalTime);
+
+    setMarker(
+        currentLocation,
+        BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        const MarkerId("endPoint"),
+        const InfoWindow(title: "End point"));
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (i) {
+      _ticker.sink.add(i.tick);
+    });
+
   }
 
   Duration getContinuousDrivingLimit() {
@@ -158,6 +196,17 @@ class DriveTracker {
     final double progress =
         1 - (elapsedTime.inMilliseconds / _dailyBreakDuration.inMilliseconds);
     return progress.clamp(0.0, 1.0);
+  }
+
+  void setMarker(GeoPoint currentLocation, BitmapDescriptor bitmapDescriptor,
+      MarkerId markerId, InfoWindow infoWindow) async {
+    final Marker checkpointLocationMarker = Marker(
+        markerId: markerId,
+        infoWindow: infoWindow,
+        icon: bitmapDescriptor,
+        position: LatLng(currentLocation.latitude, currentLocation.longitude));
+    marker.add(checkpointLocationMarker);
+    print(marker.length);
   }
 }
 
