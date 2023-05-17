@@ -53,7 +53,6 @@ dependencies:
   rflutter_alert: ^2.0.4
   flutter_launcher_icons: ^0.13.1
   geocoding: ^2.1.0
-  excel: ^2.1.0
   flutter_image_compress: ^2.0.3
   path_provider: ^2.0.15
 
@@ -67,6 +66,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  mockito: ^5.4.0
+  build_runner: ^2.3.3
 
 flutter_launcher_icons:
   android: true
