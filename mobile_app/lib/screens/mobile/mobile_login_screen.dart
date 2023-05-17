@@ -94,6 +94,7 @@ class MobileLoginScreen extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.41,
       child: FloatingActionButton.extended(
+        key: const Key('loginBtn'),
         heroTag: 'loginBtn',
         onPressed: () async {
           if (!_formKey.currentState!.validate()) {
@@ -156,6 +157,7 @@ class MobileLoginScreen extends StatelessWidget {
 
   TextFormField emailInput() {
     return TextFormField(
+      key: const Key('emailInput'),
       keyboardType: TextInputType.emailAddress,
       controller: _email,
       style: const TextStyle(fontSize: 18),
@@ -183,6 +185,7 @@ class MobileLoginScreen extends StatelessWidget {
 
   TextFormField passwordInput() {
     return TextFormField(
+      key: const Key('passwordInput'),
       controller: _password,
       style: const TextStyle(fontSize: 18),
       decoration: const InputDecoration(

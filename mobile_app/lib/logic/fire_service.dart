@@ -17,6 +17,7 @@ class CollectionNames {
 class FirebaseService {
   final _auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
+
   String? tourId;
   String? pauseId;
 
