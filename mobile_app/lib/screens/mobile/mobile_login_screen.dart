@@ -40,13 +40,19 @@ class MobileLoginScreen extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
-          width: MediaQuery.of(context).size.width * 0.85,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.85,
           child: emailInput(),
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 28),
-          width: MediaQuery.of(context).size.width * 0.85,
-          child: passwordInput(),
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.85,
+          child: passwordInput(context),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,7 +60,10 @@ class MobileLoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.85,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.85,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -75,7 +84,7 @@ class MobileLoginScreen extends StatelessWidget {
     return TextButton(
       style: ButtonStyle(
         foregroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xff26752b)),
+        MaterialStateProperty.all<Color>(const Color(0xff26752b)),
       ),
       child: const Text('Forgot Password?', style: TextStyle(fontSize: 16),),
       onPressed: () async {
@@ -90,9 +99,11 @@ class MobileLoginScreen extends StatelessWidget {
   }
 
   SizedBox loginBtn(BuildContext context) {
-    final fireService = Provider.of<FirebaseService>(context);
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.41,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width * 0.41,
       child: FloatingActionButton.extended(
         key: const Key('loginBtn'),
         heroTag: 'loginBtn',
@@ -100,35 +111,7 @@ class MobileLoginScreen extends StatelessWidget {
           if (!_formKey.currentState!.validate()) {
             return;
           }
-          final email = _email.value.text;
-          final password = _password.value.text;
-            await fireService.signIn(email, password);
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const NavBar(),
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Logged in successfully'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          await fireService.signIn(email, password).then(
-                (value) => {
-                  SystemChannels.textInput.invokeListMethod('TextInput.hide'),
-                },
-              );
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const NavBar(),
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Logged in successfully'),
-            ),
-          );
+          await _login(context);
         },
         backgroundColor: const Color(0xff26752b),
         label: const Text("Log in", style: TextStyle(fontSize: 17),),
@@ -136,9 +119,41 @@ class MobileLoginScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _login(BuildContext context) async {
+    final fireService = Provider.of<FirebaseService>(context, listen: false);
+
+    final email = _email.value.text;
+    final password = _password.value.text;
+
+    try {
+      await fireService.signIn(email, password);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Logged in successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const NavBar(),
+        ),
+      );
+    }catch(error){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login unsuccessful, email or password is incorrect'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   SizedBox signUpBtn(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.41,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width * 0.41,
       child: FloatingActionButton.extended(
         heroTag: 'signUpBtn',
         onPressed: () async {
@@ -179,11 +194,11 @@ class MobileLoginScreen extends StatelessWidget {
         ),
       ),
       validator: (value) =>
-          (value == null || !value.contains("@")) ? 'Email required' : null,
+      (value == null || !value.contains("@")) ? 'Email required' : null,
     );
   }
 
-  TextFormField passwordInput() {
+  TextFormField passwordInput(BuildContext context) {
     return TextFormField(
       key: const Key('passwordInput'),
       controller: _password,
@@ -206,9 +221,11 @@ class MobileLoginScreen extends StatelessWidget {
         ),
       ),
       obscureText: true,
-      validator: (value) => (value == null || value.length < 6)
+      validator: (value) =>
+      (value == null || value.length < 6)
           ? 'Password required (min 6 chars)'
           : null,
+      onFieldSubmitted: (_) => _login(context),
     );
   }
 }

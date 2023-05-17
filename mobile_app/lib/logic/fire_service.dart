@@ -184,11 +184,7 @@ class FirebaseService {
   }
 
   Future<void> signIn(String email, String password) async {
-    try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
   }
 
   Future<void> signOut() async {
