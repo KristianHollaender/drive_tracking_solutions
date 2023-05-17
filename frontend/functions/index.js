@@ -11,7 +11,7 @@ app.use(cors());
 const db = admin.firestore();
 
 //#region Get total tour time
-app.get('/tour/totalTime/:tourId', async (req, res) => {
+app.get('/tour/totalTourTime/:tourId', async (req, res) => {
   // Gets the tour id from url
   const tourId = req.params.tourId;
 
@@ -76,7 +76,7 @@ app.get('/pause/totalTime/:tourId/:pauseId', async (req, res) => {
     await doc.update({
       totalTime: totalTime,
     });
-    return res.status(200).json({status: 'Successful',totalTime: totalTime});
+    return res.status(200).json({status: 'Successful', totalTime: totalTime});
   } catch (e) {
     return res.status(500).json({status: 'Failed', error: e.error});
   }
@@ -139,7 +139,7 @@ function millisToTime(ms) {
   const minutes = Math.floor(hoursms / (60 * 1000));
   const minutesms = ms % (60 * 1000);
   const sec = Math.floor(minutesms / 1000);
-  return `days ${days}: hours ${hours}: min ${minutes}: sec ${sec}`;
+  return `${days}:${hours}:${minutes}:${sec}`;
 }
 
 exports.api = functions.https.onRequest(app);

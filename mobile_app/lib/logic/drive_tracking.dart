@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_tracking_solutions/logic/tour_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -29,6 +30,7 @@ class DriveTracker {
   CameraPosition? currentLocationCameraPosition;
   LatLng? latLng;
   late int checkpointNumber;
+  final tourRepo = TourRepository();
 
   final Set<Marker> marker = {};
 
@@ -101,6 +103,8 @@ class DriveTracker {
     await fireService.endTour(
         fireService.tourId!, currentLocation, _endTime, totalTime);
 
+
+
     setMarker(
         currentLocation,
         BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
@@ -110,6 +114,12 @@ class DriveTracker {
     _timer = Timer.periodic(const Duration(seconds: 1), (i) {
       _ticker.sink.add(i.tick);
     });
+
+    // Uses cloud functions to calculate the total tour time
+    await tourRepo.getTotalTourTime(fireService.tourId!);
+
+    // Uses cloud functions to calculate the total pause time on tour
+    await tourRepo.getTotalPauseTimeOnTour(fireService.tourId!);
 
   }
 
@@ -121,21 +131,27 @@ class DriveTracker {
     return _dailyDrivingDuration - _dailyDrivingLimitTimer.elapsed;
   }
 
-  void startResting() {
+  Future<void> startResting() async{
     isResting = true;
     _continuousDrivingLimitTimer.stop();
     _dailyDrivingLimitTimer.stop();
     _dailyBreakTimeTimer.start();
-    fireService.startPause(fireService.tourId, DateTime.now());
+    await fireService.startPause(fireService.tourId, DateTime.now());
   }
 
-  void stopResting() {
+  Future<void> stopResting() async{
     isResting = false;
     _dailyBreakTimeTimer.stop();
     _continuousDrivingLimitTimer.start();
     _dailyDrivingLimitTimer.start();
-    fireService.stopPause(
+    await fireService.stopPause(
         fireService.tourId, fireService.pauseId, DateTime.now());
+
+    // Uses cloud functions to calculate the total pause on pause
+    await tourRepo.getTotalPauseTimeOnPause(fireService.tourId!, fireService.pauseId!);
+
+    // Uses cloud functions to calculate the total pause time on tour
+    await tourRepo.getTotalPauseTimeOnTour(fireService.tourId!);
   }
 
   Duration getRestingTime() {

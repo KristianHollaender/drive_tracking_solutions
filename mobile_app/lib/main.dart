@@ -2,6 +2,7 @@ import 'package:drive_tracking_solutions/logic/fire_service.dart';
 import 'package:drive_tracking_solutions/firebase_options.dart';
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
 import 'package:drive_tracking_solutions/logic/gas_station_repo.dart';
+import 'package:drive_tracking_solutions/logic/tour_repository.dart';
 import 'package:drive_tracking_solutions/screens/mobile/mobile_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         Provider(create: (context) => FirebaseService()),
         Provider(create: (context) => DriveTracker()),
         Provider(create: (context) => GasStationRepo()),
+        Provider(create: (context) => TourRepository()),
       ],
       builder: (context, child) {
         return MaterialApp(

@@ -5,11 +5,52 @@ import 'package:http/http.dart';
 import '../models/tour.dart';
 
 class TourRepository {
-  final baseUrl = '';
+  final baseUrl = 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api';
+
+  // Get total time on tour
+  Future<String> getTotalTourTime(String tourId) async{
+    Response response = await get(Uri.parse('$baseUrl/tour/totalTourTime/$tourId'));
+    if(response.statusCode == 200){
+      final totalTime = jsonDecode(response.body)['totalTime'];
+      return totalTime;
+    }else{
+      throw Exception(jsonDecode(response.body));
+    }
+  }
+
+  // Get total pause time on pause
+  Future<String> getTotalPauseTimeOnPause(String tourId, String pauseId) async{
+    Response response = await get(Uri.parse('$baseUrl/pause/totalTime/$tourId/$pauseId'));
+    if(response.statusCode == 200){
+      final totalTime = jsonDecode(response.body)['totalTime'];
+      return totalTime;
+    }else{
+      throw Exception(jsonDecode(response.body));
+    }
+  }
+
+  // Get total pause time on tour
+  Future<String> getTotalPauseTimeOnTour(String tourId) async{
+    Response response = await get(Uri.parse('$baseUrl/tour/totalPauseTime/$tourId'));
+    if(response.statusCode == 200){
+      final totalTime = jsonDecode(response.body)['totalTime'];
+      return totalTime;
+    }else{
+      throw Exception(jsonDecode(response.body));
+    }
+  }
+
+
+
+
+
+
+
+
 
   // Get all tours where UserID equals the authenticated user
   Future<List<Tour>> getTours(String uid) async {
-    Response response = await get(Uri.parse('$baseUrl/$uid'));
+    Response response = await get(Uri.parse('/tour/totalTime/$baseUrl/$uid'));
     if (response.statusCode == 200) {
       final List result = json.decode(response.body)['data'];
       return result.map((e) => Tour.fromMap(e)).toList();
@@ -17,7 +58,6 @@ class TourRepository {
       throw Exception(response.reasonPhrase);
     }
   }
-
   // Get tour by data
   Future<Tour> getTourById(String uid, String id) async {
     Response response = await get(Uri.parse('$baseUrl/$uid/$id'));

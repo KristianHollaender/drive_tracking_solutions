@@ -222,8 +222,9 @@ class CardDetailsWidget extends StatelessWidget {
                       Pause.fromMap(data[index].data() as Map<String, dynamic>);
                   final startTime = pauseData.startTime;
                   final endTime = pauseData.endTime;
+                  final totalTime = pauseData.totalTime;
                   return ListTile(
-                    title: Text('Pause no. ${index + 1}'),
+                    title: Text('total time: $totalTime'),
                     subtitle: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(

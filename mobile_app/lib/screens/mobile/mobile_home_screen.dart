@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/drive_tracking.dart';
+import 'package:drive_tracking_solutions/logic/tour_repository.dart';
 import 'package:drive_tracking_solutions/util/calender_util.dart';
 import 'package:drive_tracking_solutions/widgets/gas_stations_widget.dart';
 import 'package:drive_tracking_solutions/widgets/timer_row.dart';
@@ -109,6 +110,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildGoogleMap(BuildContext context, DriveTracker tracker) {
+    final repo = Provider.of<TourRepository>(context);
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.40,
       child: Padding(
@@ -165,7 +167,7 @@ class HomeScreenState extends State<HomeScreen> {
                 },
                 label: const Icon(Icons.local_gas_station),
               ),
-            )
+            ),
           ],
         ),
       ),
