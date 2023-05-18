@@ -35,12 +35,15 @@ export class FireService {
   signIn(email: string, password: string) {
     this.auth.signInWithEmailAndPassword(email, password)
       .then(() => {
-        // Login successful, navigate to the new component
         this.router.navigate(['users']);
       })
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  getUsers() {
+
   }
 
   signout() {
@@ -52,6 +55,12 @@ export class FireService {
   }
 
   signOut() {
-    this.auth.signOut();
+    this.auth.signOut()
+      .then(() => {
+        this.router.navigate(['']);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }

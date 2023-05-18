@@ -10,7 +10,7 @@ export class UserOverviewComponent implements OnInit{
   displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName'];
 
 
-  constructor(private fireService: FireService) {
+  constructor(public fireService: FireService) {
   }
 
   async ngOnInit() {

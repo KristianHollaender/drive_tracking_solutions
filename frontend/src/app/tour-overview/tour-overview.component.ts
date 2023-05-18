@@ -7,7 +7,7 @@ import {FireService} from "../fire.service";
   styleUrls: ['./tour-overview.component.scss']
 })
 export class TourOverviewComponent implements OnInit{
-  constructor(private fireService: FireService) {
+  constructor(public fireService: FireService) {
 
   }
   async ngOnInit() {
