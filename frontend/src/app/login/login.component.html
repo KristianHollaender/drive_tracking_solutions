@@ -1,1 +1,36 @@
-<p>login works!</p>
+<div *ngIf="fireService.auth.currentUser==null">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      text-align: center;
+    }
+  </style>
+  <body>
+  <form>
+
+    <input placeholder="Email" [(ngModel)]="email" type="email" name="email">
+    <br>
+    <br>
+
+    <input placeholder="Password" [(ngModel)]="password" type="password" name="password">
+    <br>
+    <br>
+
+    <input type="submit" (click)="fireService.signIn(email, password)" value="Login">
+    <br>
+
+    <a (click)="fireService.forgotPassword(email)" href="#">Forgot password?</a>
+  </form>
+  </body>
+</div>
+
+<div *ngIf="fireService.auth.currentUser!=null">
+  <button (click)="fireService.signOut()">Logout</button>
+</div>

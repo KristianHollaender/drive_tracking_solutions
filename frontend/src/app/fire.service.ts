@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
-import * as config from '../../firebaseConfig.js';
+import {Injectable} from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/storage';
+
+import * as config from '../../firebaseConfig.js'
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +18,40 @@ export class FireService {
   baseURL = 'http://127.0.0.1:5001/drivetrackingsolution/us-central1/api';
 
 
-  constructor() {
-    //Initialize firebase app
+  constructor(private router: Router) {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
-
-    //Initialize firestore
     this.firestore = firebase.firestore();
-
-    //Initialize firebase auth
     this.auth = firebase.auth();
-
-    //Initialize firebase storage
     this.storage = firebase.storage();
 
     //#region Emulators
-    this.firestore.useEmulator('localhost', 8080);
-    this.auth.useEmulator('http://localhost:9099');
-    this.storage.useEmulator('localhost', 9199);
+    //this.firestore.useEmulator('localhost', 8080);
+    //this.auth.useEmulator('http://localhost:9099');
+    //this.storage.useEmulator('localhost', 9199);
     //#endregion
+
+  }
+
+  signIn(email: string, password: string) {
+    this.auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // Login successful, navigate to the new component
+        this.router.navigate(['users']);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  signout() {
+    this.auth.signOut();
+  }
+
+  forgotPassword(email: string) {
+    this.auth.sendPasswordResetEmail(email);
+  }
+
+  signOut() {
+    this.auth.signOut();
   }
 }

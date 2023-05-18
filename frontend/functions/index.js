@@ -130,6 +130,25 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 });
 //#endregion
 
+
+
+app.get('/User/', async (req, res) => {
+  try {
+    const usersSnapshot = await admin.firestore().collection('User').get();
+    const users = [];
+
+    usersSnapshot.forEach((doc) => {
+      const userData = doc.data();
+      users.push(userData);
+    });
+
+    res.json(users);
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    res.status(500).send('Error retrieving users');
+  }
+});
+
 //Converts ms into more readable time
 function millisToTime(ms) {
   const days = Math.floor(ms / (24 * 60 * 60 * 1000));

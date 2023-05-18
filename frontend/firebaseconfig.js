@@ -6,9 +6,10 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyC3dRRaws8KMTaP3P1VBiYS_UtZvoVuTTA",
   authDomain: "drivetrackingsolution.firebaseapp.com",
+  databaseURL: "https://drivetrackingsolution-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "drivetrackingsolution",
   storageBucket: "drivetrackingsolution.appspot.com",
   messagingSenderId: "64233866167",

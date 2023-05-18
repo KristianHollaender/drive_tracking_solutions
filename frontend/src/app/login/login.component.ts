@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {FireService} from "../fire.service";
 
 @Component({
   selector: 'app-login',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  email: string = "";
+  password: string = "";
+
+  constructor(public fireService: FireService) { }
 
 }
