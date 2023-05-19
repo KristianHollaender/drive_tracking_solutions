@@ -26,7 +26,7 @@ class MobileResetPasswordScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 60.0, top: 20),
                   child: Center(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: Image.asset(
                         'assets/Logo-lighter.png',

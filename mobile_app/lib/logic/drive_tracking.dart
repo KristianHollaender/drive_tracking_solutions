@@ -75,7 +75,6 @@ class DriveTracker {
     );
   }
 
-
   Future<void> endTour() async {
     checkpointNumber = 0;
     _timer?.cancel();
@@ -89,21 +88,13 @@ class DriveTracker {
     _dailyBreakTimeTimer.reset();
     GeoPoint currentLocation = await getCurrentLocation();
     _endTime = DateTime.now();
-    final duration = _endTime.difference(_startTime);
-    final formattedDuration = Duration(
-      hours: duration.inHours,
-      minutes: duration.inMinutes.remainder(60),
-      seconds: duration.inSeconds.remainder(60),
-    );
-    final totalTime = formattedDuration.toString().split('.').first;
+
     if (isResting) {
       await fireService.stopPause(
           fireService.tourId!, fireService.pauseId!, _endTime);
     }
     await fireService.endTour(
-        fireService.tourId!, currentLocation, _endTime, totalTime);
-
-
+        fireService.tourId!, currentLocation, _endTime);
 
     setMarker(
         currentLocation,
@@ -115,11 +106,11 @@ class DriveTracker {
       _ticker.sink.add(i.tick);
     });
 
-    // Uses cloud functions to calculate the total tour time
-    await tourRepo.getTotalTourTime(fireService.tourId!);
-
     // Uses cloud functions to calculate the total pause time on tour
     await tourRepo.getTotalPauseTimeOnTour(fireService.tourId!);
+
+    // Uses cloud functions to calculate the total tour time
+    await tourRepo.getTotalTourTime(fireService.tourId!);
 
   }
 

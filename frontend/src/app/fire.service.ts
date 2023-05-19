@@ -3,9 +3,13 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/storage';
-
+import axios from "axios";
 import * as config from '../../firebaseConfig.js'
-import {Router} from "@angular/router";
+import {User} from "./models/User";
+
+export const customAxios = axios.create({
+  baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
+});
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +19,19 @@ export class FireService {
   firestore: firebase.firestore.Firestore;
   auth: firebase.auth.Auth;
   storage: firebase.storage.Storage;
-  baseURL = 'http://127.0.0.1:5001/drivetrackingsolution/us-central1/api';
+
+  users: User[] = [];
 
 
-  constructor(private router: Router) {
+  constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
-
+    this.auth.onAuthStateChanged((user) => {
+      this.intercept();
+      this.getUsers();
+    });
     //#region Emulators
     //this.firestore.useEmulator('localhost', 8080);
     //this.auth.useEmulator('http://localhost:9099');
@@ -32,35 +40,32 @@ export class FireService {
 
   }
 
-  signIn(email: string, password: string) {
-    this.auth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.router.navigate(['users']);
-      })
-      .catch((error) => {
-        console.log(error);
+// Tried to add authorization, but it's not working in flutter
+  intercept() {
+    axios.interceptors
+      .request
+      .use(async (request) => {
+        request.headers.Authorization = await this.auth.currentUser?.getIdToken() + ""
+        return request;
       });
+  };
+
+  async signIn(email: string, password: string) {
+    await this.auth.signInWithEmailAndPassword(email, password);
+    console.log(await this.auth.currentUser?.getIdToken() + '');
   }
 
-  getUsers() {
-
+  async getUsers() {
+    const httpResult = await customAxios.get('/User');
+    this.users = httpResult.data['users'];
+    return this.users;
   }
 
-  signout() {
-    this.auth.signOut();
+  async forgotPassword(email: string) {
+    await this.auth.sendPasswordResetEmail(email);
   }
 
-  forgotPassword(email: string) {
-    this.auth.sendPasswordResetEmail(email);
-  }
-
-  signOut() {
-    this.auth.signOut()
-      .then(() => {
-        this.router.navigate(['']);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async signOut() {
+    await this.auth.signOut();
   }
 }

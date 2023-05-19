@@ -1,1 +1,4 @@
-<p>user-overview works!</p>
+<div *ngFor="let c of fireService.users">
+  <p>{{c.email}}</p>
+  <p>{{c.uid}}</p>
+</div>

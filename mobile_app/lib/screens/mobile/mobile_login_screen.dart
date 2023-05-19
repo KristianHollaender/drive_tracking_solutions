@@ -1,7 +1,6 @@
 import 'package:drive_tracking_solutions/screens/mobile/mobile_new_user_screen.dart';
 import 'package:drive_tracking_solutions/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../logic/fire_service.dart';
 import 'mobile_reset_password_screen.dart';
@@ -31,7 +30,7 @@ class MobileLoginScreen extends StatelessWidget {
   Column _buildUserInputs(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 25.0,
         ),
         Center(
@@ -59,7 +58,7 @@ class MobileLoginScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery
                     .of(context)
                     .size

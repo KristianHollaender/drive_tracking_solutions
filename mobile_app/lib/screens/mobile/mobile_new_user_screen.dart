@@ -55,12 +55,12 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
     return Column(
       children: [
         Center(
-          child: Container(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.25,
             child: Image.asset(
               'assets/Logo-lighter.png',
               width: MediaQuery.of(context).size.width * 0.75,
             ),
-            height: MediaQuery.of(context).size.height * 0.25,
           ),
         ),
         const SizedBox(height: 16),
@@ -150,9 +150,9 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
           onPressed: () {
             pickImage();
           },
-          icon: Icon(Icons.edit),
+          icon: const Icon(Icons.edit),
           label: const Text('Select Image'),
-          backgroundColor: Color(0xff26752b),
+          backgroundColor: const Color(0xff26752b),
         ),
       ),
     );
@@ -166,7 +166,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
         width: MediaQuery.of(context).size.width * 0.35,
         child: FloatingActionButton.extended(
           heroTag: 'createAccountBtn',
-          backgroundColor: Color(0xff26752b),
+          backgroundColor: const Color(0xff26752b),
           label: const Text('Create Account'),
           onPressed: () async {
             if (!_formKey.currentState!.validate()) {

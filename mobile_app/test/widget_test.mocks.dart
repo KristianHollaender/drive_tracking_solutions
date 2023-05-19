@@ -173,7 +173,6 @@ class MockFirebaseService extends _i1.Mock implements _i3.FirebaseService {
     String? id,
     _i2.GeoPoint? endPoint,
     DateTime? endTime,
-    String? totalTime,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -182,7 +181,6 @@ class MockFirebaseService extends _i1.Mock implements _i3.FirebaseService {
             id,
             endPoint,
             endTime,
-            totalTime,
           ],
         ),
         returnValue: _i4.Future<void>.value(),

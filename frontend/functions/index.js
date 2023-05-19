@@ -10,8 +10,36 @@ app.use(cors());
 // Reference to db
 const db = admin.firestore();
 
+// Method for validate the token
+
+const validateFirebaseIdToken = async (req, res, next) => {
+  try {
+    // Get token from header
+    const token = req.headers?.authorization;
+
+    // Verify token
+    await admin.auth().verifyIdToken(token);
+    return next();
+  } catch (error) {
+    // If the token isn't valid
+    return res.status(403).json(error);
+  }
+}
+
+//Converts ms into more readable time
+function millisToTime(ms) {
+  const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+  const daysms = ms % (24 * 60 * 60 * 1000);
+  const hours = Math.floor(daysms / (60 * 60 * 1000));
+  const hoursms = ms % (60 * 60 * 1000);
+  const minutes = Math.floor(hoursms / (60 * 1000));
+  const minutesms = ms % (60 * 1000);
+  const sec = Math.floor(minutesms / 1000);
+  return `${days}:${hours}:${minutes}:${sec}`;
+}
+
 //#region Get total tour time
-app.get('/tour/totalTourTime/:tourId', async (req, res) => {
+app.get('/tour/totalTourTime/:tourId',  async (req, res) => {
   // Gets the tour id from url
   const tourId = req.params.tourId;
 
@@ -130,36 +158,25 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 });
 //#endregion
 
+app.get('/User', async (req, res) => {
+  // Get data from user collection
+  const usersSnapshot = await admin.firestore().collection('User').get();
 
+  // Initialize array of users
+  const users = [];
 
-app.get('/User/', async (req, res) => {
   try {
-    const usersSnapshot = await admin.firestore().collection('User').get();
-    const users = [];
-
+    // Iterates through the Query snapshot and pushes it to the user array
     usersSnapshot.forEach((doc) => {
       const userData = doc.data();
       users.push(userData);
     });
 
-    res.json(users);
+    return res.status(200).json({status: 'Successful', users: users});
   } catch (error) {
-    console.error('Error retrieving users:', error);
-    res.status(500).send('Error retrieving users');
+    return res.status(500).json({status: 'Failed', error: error.error});
   }
 });
-
-//Converts ms into more readable time
-function millisToTime(ms) {
-  const days = Math.floor(ms / (24 * 60 * 60 * 1000));
-  const daysms = ms % (24 * 60 * 60 * 1000);
-  const hours = Math.floor(daysms / (60 * 60 * 1000));
-  const hoursms = ms % (60 * 60 * 1000);
-  const minutes = Math.floor(hoursms / (60 * 1000));
-  const minutesms = ms % (60 * 1000);
-  const sec = Math.floor(minutesms / 1000);
-  return `${days}:${hours}:${minutes}:${sec}`;
-}
 
 exports.api = functions.https.onRequest(app);
 

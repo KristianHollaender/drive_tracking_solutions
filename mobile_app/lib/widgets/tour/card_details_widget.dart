@@ -100,7 +100,7 @@ class CardDetailsWidget extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send), // Add send icon
+                  icon: const Icon(Icons.send), // Add send icon
                   onPressed: () async {
                     await fireService
                         .addNote(tour.tourId, notesController.text.trim())

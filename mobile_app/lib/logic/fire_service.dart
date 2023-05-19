@@ -77,12 +77,11 @@ class FirebaseService {
 
   // Update
   Future<void> endTour(
-      String id, GeoPoint endPoint, DateTime endTime, String totalTime) async {
+      String id, GeoPoint endPoint, DateTime endTime) async {
     try {
       await db.collection(CollectionNames.tour).doc(id).update({
         TourKeys.endPoint: endPoint,
         TourKeys.endTime: endTime,
-        TourKeys.totalTime: totalTime,
       });
     } catch (e) {
       throw Exception(e.toString());

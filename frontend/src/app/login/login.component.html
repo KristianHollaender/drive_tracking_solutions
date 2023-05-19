@@ -23,7 +23,7 @@
     <br>
     <br>
 
-    <input type="submit" (click)="fireService.signIn(email, password)" value="Login">
+    <input type="submit" (click)="signIn(email,password)" value="Login">
     <br>
 
     <a (click)="fireService.forgotPassword(email)" href="#">Forgot password?</a>
@@ -32,5 +32,5 @@
 </div>
 
 <div *ngIf="fireService.auth.currentUser!=null">
-  <button (click)="fireService.signOut()">Logout</button>
+  <button (click)="signOut()">Logout</button>
 </div>

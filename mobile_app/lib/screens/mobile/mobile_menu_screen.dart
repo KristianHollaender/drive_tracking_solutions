@@ -40,21 +40,19 @@ class MenuScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         const SizedBox(
+          height: 45.0,
           child: Center(
               child: Text(
             "User Information",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           )),
-          height: 45.0,
         ),
         _buildProfilePicture(),
-        Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _buildUserInfo(fireService),
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            _buildUserInfo(fireService),
+          ],
         ),
         Expanded(
           child: Column(
@@ -73,12 +71,12 @@ class MenuScreen extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: Container(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.25,
             child: Image.asset(
               'assets/Logo-lighter.png',
               width: MediaQuery.of(context).size.width * 0.75,
             ),
-            height: MediaQuery.of(context).size.height * 0.25,
           ),
         ),
       ],
