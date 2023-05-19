@@ -6,6 +6,8 @@ import 'firebase/compat/storage';
 import axios from "axios";
 import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
+import {FirebaseDatabaseNames} from "./models/helper/FirebaseDatabaseNames";
+import {Tour} from "./models/Tour";
 
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
@@ -21,7 +23,7 @@ export class FireService {
   storage: firebase.storage.Storage;
 
   users: User[] = [];
-
+  tours: any[] = [];
 
   constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
@@ -30,8 +32,8 @@ export class FireService {
     this.storage = firebase.storage();
     this.auth.onAuthStateChanged((user) => {
       this.intercept();
-      this.getUsers();
     });
+
     //#region Emulators
     //this.firestore.useEmulator('localhost', 8080);
     //this.auth.useEmulator('http://localhost:9099');
@@ -55,11 +57,67 @@ export class FireService {
     console.log(await this.auth.currentUser?.getIdToken() + '');
   }
 
-  async getUsers() {
+  /**
+   async getUsers() {
     const httpResult = await customAxios.get('/User');
     this.users = httpResult.data['users'];
     return this.users;
   }
+   */
+
+  // Try to only
+  getUsers() {
+    this.firestore.collection(FirebaseDatabaseNames.user).orderBy(FirebaseDatabaseNames.email, "asc").onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type == 'added') {
+          this.users.push({
+            uid: change.doc.id,
+            email: change.doc.data()['email'],
+            firstname: change.doc.data()['firstname'],
+            lastname: change.doc.data()['lastname'],
+            role: change.doc.data()['role'],
+          });
+        }
+        if (change.type == "modified") {
+          const index = this.users.findIndex(user => user.uid == change.doc.id);
+          this.users[index] = {
+            uid: change.doc.id,
+            email: change.doc.data()['email'],
+            firstname: change.doc.data()['firstname'],
+            lastname: change.doc.data()['lastname'],
+            role: change.doc.data()['role'],
+          };
+        }
+        if (change.type == "removed") {
+          this.users == this.users.filter(u => u.uid != change.doc.id);
+        }
+      });
+    });
+    return this.users;
+  }
+
+  getTours() {
+    this.firestore.collection(FirebaseDatabaseNames.tour).orderBy(FirebaseDatabaseNames.tourStartTime, "asc").onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type == 'added') {
+          this.tours.push({
+            id: change.doc.id,
+            data: change.doc.data(),
+          });
+        }
+        if (change.type == "modified") {
+          const index = this.tours.findIndex(document => document.id == change.doc.id);
+          this.tours[index] = {
+            id: change.doc.id, data: change.doc.data()
+          };
+        }
+        if (change.type == "removed") {
+          this.tours == this.tours.filter(d => d.id != change.doc.id);
+        }
+      });
+    });
+    return this.tours;
+  };
 
   async forgotPassword(email: string) {
     await this.auth.sendPasswordResetEmail(email);
@@ -67,5 +125,7 @@ export class FireService {
 
   async signOut() {
     await this.auth.signOut();
+    this.users = [];
+    this.tours = [];
   }
 }

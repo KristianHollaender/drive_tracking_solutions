@@ -23,9 +23,9 @@ export class FirebaseDatabaseNames{
   //#region Pause
   static pause = 'Pause';
   static pauseId: 'pauseId';
-  static pauseStartTime: 'startTime';
-  static pauseEndTime: 'endTime';
-  static pauseTotalTime: 'totalTime';
+  static pauseStartTime = 'startTime';
+  static pauseEndTime = 'endTime';
+  static pauseTotalTime = 'totalTime';
   //#endregion
 
   //#region CheckPoint

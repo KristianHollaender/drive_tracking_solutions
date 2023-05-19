@@ -21,14 +21,4 @@ export class LoginComponent {
         console.log(error);
       });
   };
-
-  async signOut(){
-    await this.signOut().then(() => {
-      this.router.navigate(['']);
-    })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
 }

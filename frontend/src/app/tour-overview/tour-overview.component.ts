@@ -11,7 +11,7 @@ export class TourOverviewComponent implements OnInit{
 
   }
   async ngOnInit() {
-
+    this.fireService.getTours();
   }
 
 }

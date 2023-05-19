@@ -1,4 +1,4 @@
-<p>tour-overview works!</p>
-<div>
-  <button (click)="fireService.signOut()">Logout</button>
+<div *ngFor="let tour of fireService.tours">
+  <p>{{tour.id}}</p>
+  <p>{{tour.data['totalTime']}}</p>
 </div>
