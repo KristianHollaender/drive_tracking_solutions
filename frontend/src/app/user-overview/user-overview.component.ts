@@ -11,17 +11,20 @@ import {User} from "../models/User";
 })
 export class UserOverviewComponent implements OnInit{
   displayedColumns: string[] = ['id', 'email', 'firstname', 'lastname'];
-  dataSource!: MatTableDataSource<User>;
+  dataSource = new MatTableDataSource<User>;
 
 
   constructor(public fireService: FireService, private router: Router) {
   }
 
-  ngOnInit() {
-    this.fireService.getUsers();
-    this.dataSource = new MatTableDataSource(this.fireService.users);
+  async ngOnInit() {
+    try {
+      const users = await this.fireService.getUsers();
+      this.dataSource.data = users;
+    } catch (error) {
+      console.error('Error retrieving users:', error);
+    }
   }
-
   async signOut(){
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);
@@ -30,7 +33,5 @@ export class UserOverviewComponent implements OnInit{
         console.log(error);
       });
   }
-
-
 
 }

@@ -8,6 +8,7 @@ import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
 import {FirebaseDatabaseNames} from "./models/helper/FirebaseDatabaseNames";
 import {Tour} from "./models/Tour";
+import {Observable} from "rxjs";
 
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
@@ -66,8 +67,9 @@ export class FireService {
    */
 
   // Try to only
-  getUsers() {
-    this.firestore.collection(FirebaseDatabaseNames.user).orderBy(FirebaseDatabaseNames.email, "asc").onSnapshot(snapshot => {
+  async getUsers() {
+    /**
+     await this.firestore.collection(FirebaseDatabaseNames.user).onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         if (change.type == 'added') {
           this.users.push({
@@ -93,6 +95,22 @@ export class FireService {
         }
       });
     });
+     */
+
+    await this.firestore.collection(FirebaseDatabaseNames.user).get().then(
+      (snapshot) => {
+        snapshot.forEach((doc) => {
+          this.users.push({
+            uid: doc.id,
+            email: doc.data()['email'],
+            firstname: doc.data()['firstname'],
+            lastname: doc.data()['lastname'],
+            role: doc.data()['role'],
+          });
+        })
+      });
+
+
     return this.users;
   }
 
@@ -124,8 +142,9 @@ export class FireService {
   }
 
   async signOut() {
-    await this.auth.signOut();
-    this.users = [];
-    this.tours = [];
+    await this.auth.signOut().then(() => {
+      this.users = [];
+      this.tours = [];
+    });
   }
 }
