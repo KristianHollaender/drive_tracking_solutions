@@ -114,26 +114,26 @@ export class FireService {
     return this.users;
   }
 
-  getTours() {
-    this.firestore.collection(FirebaseDatabaseNames.tour).orderBy(FirebaseDatabaseNames.tourStartTime, "asc").onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(change => {
-        if (change.type == 'added') {
+  async getTours() {
+    await this.firestore.collection(FirebaseDatabaseNames.tour).get().then(
+      (snapshot) => {
+        snapshot.forEach((doc) => {
+          const tourData = doc.data();
+          const startTime = (tourData['startTime'] as firebase.firestore.Timestamp).toDate().toLocaleString() ;
+          const endTime = (tourData['endTime'] as firebase.firestore.Timestamp).toDate().toLocaleString();
+
           this.tours.push({
-            id: change.doc.id,
-            data: change.doc.data(),
+            tourId: tourData['tourId'],
+            uid: tourData['uid'],
+            startTime: startTime,
+            endTime: endTime,
+            startPoint: tourData['startPoint'],
+            endPoint: tourData['endPoint'],
+            totalPauseTime: tourData['totalPauseTime'],
+            totalTime: tourData['totalTime'],
           });
-        }
-        if (change.type == "modified") {
-          const index = this.tours.findIndex(document => document.id == change.doc.id);
-          this.tours[index] = {
-            id: change.doc.id, data: change.doc.data()
-          };
-        }
-        if (change.type == "removed") {
-          this.tours == this.tours.filter(d => d.id != change.doc.id);
-        }
+        });
       });
-    });
     return this.tours;
   };
 
