@@ -146,7 +146,7 @@ export class FireService {
     });
   }
 
-  async createUser(dto: { firstname: string | null | undefined; password: string | null | undefined; email: string | null | undefined; lastname: string | null | undefined }) {
+  async createUser(dto: { firstname: any; password: any; email: any; lastname: any }) {
     await customAxios.post('/User', dto);
   }
 
