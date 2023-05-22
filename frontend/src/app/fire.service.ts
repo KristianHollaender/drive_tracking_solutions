@@ -145,4 +145,12 @@ export class FireService {
       this.tours = [];
     });
   }
+
+  async createUser(dto: { firstname: string | null | undefined; password: string | null | undefined; email: string | null | undefined; lastname: string | null | undefined }) {
+    await customAxios.post('/User', dto);
+  }
+
+  async editUser(id: string, dto: { firstname: any; email: any; lastname: any }, ) {
+    await customAxios.put('/User/' + id, dto);
+  }
 }
