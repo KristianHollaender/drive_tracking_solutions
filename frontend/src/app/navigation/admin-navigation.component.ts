@@ -5,11 +5,11 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {FireService} from "../fire.service";
 
 @Component({
-  selector: 'app-side-nav',
-  templateUrl: './side-nav-admin.component.html',
-  styleUrls: ['./side-nav-admin.component.scss']
+  selector: 'app-navigation',
+  templateUrl: './admin-navigation.component.html',
+  styleUrls: ['./admin-navigation.component.scss']
 })
-export class SideNavAdminComponent implements OnInit {
+export class AdminNavigationComponent implements OnInit {
 
   profilePicture: any;
   private user: any;

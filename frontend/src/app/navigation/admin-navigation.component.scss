@@ -1,14 +1,28 @@
-mat-toolbar {
-  background: #45a845;
+.main-mat-toolbar {
+  background: #219321;
+  color: white;
+  height: 95px;
+}
+
+.secondary-mat-toolbar {
+  background: #127912;
   color: white;
 }
 
-.profile-picture{
+.toolbar-button {
+  font-size: 18px;
+  width: 100%;
+  height: 55px;
+  background: rgba(31, 145, 31, 0.49);
+  margin: 2px;
+}
+
+.profile-picture {
   border-radius: 100%;
   margin-right: 8px;
 }
 
-.spacer{
+.spacer {
   flex: 1 1 auto;
 }
 
@@ -35,11 +49,11 @@ mat-sidenav {
 }
 
 
-mat-sidenav-container{
+mat-sidenav-container {
   height: calc(100vh - 65px);
 }
 
-.menu-button{
+.menu-button {
   color: white !important;
   width: 100%;
   display: flex;
@@ -48,13 +62,13 @@ mat-sidenav-container{
   font-size: 1rem;
   text-align: center;
 
-  mat-icon{
+  mat-icon {
     margin-right: 8px;
   }
 
 }
 
-.avatar{
+.avatar {
   border-radius: 60%;
 }
 
@@ -64,13 +78,13 @@ mat-sidenav-container{
   font-weight: normal;
 }
 
-.designation{
+.designation {
   margin-top: 2px;
   font-size: 0.7rem;
   color: lightgrey;
 }
 
-mat-divider{
+mat-divider {
   margin-top: 16px;
   margin-bottom: 16px;
   background-color: aliceblue;

@@ -10,7 +10,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {SideNavAdminComponent} from "./side-nav/side-nav-admin.component";
+import {AdminNavigationComponent} from "./navigation/admin-navigation.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatBadgeModule} from "@angular/material/badge";
@@ -31,7 +31,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     LoginComponent,
     UserOverviewComponent,
     TourOverviewComponent,
-    SideNavAdminComponent,
+    AdminNavigationComponent,
     CreateUserComponent,
     EditUserComponent,
   ],

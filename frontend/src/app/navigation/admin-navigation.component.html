@@ -1,17 +1,10 @@
-<mat-toolbar class="mat-elevation-z8">
+<mat-toolbar class="main-mat-toolbar" >
+  <mat-toolbar-row></mat-toolbar-row>
   <mat-toolbar-row>
-    <button
-      mat-icon-button
-      *ngIf="sidenav.mode === 'over'"
-      (click)="sidenav.toggle()"
-    >
-      <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
-      <mat-icon *ngIf="sidenav.opened">close</mat-icon>
-    </button>
     <span style="margin-left: 5px; margin-right: 10px;"><img
       src="https://cdn.discordapp.com/attachments/1042375108494377041/1110110039198404659/image-removebg-preview_1.png"
-      width="65" height="55"></span>
-    DriveTracking Solutions
+      width="125" height="95"></span>
+    <span style="font-size: 35px;">DriveTracking Solutions</span>
     <span class="spacer"></span>
     <img class="profile-picture" height="30" width="30"
          [src]="profilePicture?? 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'">
@@ -30,30 +23,32 @@
       </button>
     </mat-menu>
   </mat-toolbar-row>
+  <mat-toolbar-row></mat-toolbar-row>
+</mat-toolbar>
+<mat-toolbar class="secondary-mat-toolbar">
+  <mat-toolbar-row>
+      <button mat-button routerLink="/admin/users" style="" class="toolbar-button">
+          <mat-icon>person</mat-icon>
+        <span>DTS Users</span>
+      </button>
+      <button mat-button routerLink="/admin/tours" class="toolbar-button">
+        <mat-icon>navigation</mat-icon>
+        <span>DTS Tours</span>
+      </button>
+    <button mat-button routerLink="/admin/tours" class="toolbar-button">
+      <mat-icon >computer</mat-icon>
+      <span>Information</span>
+    </button>
+    <button mat-button routerLink="/admin/tours" class="toolbar-button">
+      <mat-icon>edit</mat-icon>
+      <span>Support</span>
+    </button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
-
-    <img class="profile-picture" height="160" width="160"
-         [src]="profilePicture??
-         'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'">
-    <h4 class="name">Carsten Lauerblad</h4>
-    <p class="designation">Admin</p>
-
-    <mat-divider></mat-divider>
-
-    <button mat-button class="menu-button" routerLink="/admin/users">
-      <mat-icon>person</mat-icon>
-      <span>Users</span>
-    </button>
-    <button mat-button class="menu-button" routerLink="/admin/tours">
-      <mat-icon>navigation</mat-icon>
-      <span>Tours</span>
-    </button>
-  </mat-sidenav>
   <mat-sidenav-content>
-    <div style="color: #ff1428" class="content mat-elevation-z8">
+    <div class="content mat-elevation-z8">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
