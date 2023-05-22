@@ -9,6 +9,7 @@ import {User} from "../models/User";
   templateUrl: './user-overview.component.html',
   styleUrls: ['./user-overview.component.scss']
 })
+
 export class UserOverviewComponent implements OnInit{
   displayedColumns: string[] = ['id', 'email', 'firstname', 'lastname'];
   dataSource = new MatTableDataSource<User>;

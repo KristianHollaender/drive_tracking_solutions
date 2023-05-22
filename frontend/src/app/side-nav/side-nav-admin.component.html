@@ -1,0 +1,60 @@
+<mat-toolbar class="mat-elevation-z8">
+  <mat-toolbar-row>
+    <button
+      mat-icon-button
+      *ngIf="sidenav.mode === 'over'"
+      (click)="sidenav.toggle()"
+    >
+      <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+      <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+    </button>
+    <span style="margin-left: 5px; margin-right: 10px;"><img
+      src="https://cdn.discordapp.com/attachments/1042375108494377041/1110110039198404659/image-removebg-preview_1.png"
+      width="65" height="55"></span>
+    DriveTracking Solutions
+    <span class="spacer"></span>
+    <img class="profile-picture" height="30" width="30"
+         [src]="profilePicture?? 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'">
+    <span>Carsten Lauerblad</span>
+    <button mat-icon-button style="align-self: center" [matMenuTriggerFor]="menu">
+      <span><mat-icon>expand_more</mat-icon></span>
+    </button>
+    <mat-menu class="profile-dropdown" #menu="matMenu">
+      <button mat-menu-item routerLink="/administrator/profil-information">
+        <mat-icon>person</mat-icon>
+        <span>Profil oplysninger</span>
+      </button>
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Log ud</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+
+    <img class="profile-picture" height="160" width="160"
+         [src]="profilePicture??
+         'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'">
+    <h4 class="name">Carsten Lauerblad</h4>
+    <p class="designation">Admin</p>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" routerLink="/admin/users">
+      <mat-icon>person</mat-icon>
+      <span>Users</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/admin/tours">
+      <mat-icon>navigation</mat-icon>
+      <span>Tours</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="color: #ff1428" class="content mat-elevation-z8">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
