@@ -64,7 +64,6 @@ export class FireService {
     return this.users;
   }
 
-  // TODO Map time to string
   async getTours() {
     const httpResult = await customAxios.get('/Tours');
     this.tours = httpResult.data['tours'];

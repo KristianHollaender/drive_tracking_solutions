@@ -271,8 +271,16 @@ app.get('/Tours', async (req, res) => {
       const checkpointSnapshot = await doc.ref.collection('CheckPoint').get();
       const checkpointData = checkpointSnapshot.docs.map((checkpointDoc) => checkpointDoc.data());
 
-      tours.push({
+      // Convert Firebase Timestamps to strings
+      const parsedTourData = {
         ...tourData,
+        startTime: tourData.startTime.toDate().toISOString(),
+        endTime: tourData.endTime.toDate().toISOString()
+      };
+
+
+      tours.push({
+        ...parsedTourData,
         pauseData,
         checkpointData
       });

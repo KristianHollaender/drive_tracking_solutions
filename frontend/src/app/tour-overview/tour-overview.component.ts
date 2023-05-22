@@ -10,7 +10,7 @@ import {Tour} from "../models/Tour";
   styleUrls: ['./tour-overview.component.scss']
 })
 export class TourOverviewComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'startTime', 'endTime', 'totalTime'];
+  displayedColumns: string[] = ['id', 'startTime', 'endTime', 'totalTime', 'viewTour'];
   dataSource = new MatTableDataSource<Tour>;
 
   constructor(public fireService: FireService, private router: Router) {
@@ -32,5 +32,9 @@ export class TourOverviewComponent implements OnInit {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  async viewTour(tour: Tour){
+    alert(`${tour.tourId}`);
   }
 }
