@@ -12,7 +12,7 @@ import {FireService} from "../fire.service";
 export class AdminNavigationComponent implements OnInit {
 
   profilePicture: any;
-  private user: any;
+  user: any;
 
   requests: any[] = [];
   errors: any[] = [];
@@ -20,7 +20,7 @@ export class AdminNavigationComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
-  constructor(private router: Router, private observer: BreakpointObserver, private fireService: FireService) {
+  constructor(private router: Router, private observer: BreakpointObserver, public fireService: FireService) {
   }
 
   async ngOnInit() {

@@ -89,4 +89,9 @@ export class FireService {
   async editUser(id: string, dto: { firstname: any; email: any; lastname: any }, ) {
     await customAxios.put('/User/' + id, dto);
   }
+
+
+  async deleteUser(id: string) {
+    await customAxios.delete('/User/' + id);
+  }
 }

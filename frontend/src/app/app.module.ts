@@ -24,6 +24,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {MatListModule} from "@angular/material/list";
 import { EditUserComponent } from './edit-user/edit-user.component';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     MatDialogModule,
     MatListModule,
   ],
-  providers: [],
+  providers: [
+    MatSnackBar
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

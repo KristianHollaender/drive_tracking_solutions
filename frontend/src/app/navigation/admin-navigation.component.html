@@ -7,19 +7,19 @@
     <span style="font-size: 35px;">DriveTracking Solutions</span>
     <span class="spacer"></span>
     <img class="profile-picture" height="30" width="30"
-         [src]="profilePicture?? 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'">
-    <span>Carsten Lauerblad</span>
+         [src]="profilePicture ?? 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'">
+    <span>Get Logged in username</span>
     <button mat-icon-button style="align-self: center" [matMenuTriggerFor]="menu">
       <span><mat-icon>expand_more</mat-icon></span>
     </button>
     <mat-menu class="profile-dropdown" #menu="matMenu">
       <button mat-menu-item routerLink="/administrator/profil-information">
         <mat-icon>person</mat-icon>
-        <span>Profil oplysninger</span>
+        <span>Profile</span>
       </button>
       <button mat-menu-item (click)="logOut()">
         <mat-icon>logout</mat-icon>
-        <span>Log ud</span>
+        <span>Logout</span>
       </button>
     </mat-menu>
   </mat-toolbar-row>
