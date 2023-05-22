@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FireService} from "../fire.service";
 import {Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
-import {User} from "../models/User";
+import {Tour} from "../models/Tour";
 
 @Component({
   selector: 'app-tour-overview',
@@ -11,14 +11,15 @@ import {User} from "../models/User";
 })
 export class TourOverviewComponent implements OnInit {
   displayedColumns: string[] = ['id', 'startTime', 'endTime', 'totalTime'];
-  dataSource = new MatTableDataSource<User>;
+  dataSource = new MatTableDataSource<Tour>;
 
   constructor(public fireService: FireService, private router: Router) {
 
   }
   async ngOnInit() {
     try {
-      this.dataSource.data = await this.fireService.getTours();
+      const tours = await this.fireService.getTours();
+      this.dataSource.data = tours;
     } catch (error) {
       console.error('Error retrieving users:', error);
     }
@@ -32,5 +33,4 @@ export class TourOverviewComponent implements OnInit {
         console.log(error);
       });
   }
-
 }

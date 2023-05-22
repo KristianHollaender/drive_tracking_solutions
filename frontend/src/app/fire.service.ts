@@ -58,82 +58,19 @@ export class FireService {
     console.log(await this.auth.currentUser?.getIdToken() + '');
   }
 
-  /**
-   async getUsers() {
+  async getUsers() {
     const httpResult = await customAxios.get('/Users');
     this.users = httpResult.data['users'];
     return this.users;
   }
-   */
 
-  // Try to only
-  async getUsers() {
-    /**
-     await this.firestore.collection(FirebaseDatabaseNames.user).onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(change => {
-        if (change.type == 'added') {
-          this.users.push({
-            uid: change.doc.id,
-            email: change.doc.data()['email'],
-            firstname: change.doc.data()['firstname'],
-            lastname: change.doc.data()['lastname'],
-            role: change.doc.data()['role'],
-          });
-        }
-        if (change.type == "modified") {
-          const index = this.users.findIndex(user => user.uid == change.doc.id);
-          this.users[index] = {
-            uid: change.doc.id,
-            email: change.doc.data()['email'],
-            firstname: change.doc.data()['firstname'],
-            lastname: change.doc.data()['lastname'],
-            role: change.doc.data()['role'],
-          };
-        }
-        if (change.type == "removed") {
-          this.users == this.users.filter(u => u.uid != change.doc.id);
-        }
-      });
-    });
-     */
-
-    await this.firestore.collection(FirebaseDatabaseNames.user).get().then(
-      (snapshot) => {
-        snapshot.forEach((doc) => {
-          this.users.push({
-            uid: doc.id,
-            email: doc.data()['email'],
-            firstname: doc.data()['firstname'],
-            lastname: doc.data()['lastname'],
-            role: doc.data()['role'],
-          });
-        })
-      });
-    return this.users;
-  }
-
+  // TODO Map time to string
   async getTours() {
-    await this.firestore.collection(FirebaseDatabaseNames.tour).get().then(
-      (snapshot) => {
-        snapshot.forEach((doc) => {
-          const tourData = doc.data();
-          const startTime = (tourData['startTime'] as firebase.firestore.Timestamp).toDate().toLocaleString() ;
-          const endTime = (tourData['endTime'] as firebase.firestore.Timestamp).toDate().toLocaleString();
-
-          this.tours.push({
-            tourId: tourData['tourId'],
-            uid: tourData['uid'],
-            startTime: startTime,
-            endTime: endTime,
-            startPoint: tourData['startPoint'],
-            endPoint: tourData['endPoint'],
-            totalPauseTime: tourData['totalPauseTime'],
-            totalTime: tourData['totalTime'],
-          });
-        });
-      });
+    const httpResult = await customAxios.get('/Tours');
+    this.tours = httpResult.data['tours'];
     return this.tours;
   };
+
 
   async forgotPassword(email: string) {
     await this.auth.sendPasswordResetEmail(email);

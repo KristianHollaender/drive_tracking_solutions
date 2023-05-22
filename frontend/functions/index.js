@@ -278,7 +278,7 @@ app.get('/Tours', async (req, res) => {
       });
     }
 
-    return res.status(200).json({ status: 'Successful', tours });
+    return res.status(200).json({ status: 'Successful', tours: tours });
   } catch (error) {
     return res.status(500).json({ status: 'Failed', error: error.message });
   }
