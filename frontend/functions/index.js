@@ -158,7 +158,33 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 });
 //#endregion
 
-app.get('/User', async (req, res) => {
+//#region User CRUD
+
+//Create User
+app.post('/User', async (req, res) =>{
+  const body = req.body;
+  try{
+    await admin.auth().createUser({
+      email: body.email,
+      password: body.password,
+    }).then(async user =>{
+      await admin.firestore().collection('User').doc(user.uid).set({
+        uid: user.uid,
+        email: body.email,
+        firstname: body.firstname,
+        lastname: body.lastname,
+        role: 'User',
+      });
+    });
+
+    return res.status(201).json({status: 'Successful', message: 'User created'});
+  }catch (error){
+    return res.status(500).json({status: 'Failed', message: error.error});
+  }
+});
+
+//Get users
+app.get('/Users', async (req, res) => {
   // Get data from user collection
   const usersSnapshot = await admin.firestore().collection('User').get();
 
@@ -177,6 +203,119 @@ app.get('/User', async (req, res) => {
     return res.status(500).json({status: 'Failed', error: error.error});
   }
 });
+
+// Get single user
+app.get('/User/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const doc = await admin.firestore().collection('User').doc(userId).get();
+    return res.status(200).json({status: 'Successful', user: doc.data()});
+
+  }catch (error) {
+    return res.status(500).json({status: 'Failed', error: error.error});
+
+  }
+});
+
+// Update user
+app.put('/User/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const body = req.body;
+
+  try {
+    await admin.auth().updateUser(userId, {
+      email: body.email
+    });
+
+    await admin.firestore().collection('User').doc(userId).update({
+      email: body.email,
+      firstname: body.firstname,
+      lastname: body.lastname,
+    });
+
+    return res.status(200).json({status: 'Successful', message: 'User updated'});
+  }catch (error) {
+    return res.status(500).json({status: 'Failed', message: error.error});
+  }
+});
+
+// Delete user
+
+app.delete('/User/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try{
+    await admin.auth().deleteUser(userId);
+    await admin.firestore().collection('User').doc(userId).delete();
+    return res.status(200).json({status: 'Successful', message: 'User deleted'});
+  }catch (error) {
+    return res.status(500).json({status: 'Failed', message: error.error});
+  }
+});
+//#endregion
+
+
+//#region Tour
+app.get('/Tours', async (req, res) => {
+  try {
+    const toursSnapshot = await admin.firestore().collection('Tour').get();
+    const tours = [];
+
+    for (const doc of toursSnapshot.docs) {
+      const tourData = doc.data();
+
+      const pauseSnapshot = await doc.ref.collection('Pause').get();
+      const pauseData = pauseSnapshot.docs.map((pauseDoc) => pauseDoc.data());
+
+      const checkpointSnapshot = await doc.ref.collection('CheckPoint').get();
+      const checkpointData = checkpointSnapshot.docs.map((checkpointDoc) => checkpointDoc.data());
+
+      tours.push({
+        ...tourData,
+        pauseData,
+        checkpointData
+      });
+    }
+
+    return res.status(200).json({ status: 'Successful', tours });
+  } catch (error) {
+    return res.status(500).json({ status: 'Failed', error: error.message });
+  }
+});
+
+
+// Get single tour
+app.get('/Tour/:tourId', async (req, res) => {
+  const tourId = req.params.tourId;
+
+  try {
+    const tourCollection = await admin.firestore().collection('Tour').doc(tourId);
+    const tourDoc = tourCollection.get();
+
+    if (!tourDoc.exists) {
+      return res.status(404).json({ status: 'Failed', error: 'Tour not found' });
+    }
+
+    const pauseSnapshot = await tourCollection.collection('Pause').get();
+    const pause = pauseSnapshot.docs.map(pauseDoc => pauseDoc.data());
+
+    const checkpointSnapshot = await tourCollection.collection('CheckPoint').get();
+    const checkPoint = checkpointSnapshot.docs.map(checkPointDoc => checkPointDoc.data());
+
+    const tour = {
+      ...tourDoc.data(),
+      pause,
+      checkPoint
+    }
+
+    return res.status(200).json({status: 'Successful', tour: tour});
+
+  }catch (error) {
+    return res.status(500).json({status: 'Failed', error: error.error});
+  }
+});
+//#endregion
 
 exports.api = functions.https.onRequest(app);
 

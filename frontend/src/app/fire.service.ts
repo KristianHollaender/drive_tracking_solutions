@@ -60,7 +60,7 @@ export class FireService {
 
   /**
    async getUsers() {
-    const httpResult = await customAxios.get('/User');
+    const httpResult = await customAxios.get('/Users');
     this.users = httpResult.data['users'];
     return this.users;
   }
@@ -109,8 +109,6 @@ export class FireService {
           });
         })
       });
-
-
     return this.users;
   }
 
