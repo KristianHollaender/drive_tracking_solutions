@@ -8,15 +8,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss']
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent {
 
   constructor(public fireService: FireService, private snackBar: MatSnackBar) {
   }
-
-  async ngOnInit() {
-
-  }
-
 
   async editProfile() {
     const id = this.fireService.user.uid;
