@@ -39,18 +39,12 @@ class MobileLoginScreen extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.85,
+          width: MediaQuery.of(context).size.width * 0.85,
           child: emailInput(),
         ),
         Container(
           padding: const EdgeInsets.only(bottom: 28),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.85,
+          width: MediaQuery.of(context).size.width * 0.85,
           child: passwordInput(context),
         ),
         Column(
@@ -59,10 +53,7 @@ class MobileLoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.85,
+                width: MediaQuery.of(context).size.width * 0.85,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -83,9 +74,12 @@ class MobileLoginScreen extends StatelessWidget {
     return TextButton(
       style: ButtonStyle(
         foregroundColor:
-        MaterialStateProperty.all<Color>(const Color(0xff26752b)),
+            MaterialStateProperty.all<Color>(const Color(0xff26752b)),
       ),
-      child: const Text('Forgot Password?', style: TextStyle(fontSize: 16),),
+      child: const Text(
+        'Forgot Password?',
+        style: TextStyle(fontSize: 16),
+      ),
       onPressed: () async {
         Navigator.push(
           context,
@@ -99,10 +93,7 @@ class MobileLoginScreen extends StatelessWidget {
 
   SizedBox loginBtn(BuildContext context) {
     return SizedBox(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width * 0.41,
+      width: MediaQuery.of(context).size.width * 0.41,
       child: FloatingActionButton.extended(
         key: const Key('loginBtn'),
         heroTag: 'loginBtn',
@@ -113,7 +104,10 @@ class MobileLoginScreen extends StatelessWidget {
           await _login(context);
         },
         backgroundColor: const Color(0xff26752b),
-        label: const Text("Log in", style: TextStyle(fontSize: 17),),
+        label: const Text(
+          "Log in",
+          style: TextStyle(fontSize: 17),
+        ),
       ),
     );
   }
@@ -137,7 +131,7 @@ class MobileLoginScreen extends StatelessWidget {
           builder: (context) => const NavBar(),
         ),
       );
-    }catch(error){
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Login unsuccessful, email or password is incorrect'),
@@ -149,10 +143,7 @@ class MobileLoginScreen extends StatelessWidget {
 
   SizedBox signUpBtn(BuildContext context) {
     return SizedBox(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width * 0.41,
+      width: MediaQuery.of(context).size.width * 0.41,
       child: FloatingActionButton.extended(
         heroTag: 'signUpBtn',
         onPressed: () async {
@@ -193,7 +184,7 @@ class MobileLoginScreen extends StatelessWidget {
         ),
       ),
       validator: (value) =>
-      (value == null || !value.contains("@")) ? 'Email required' : null,
+          (value == null || !value.contains("@")) ? 'Email required' : null,
     );
   }
 
@@ -220,8 +211,7 @@ class MobileLoginScreen extends StatelessWidget {
         ),
       ),
       obscureText: true,
-      validator: (value) =>
-      (value == null || value.length < 6)
+      validator: (value) => (value == null || value.length < 6)
           ? 'Password required (min 6 chars)'
           : null,
       onFieldSubmitted: (_) => _login(context),

@@ -222,8 +222,7 @@ class HomeScreenState extends State<HomeScreen> {
             onPressed: tracker.tourStarted
                 ? () async {
                     await tracker.setCheckpoint();
-                    setState(() {
-                    });
+                    setState(() {});
                   }
                 : null,
             label: const Text("Checkpoint"),

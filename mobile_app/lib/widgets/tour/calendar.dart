@@ -255,8 +255,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                                   const EdgeInsets.only(right: 4.0, top: 12.0),
                               child: Column(
                                 children: const [
-                                  Icon(Icons.hourglass_empty_sharp,
-                                      size: 35.0),
+                                  Icon(Icons.hourglass_empty_sharp, size: 35.0),
                                   Text("Review")
                                 ],
                               ),

@@ -88,7 +88,9 @@ class CardDetailsWidget extends StatelessWidget {
                         maxLength: 50,
                         controller: notesController,
                         onSubmitted: (value) async {
-                          await fireService.addNote(tour.tourId, value.trim()).then(
+                          await fireService
+                              .addNote(tour.tourId, value.trim())
+                              .then(
                                 (value) => {
                                   SystemChannels.textInput
                                       .invokeListMethod('TextInput.hide'),

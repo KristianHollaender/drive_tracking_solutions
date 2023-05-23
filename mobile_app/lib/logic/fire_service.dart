@@ -4,7 +4,6 @@ import 'package:drive_tracking_solutions/models/check_point.dart';
 import 'package:drive_tracking_solutions/models/pause.dart';
 import 'package:drive_tracking_solutions/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../models/tour.dart';
 
 class CollectionNames {
@@ -76,8 +75,7 @@ class FirebaseService {
   }
 
   // Update
-  Future<void> endTour(
-      String id, GeoPoint endPoint, DateTime endTime) async {
+  Future<void> endTour(String id, GeoPoint endPoint, DateTime endTime) async {
     try {
       await db.collection(CollectionNames.tour).doc(id).update({
         TourKeys.endPoint: endPoint,
@@ -183,7 +181,11 @@ class FirebaseService {
   }
 
   Future<void> signIn(String email, String password) async {
+    try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   Future<void> signOut() async {
