@@ -27,6 +27,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import {TourDetailsComponent} from "./tour-details/tour-details.component";
+import {GoogleMapsModule} from "@angular/google-maps";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {TourDetailsComponent} from "./tour-details/tour-details.component";
     MatInputModule,
     MatDialogModule,
     MatListModule,
+    GoogleMapsModule,
   ],
   providers: [
     MatSnackBar
