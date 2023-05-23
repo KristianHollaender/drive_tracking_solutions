@@ -31,7 +31,7 @@ export class FireService {
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
-    this.auth.onAuthStateChanged(async (user) => {
+    this.auth.onAuthStateChanged(async () => {
       this.intercept();
       await this.getImageOfSignInUser();
     });
@@ -49,14 +49,17 @@ export class FireService {
     axios.interceptors
       .request
       .use(async (request) => {
-        request.headers.Authorization = await this.auth.currentUser?.getIdToken() + ""
+        request.headers.Authorization = await this.auth.currentUser?.getIdToken() + "";
         return request;
       });
   };
 
   async signIn(email: string, password: string) {
-    const user = await this.auth.signInWithEmailAndPassword(email, password);
-    await this.getUserById(user.user?.uid + '');
+    await this.auth.signInWithEmailAndPassword(email, password).then(async (user) =>{
+      console.log(await user.user?.getIdToken());
+      //await this.getUserById(user.user?.uid + '');
+    });
+    //console.log(await user.user?.getIdToken());
   }
 
   async getUsers() {
