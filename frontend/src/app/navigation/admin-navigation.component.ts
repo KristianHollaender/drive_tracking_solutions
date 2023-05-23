@@ -17,7 +17,6 @@ export class AdminNavigationComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.fireService.getUserById(this.fireService.auth.currentUser?.uid+'');
     this.observer.observe(['(max-width: 1500px)']).subscribe((res) => {
       if (res.matches) {
         this.sidenav.mode = 'over';

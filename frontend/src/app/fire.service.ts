@@ -47,10 +47,10 @@ export class FireService {
 
 // Tried to add authorization, but it's not working in flutter
   intercept() {
-    axios.interceptors
+    customAxios.interceptors
       .request
       .use(async (request) => {
-        request.headers.Authorization = await this.auth.currentUser?.getIdToken() + "";
+        request.headers.Authorization = await this.auth.currentUser?.getIdToken()+'';
         return request;
       });
   };
@@ -58,7 +58,7 @@ export class FireService {
   async signIn(email: string, password: string) {
     await this.auth.signInWithEmailAndPassword(email, password).then(async (user) =>{
       console.log(await user.user?.getIdToken());
-      //await this.getUserById(user.user?.uid + '');
+      await this.getUserById(user.user?.uid + '');
     });
     //console.log(await user.user?.getIdToken());
   }
