@@ -9,16 +9,13 @@ class TourRepository {
   // Get total time on tour
   Future<String> getTotalTourTime(String tourId) async {
     final token = await getToken();
-    print('-------------------');
-    print(token);
-    final header = {
-      'Authorization': 'Bearer $token'
-    };
-    Response response = await get(Uri.parse('$baseUrl/tour/totalTourTime/$tourId'));
-    if(response.statusCode == 200){
+    final header = {'Authorization': 'Bearer $token'};
+    Response response =
+        await get(Uri.parse('$baseUrl/tour/totalTourTime/$tourId'), headers: header);
+    if (response.statusCode == 200) {
       final totalTime = jsonDecode(response.body)['totalTime'];
       return totalTime;
-    }else{
+    } else {
       throw Exception(jsonDecode(response.body));
     }
   }
@@ -26,13 +23,9 @@ class TourRepository {
   // Get total pause time on pause
   Future<String> getTotalPauseTimeOnPause(String tourId, String pauseId) async {
     final token = await getToken();
-    print('-------------------');
-    print(token);
-    final header = {
-      'Authorization': 'Bearer $token'
-    };
-    Response response = await get(
-        Uri.parse('$baseUrl/pause/totalTime/$tourId/$pauseId'));
+    final header = {'Authorization': 'Bearer $token'};
+    Response response =
+        await get(Uri.parse('$baseUrl/pause/totalTime/$tourId/$pauseId'), headers: header);
     if (response.statusCode == 200) {
       final totalTime = jsonDecode(response.body)['totalTime'];
       return totalTime;
@@ -44,13 +37,9 @@ class TourRepository {
   // Get total pause time on tour
   Future<String> getTotalPauseTimeOnTour(String tourId) async {
     final token = await getToken();
-    print('-------------------');
-    print(token);
-    final header = {
-      'Authorization': 'Bearer $token'
-    };
-    Response response = await get(
-        Uri.parse('$baseUrl/tour/totalPauseTime/$tourId'));
+    final header = {'Authorization': 'Bearer $token'};
+    Response response =
+        await get(Uri.parse('$baseUrl/tour/totalPauseTime/$tourId'), headers: header);
     if (response.statusCode == 200) {
       final totalTime = jsonDecode(response.body)['totalTime'];
       return totalTime;
@@ -64,9 +53,9 @@ class TourRepository {
     if (user == null) {
       // User is not signed in
       return null;
-    }else{
-      final token = await user.getIdToken();
-      return token;
+    } else {
+      final token = await user.getIdTokenResult();
+      return token.token;
     }
   }
 }

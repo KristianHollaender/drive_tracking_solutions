@@ -45,28 +45,27 @@ class Results {
 
   Results(
       {this.businessStatus,
-        this.geometry,
-        this.icon,
-        this.iconBackgroundColor,
-        this.iconMaskBaseUri,
-        this.name,
-        this.openingHours,
-        this.photos,
-        this.placeId,
-        this.plusCode,
-        this.priceLevel,
-        this.rating,
-        this.reference,
-        this.scope,
-        this.types,
-        this.userRatingsTotal,
-        this.vicinity});
+      this.geometry,
+      this.icon,
+      this.iconBackgroundColor,
+      this.iconMaskBaseUri,
+      this.name,
+      this.openingHours,
+      this.photos,
+      this.placeId,
+      this.plusCode,
+      this.priceLevel,
+      this.rating,
+      this.reference,
+      this.scope,
+      this.types,
+      this.userRatingsTotal,
+      this.vicinity});
 
   Results.fromJson(Map<String, dynamic> json) {
     businessStatus = json['business_status'];
-    geometry = json['geometry'] != null
-        ? Geometry.fromJson(json['geometry'])
-        : null;
+    geometry =
+        json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null;
     icon = json['icon'];
     iconBackgroundColor = json['icon_background_color'];
     iconMaskBaseUri = json['icon_mask_base_uri'];
@@ -81,9 +80,8 @@ class Results {
       });
     }
     placeId = json['place_id'];
-    plusCode = json['plus_code'] != null
-        ? PlusCode.fromJson(json['plus_code'])
-        : null;
+    plusCode =
+        json['plus_code'] != null ? PlusCode.fromJson(json['plus_code']) : null;
     priceLevel = json['price_level'];
     rating = json['rating'];
     reference = json['reference'];
@@ -131,12 +129,10 @@ class Geometry {
   Geometry({this.location, this.viewport});
 
   Geometry.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null
-        ? Location.fromJson(json['location'])
-        : null;
-    viewport = json['viewport'] != null
-        ? Viewport.fromJson(json['viewport'])
-        : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
+    viewport =
+        json['viewport'] != null ? Viewport.fromJson(json['viewport']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -177,12 +173,10 @@ class Viewport {
   Viewport({this.northeast, this.southwest});
 
   Viewport.fromJson(Map<String, dynamic> json) {
-    northeast = json['northeast'] != null
-        ? Location.fromJson(json['northeast'])
-        : null;
-    southwest = json['southwest'] != null
-        ? Location.fromJson(json['southwest'])
-        : null;
+    northeast =
+        json['northeast'] != null ? Location.fromJson(json['northeast']) : null;
+    southwest =
+        json['southwest'] != null ? Location.fromJson(json['southwest']) : null;
   }
 
   Map<String, dynamic> toJson() {

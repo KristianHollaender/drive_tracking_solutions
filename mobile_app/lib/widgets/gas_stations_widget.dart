@@ -20,7 +20,10 @@ class GasStationWidget extends StatelessWidget {
     final gasRepo = Provider.of<GasStationRepo>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nearby gas stations', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Nearby gas stations',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -36,7 +39,8 @@ class GasStationWidget extends StatelessWidget {
               children: [
                 Flexible(
                   flex: 1,
-                  child: GasStationMap(geoPoint: geoPoint, markers:addToMarkersList(result)),
+                  child: GasStationMap(
+                      geoPoint: geoPoint, markers: addToMarkersList(result)),
                 ),
                 Flexible(
                   flex: 2,
@@ -59,10 +63,18 @@ class GasStationWidget extends StatelessWidget {
                             ),
                             child: Column(
                               children: [
-                                Text("Name: ${result.results?[index].name}", style: const TextStyle(color: Colors.white),),
                                 Text(
-                                    "Location: ${result.results?[index].geometry!.location!.lat} , ${result.results?[index].geometry!.location!.lng}", style: const TextStyle(color: Colors.white),),
-                                Text(result.results![index].vicinity!, style: const TextStyle(color: Colors.white),),
+                                  "Name: ${result.results?[index].name}",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                Text(
+                                  "Location: ${result.results?[index].geometry!.location!.lat} , ${result.results?[index].geometry!.location!.lng}",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                Text(
+                                  result.results![index].vicinity!,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ],
                             ),
                           );

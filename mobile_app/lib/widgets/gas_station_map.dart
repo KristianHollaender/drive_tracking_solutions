@@ -6,17 +6,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GasStationMap extends StatelessWidget {
   final Set<Marker> markers;
   final GeoPoint geoPoint;
-  GasStationMap({Key? key, required this.geoPoint, required this.markers}) : super(key: key);
+
+  GasStationMap({Key? key, required this.geoPoint, required this.markers})
+      : super(key: key);
   final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
 
   late CameraPosition _startPoint;
   late LatLng _startLatLng;
 
   @override
   Widget build(BuildContext context) {
-    _startLatLng = LatLng(
-        geoPoint.latitude, geoPoint.longitude);
+    _startLatLng = LatLng(geoPoint.latitude, geoPoint.longitude);
     _startPoint = CameraPosition(
       target: _startLatLng,
       zoom: 12,

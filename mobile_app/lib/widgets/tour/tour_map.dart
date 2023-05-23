@@ -9,7 +9,8 @@ class TourMap extends StatelessWidget {
 
   TourMap({super.key, required this.tour, required this.markers});
 
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   late CameraPosition _startPoint;
   late CameraPosition _endPoint;
@@ -19,12 +20,9 @@ class TourMap extends StatelessWidget {
   late LatLng _startLatLng;
   late LatLng _endLatLng;
 
-
-
   @override
   Widget build(BuildContext context) {
-    _startLatLng = LatLng(
-        tour.startPoint.latitude, tour.startPoint.longitude);
+    _startLatLng = LatLng(tour.startPoint.latitude, tour.startPoint.longitude);
     _startPoint = CameraPosition(
       target: _startLatLng,
       zoom: 7,
@@ -34,8 +32,7 @@ class TourMap extends StatelessWidget {
         infoWindow: const InfoWindow(title: 'Start point'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         position: _startLatLng);
-    _endLatLng =
-        LatLng(tour.endPoint.latitude, tour.endPoint.longitude);
+    _endLatLng = LatLng(tour.endPoint.latitude, tour.endPoint.longitude);
     _endPoint = CameraPosition(
       target: _endLatLng,
       zoom: 7,
@@ -47,7 +44,7 @@ class TourMap extends StatelessWidget {
         position: _endLatLng);
 
     _fullTour = CameraPosition(
-        target: _endLatLng,
+      target: _endLatLng,
       zoom: 5.5,
     );
 
@@ -106,5 +103,4 @@ class TourMap extends StatelessWidget {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_fullTour));
   }
-
 }

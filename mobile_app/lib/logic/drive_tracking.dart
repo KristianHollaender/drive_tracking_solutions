@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive_tracking_solutions/logic/tour_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
 import '../util/calender_util.dart';
 
 class DriveTracker {
@@ -56,7 +54,6 @@ class DriveTracker {
         BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         const MarkerId("startPoint"),
         const InfoWindow(title: "Start point"));
-    print(fireService.tourId);
   }
 
   Future<void> setCheckpoint() async {
@@ -65,14 +62,14 @@ class DriveTracker {
 
     checkpointNumber++; // Increment the checkpoint number for the next checkpoint
     String markerId = "Checkpoint $checkpointNumber"; // Construct the marker ID
-    String title = "Checkpoint $checkpointNumber"; // Construct the title for infoWindow
+    String title =
+        "Checkpoint $checkpointNumber"; // Construct the title for infoWindow
 
     setMarker(
         currentLocation,
         BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         MarkerId(markerId), // Use the constructed marker ID
-        InfoWindow(title: title)
-    );
+        InfoWindow(title: title));
   }
 
   Future<void> endTour() async {
@@ -93,8 +90,7 @@ class DriveTracker {
       await fireService.stopPause(
           fireService.tourId!, fireService.pauseId!, _endTime);
     }
-    await fireService.endTour(
-        fireService.tourId!, currentLocation, _endTime);
+    await fireService.endTour(fireService.tourId!, currentLocation, _endTime);
 
     setMarker(
         currentLocation,
@@ -111,7 +107,6 @@ class DriveTracker {
 
     // Uses cloud functions to calculate the total tour time
     await tourRepo.getTotalTourTime(fireService.tourId!);
-
   }
 
   Duration getContinuousDrivingLimit() {
@@ -122,7 +117,7 @@ class DriveTracker {
     return _dailyDrivingDuration - _dailyDrivingLimitTimer.elapsed;
   }
 
-  Future<void> startResting() async{
+  Future<void> startResting() async {
     isResting = true;
     _continuousDrivingLimitTimer.stop();
     _dailyDrivingLimitTimer.stop();
@@ -130,7 +125,7 @@ class DriveTracker {
     await fireService.startPause(fireService.tourId, DateTime.now());
   }
 
-  Future<void> stopResting() async{
+  Future<void> stopResting() async {
     isResting = false;
     _dailyBreakTimeTimer.stop();
     _continuousDrivingLimitTimer.start();
@@ -139,7 +134,8 @@ class DriveTracker {
         fireService.tourId, fireService.pauseId, DateTime.now());
 
     // Uses cloud functions to calculate the total pause on pause
-    await tourRepo.getTotalPauseTimeOnPause(fireService.tourId!, fireService.pauseId!);
+    await tourRepo.getTotalPauseTimeOnPause(
+        fireService.tourId!, fireService.pauseId!);
 
     // Uses cloud functions to calculate the total pause time on tour
     await tourRepo.getTotalPauseTimeOnTour(fireService.tourId!);
@@ -213,7 +209,6 @@ class DriveTracker {
         icon: bitmapDescriptor,
         position: LatLng(currentLocation.latitude, currentLocation.longitude));
     marker.add(checkpointLocationMarker);
-    print(marker.length);
   }
 }
 

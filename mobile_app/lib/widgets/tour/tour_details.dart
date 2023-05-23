@@ -4,7 +4,6 @@ import 'package:drive_tracking_solutions/widgets/tour/tour_map.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/check_point.dart';
 import '../../models/tour.dart';
 import 'card_details_widget.dart';
@@ -45,9 +44,12 @@ class TourDetails extends StatelessWidget {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 } else if (snapshot.hasData) {
-                  return TourMap(tour: tour, markers: addToMarkersList(snapshot.data));
-                }else{
-                  return const Center(child: CircularProgressIndicator(),);
+                  return TourMap(
+                      tour: tour, markers: addToMarkersList(snapshot.data));
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
               },
             ),
@@ -59,12 +61,15 @@ class TourDetails extends StatelessWidget {
       ),
     );
   }
+
   Set<Marker> addToMarkersList(QuerySnapshot<Object?>? data) {
     for (int i = 0; i < data!.docs.length; i++) {
-      CheckPoint checkPoint = CheckPoint.fromMap(data.docs[i].data() as Map<String, dynamic>);
+      CheckPoint checkPoint =
+          CheckPoint.fromMap(data.docs[i].data() as Map<String, dynamic>);
       Marker marker = Marker(
         markerId: MarkerId('Marker $i'),
-        position: LatLng(checkPoint.truckStop.latitude, checkPoint.truckStop.longitude),
+        position: LatLng(
+            checkPoint.truckStop.latitude, checkPoint.truckStop.longitude),
         infoWindow: InfoWindow(title: 'Marker $i'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       );
