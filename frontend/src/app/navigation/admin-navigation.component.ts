@@ -9,23 +9,15 @@ import {FireService} from "../fire.service";
   templateUrl: './admin-navigation.component.html',
   styleUrls: ['./admin-navigation.component.scss']
 })
-export class AdminNavigationComponent implements OnInit {
+export class AdminNavigationComponent {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
+  firstname: any;
+  lastname: any;
 
   constructor(private router: Router, private observer: BreakpointObserver, public fireService: FireService) {
-  }
-
-  async ngOnInit() {
-    this.observer.observe(['(max-width: 1500px)']).subscribe((res) => {
-      if (res.matches) {
-        this.sidenav.mode = 'over';
-        this.sidenav.close();
-      } else {
-        this.sidenav.mode = 'side';
-        this.sidenav.open();
-      }
-    });
+    this.firstname = this.fireService.user.firstname;
+    this.lastname = this.fireService.user.lastname;
   }
 
   /**

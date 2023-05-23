@@ -35,6 +35,7 @@ export class TourOverviewComponent implements OnInit {
       const user = await this.fireService.getUserById(tour.uid);
       const firstName = user.firstname;
       const lastName = user.lastname;
+      console.log(this.fireService.user)
       updatedTours.push(Object.assign({}, tour, { driver: `${firstName} ${lastName}` }));
     }
     return updatedTours;

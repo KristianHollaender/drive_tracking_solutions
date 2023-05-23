@@ -36,7 +36,7 @@ function millisToTime(ms) {
   const minutesms = ms % (60 * 1000);
   const seconds = Math.floor(minutesms / 1000);
 
-  return `${days} d: ${hours} h: ${minutes} m: ${seconds} s`;
+  return ` ${days}  :  ${hours}  :  ${minutes}  :  ${seconds}  : `;
 }
 
 //#region Get total tour time
@@ -365,6 +365,7 @@ app.get('/Tours/user/:userId', async (req, res) => {
     return res.status(500).json({ status: 'Failed', error: error.message });
   }
 });
+
 
 
 //#endregion
