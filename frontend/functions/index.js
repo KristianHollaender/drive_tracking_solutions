@@ -324,6 +324,49 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
+//Get all tours assigned to userId
+app.get('/Tours/user/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const toursSnapshot = await admin
+      .firestore()
+      .collection('Tour')
+      .where('uid', '==', userId)
+      .get();
+
+    const tours = [];
+
+    for (const doc of toursSnapshot.docs) {
+      const tourData = doc.data();
+
+      const pauseSnapshot = await doc.ref.collection('Pause').get();
+      const pauseData = pauseSnapshot.docs.map((pauseDoc) => pauseDoc.data());
+
+      const checkpointSnapshot = await doc.ref.collection('CheckPoint').get();
+      const checkpointData = checkpointSnapshot.docs.map((checkpointDoc) => checkpointDoc.data());
+
+      // Convert Firebase Timestamps to strings
+      const parsedTourData = {
+        ...tourData,
+        startTime: tourData.startTime.toDate().toISOString(),
+        endTime: tourData.endTime.toDate().toISOString()
+      };
+
+      tours.push({
+        ...parsedTourData,
+        pauseData,
+        checkpointData
+      });
+    }
+
+    return res.status(200).json({ status: 'Successful', tours: tours });
+  } catch (error) {
+    return res.status(500).json({ status: 'Failed', error: error.message });
+  }
+});
+
+
 //#endregion
 
 exports.api = functions.https.onRequest(app);

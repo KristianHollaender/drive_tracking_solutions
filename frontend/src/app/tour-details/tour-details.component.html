@@ -1,0 +1,67 @@
+<mat-card class="mat-card">
+  <form [formGroup]="viewTour" (ngSubmit)="null" class="content">
+    <mat-card-title>Extended tour details</mat-card-title>
+    <br>
+
+    <label>
+      <mat-form-field>
+        <mat-label>Id</mat-label>
+        <input matInput type="text" formControlName="uid" readonly>
+      </mat-form-field>
+    </label>
+    <br>
+    <label>
+      <mat-form-field>
+        <mat-label>tourId</mat-label>
+        <input matInput type="text" formControlName="tourId" readonly>
+      </mat-form-field>
+    </label>
+    <br><label>
+    <mat-form-field>
+      <mat-label>startTime</mat-label>
+      <input matInput type="text" formControlName="startTime" readonly>
+    </mat-form-field>
+  </label>
+    <br><label>
+    <mat-form-field>
+      <mat-label>endTime</mat-label>
+      <input matInput type="text" formControlName="endTime" readonly>
+    </mat-form-field>
+  </label>
+    <br><label>
+    <mat-form-field>
+      <mat-label>totalTime</mat-label>
+      <input matInput type="text" formControlName="totalTime" readonly>
+    </mat-form-field>
+  </label>
+    <br><label>
+    <mat-form-field>
+      <mat-label>totalPauseTime</mat-label>
+      <input matInput type="text" formControlName="totalPauseTime" readonly>
+    </mat-form-field>
+  </label>
+    <br><label>
+    <mat-form-field>
+      <mat-label>startPoint</mat-label>
+      <input matInput type="text" formControlName="startPoint" readonly>
+    </mat-form-field>
+  </label>
+    <br>
+    <label>
+      <mat-form-field>
+        <mat-label>endPoint</mat-label>
+        <input matInput type="text" formControlName="endPoint" readonly>
+      </mat-form-field>
+    </label>
+    <br>
+    <label>
+      <mat-form-field>
+        <mat-label>note</mat-label>
+        <input matInput type="text" formControlName="note" readonly>
+      </mat-form-field>
+    </label>
+    <br>
+  </form>
+
+
+</mat-card>

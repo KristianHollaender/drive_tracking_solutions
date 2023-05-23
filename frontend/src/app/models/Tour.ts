@@ -1,3 +1,6 @@
+import {CheckPoint} from "./CheckPoint";
+import {Pause} from "./Pause";
+
 export interface Tour{
   uid: string,
   tourId: string,
@@ -8,4 +11,6 @@ export interface Tour{
   startPoint: string,
   endPoint: string,
   note: string,
+  pause: Pause,
+  checkPoint: CheckPoint,
 }

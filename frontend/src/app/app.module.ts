@@ -26,6 +26,7 @@ import {MatListModule} from "@angular/material/list";
 import { EditUserComponent } from './edit-user/edit-user.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import {TourDetailsComponent} from "./tour-details/tour-details.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
     CreateUserComponent,
     EditUserComponent,
     ProfilePageComponent,
+    TourDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,28 @@
+.mat-card {
+  width: 80vw;
+  height: 85vh;
+}
+
+.content {
+  margin: 30px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.save-button{
+  background-color: #4bad4b;
+  color: white;
+}
+
+mat-card-title {
+  margin-bottom: 20px;
+  color: darkgrey;
+  font-size: 2.5rem;
+}
+
+mat-form-field {
+  margin-top: 15px;
+  width: 325px;
+}

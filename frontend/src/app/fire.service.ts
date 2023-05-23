@@ -23,6 +23,7 @@ export class FireService {
 
   users: User[] = [];
   tours: any[] = [];
+  tour: any;
   user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
   profilePicture: any = 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg';
 
@@ -71,8 +72,15 @@ export class FireService {
   async getTours() {
     const httpResult = await customAxios.get('/Tours');
     this.tours = httpResult.data['tours'];
+    console.log(this.tours);
     return this.tours;
   };
+
+  async getTourById(id){
+    const httpResult = await customAxios.get('/Tour/:tourId');
+    this.tour = httpResult.data['tour'];
+    return this.tour;
+  }
 
 
   async forgotPassword(email: string) {

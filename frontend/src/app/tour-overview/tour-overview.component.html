@@ -1,10 +1,18 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort>
+<mat-toolbar-row style="margin-top: 50px;">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input>
+  </mat-form-field>
+</mat-toolbar-row>
+
+
+<div class="mat-elevation-z8" style="margin-left: 15px;">
+  <table mat-table [dataSource]="dataSource" matSort class="hover-tab">
 
     <!-- Id Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Id</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.uid}} </td>
+    <ng-container matColumnDef="driver">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Driver</th>
+      <td mat-cell *matCellDef="let tour"> {{tour.driver}} </td>
     </ng-container>
 
     <ng-container matColumnDef="startTime">
@@ -23,10 +31,13 @@
     </ng-container>
 
     <ng-container matColumnDef="viewTour">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total time</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let tour">
         <mat-action-list>
-          <mat-icon (click)="viewTour(tour)">map</mat-icon>
+          <button mat-raised-button class="tour-review-btn" (click)="viewTour(tour)">
+            <mat-icon>visibility</mat-icon>
+            Full review of tour
+          </button>
         </mat-action-list>
       </td>
     </ng-container>
