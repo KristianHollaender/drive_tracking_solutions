@@ -1,0 +1,27 @@
+<div class="content">
+  <ng-container>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div fxFlex="42.5%">
+        <mat-card>
+          <mat-form-field>
+            <input matInput [(ngModel)]="firstName" placeholder="First Name" name="firstname" id="firstname"
+                   autocomplete="off">
+            <mat-label>Fornavn</mat-label>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="lastName" placeholder="Last Name" name="lastname" id="lastname"
+                   autocomplete="off">
+            <mat-label>Efternavn</mat-label>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="email" placeholder="Email" type="email" name="email" id="email"
+                   autocomplete="off">
+            <mat-label>Email</mat-label>
+          </mat-form-field>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+</div>
