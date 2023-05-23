@@ -21,7 +21,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { CreateUserComponent } from './create-user/create-user.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 import {MatListModule} from "@angular/material/list";
 import { EditUserComponent } from './edit-user/edit-user.component';
 import {MatSnackBar} from "@angular/material/snack-bar";

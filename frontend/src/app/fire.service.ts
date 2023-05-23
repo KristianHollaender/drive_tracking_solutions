@@ -6,9 +6,7 @@ import 'firebase/compat/storage';
 import axios from "axios";
 import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
-import {FirebaseDatabaseNames} from "./models/helper/FirebaseDatabaseNames";
-import {Tour} from "./models/Tour";
-import {Observable} from "rxjs";
+
 
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
@@ -26,14 +24,16 @@ export class FireService {
   users: User[] = [];
   tours: any[] = [];
   user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
+  profilePicture: any = 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg';
 
   constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
-    this.auth.onAuthStateChanged((user) => {
+    this.auth.onAuthStateChanged(async (user) => {
       this.intercept();
+      await this.getImageOfSignInUser();
     });
 
     //#region Emulators
@@ -56,7 +56,7 @@ export class FireService {
 
   async signIn(email: string, password: string) {
     const user = await this.auth.signInWithEmailAndPassword(email, password);
-    await this.getUserById(user.user?.uid+'');
+    await this.getUserById(user.user?.uid + '');
   }
 
   async getUsers() {
@@ -87,7 +87,7 @@ export class FireService {
     await customAxios.post('/User', dto);
   }
 
-  async editUser(id: string, dto: { firstname: any; email: any; lastname: any }, ) {
+  async editUser(id: string, dto: { firstname: any; email: any; lastname: any },) {
     await customAxios.put('/User/' + id, dto);
   }
 
@@ -96,9 +96,16 @@ export class FireService {
     await customAxios.delete('/User/' + id);
   }
 
-  async getUserById(id: string){
+  async getUserById(id: string) {
     const httpResult = await customAxios.get('/User/' + id);
     this.user = httpResult.data['user'];
     return this.user;
+  }
+
+  async getImageOfSignInUser() {
+    this.profilePicture = await this.storage
+      .ref('profile_images')
+      .child(this.auth.currentUser?.uid + '')
+      .getDownloadURL();
   }
 }
