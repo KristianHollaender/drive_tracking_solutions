@@ -40,7 +40,7 @@ function millisToTime(ms) {
 }
 
 //#region Get total tour time
-app.get('/tour/totalTourTime/:tourId', validateFirebaseIdToken,  async (req, res) => {
+app.get('/tour/totalTourTime/:tourId',  async (req, res) => {
   // Gets the tour id from url
   const tourId = req.params.tourId;
 
@@ -75,7 +75,7 @@ app.get('/tour/totalTourTime/:tourId', validateFirebaseIdToken,  async (req, res
 //#endregion
 
 //#region Get total pause time on one pause
-app.get('/pause/totalTime/:tourId/:pauseId', validateFirebaseIdToken, async (req, res) => {
+app.get('/pause/totalTime/:tourId/:pauseId', async (req, res) => {
   // Gets the tour id from url
   const tourId = req.params.tourId;
 
@@ -113,7 +113,7 @@ app.get('/pause/totalTime/:tourId/:pauseId', validateFirebaseIdToken, async (req
 //#endregion
 
 //#region Gets and calculates the total pause time on the tour
-app.get('/tour/totalPauseTime/:tourId',validateFirebaseIdToken, async (req, res) => {
+app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
   // Variable used to calculate total pause time
   let totalTime = 0;
 

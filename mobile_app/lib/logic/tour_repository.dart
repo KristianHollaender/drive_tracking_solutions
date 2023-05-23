@@ -11,7 +11,7 @@ class TourRepository {
     final token = await getToken();
     final header = {'Authorization': 'Bearer $token'};
     Response response =
-        await get(Uri.parse('$baseUrl/tour/totalTourTime/$tourId'), headers: header);
+        await get(Uri.parse('$baseUrl/tour/totalTourTime/$tourId'));
     if (response.statusCode == 200) {
       final totalTime = jsonDecode(response.body)['totalTime'];
       return totalTime;
@@ -25,7 +25,7 @@ class TourRepository {
     final token = await getToken();
     final header = {'Authorization': 'Bearer $token'};
     Response response =
-        await get(Uri.parse('$baseUrl/pause/totalTime/$tourId/$pauseId'), headers: header);
+        await get(Uri.parse('$baseUrl/pause/totalTime/$tourId/$pauseId'));
     if (response.statusCode == 200) {
       final totalTime = jsonDecode(response.body)['totalTime'];
       return totalTime;
@@ -39,7 +39,7 @@ class TourRepository {
     final token = await getToken();
     final header = {'Authorization': 'Bearer $token'};
     Response response =
-        await get(Uri.parse('$baseUrl/tour/totalPauseTime/$tourId'), headers: header);
+        await get(Uri.parse('$baseUrl/tour/totalPauseTime/$tourId'));
     if (response.statusCode == 200) {
       final totalTime = jsonDecode(response.body)['totalTime'];
       return totalTime;
