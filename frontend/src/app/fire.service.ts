@@ -25,6 +25,7 @@ export class FireService {
 
   users: User[] = [];
   tours: any[] = [];
+  user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
 
   constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
@@ -54,8 +55,8 @@ export class FireService {
   };
 
   async signIn(email: string, password: string) {
-    await this.auth.signInWithEmailAndPassword(email, password);
-    console.log(await this.auth.currentUser?.getIdToken() + '');
+    const user = await this.auth.signInWithEmailAndPassword(email, password);
+    await this.getUserById(user.user?.uid+'');
   }
 
   async getUsers() {
@@ -93,5 +94,11 @@ export class FireService {
 
   async deleteUser(id: string) {
     await customAxios.delete('/User/' + id);
+  }
+
+  async getUserById(id: string){
+    const httpResult = await customAxios.get('/User/' + id);
+    this.user = httpResult.data['user'];
+    return this.user;
   }
 }

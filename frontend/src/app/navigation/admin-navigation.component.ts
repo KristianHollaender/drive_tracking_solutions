@@ -10,13 +10,6 @@ import {FireService} from "../fire.service";
   styleUrls: ['./admin-navigation.component.scss']
 })
 export class AdminNavigationComponent implements OnInit {
-
-  profilePicture: any;
-  user: any;
-
-  requests: any[] = [];
-  errors: any[] = [];
-
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
