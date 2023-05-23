@@ -1,25 +1,36 @@
 <div class="content">
+  <mat-card-title>Profile details</mat-card-title>
+  <div>
+    <img
+      style="padding: 10px;
+      border-radius: 100%;"
+      width="140"
+      height="140"
+      [src]="fireService.profilePicture">
+  </div>
   <ng-container>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div fxFlex="42.5%">
         <mat-card>
           <mat-form-field>
-            <input matInput [(ngModel)]="firstName" placeholder="First Name" name="firstname" id="firstname"
-                   autocomplete="off">
-            <mat-label>Fornavn</mat-label>
+            <input matInput [(ngModel)]="fireService.user.firstname" name="firstname" id="firstname">
+            <mat-label>First Name</mat-label>
           </mat-form-field>
           <br>
           <mat-form-field>
-            <input matInput [(ngModel)]="lastName" placeholder="Last Name" name="lastname" id="lastname"
-                   autocomplete="off">
-            <mat-label>Efternavn</mat-label>
+            <input matInput [(ngModel)]="fireService.user.lastname" name="lastname" id="lastname">
+            <mat-label>Last Name</mat-label>
           </mat-form-field>
           <br>
           <mat-form-field>
-            <input matInput [(ngModel)]="email" placeholder="Email" type="email" name="email" id="email"
-                   autocomplete="off">
+            <input matInput [(ngModel)]="fireService.user.email" type="email" name="email" id="email">
             <mat-label>Email</mat-label>
           </mat-form-field>
+          <br>
+          <div>
+            <button class="save-button" mat-raised-button (click)="editProfile()">Save Changes</button>
+          </div>
+          <br>
         </mat-card>
       </div>
     </div>
