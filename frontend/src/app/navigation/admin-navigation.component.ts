@@ -34,7 +34,7 @@ export class AdminNavigationComponent implements OnInit{
     let user = await this.fireService.getUserById(t);
     this.firstname = user.firstname;
     this.lastname = user.lastname;
-    console.log(`uid: ${this.fireService.user.uid}` );
+    console.log(`uid: ${this.fireService.user.uid}`);
   }
 
 

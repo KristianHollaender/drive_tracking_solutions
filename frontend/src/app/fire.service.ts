@@ -50,7 +50,7 @@ export class FireService {
 
   async signIn(email: string, password: string) {
     await this.auth.signInWithEmailAndPassword(email, password).then(async (user) => {
-      console.log(await user.user?.getIdToken());
+      console.log('Token: ', await user.user?.getIdToken());
       await this.getUserById(user.user?.uid + '');
     });
   }
