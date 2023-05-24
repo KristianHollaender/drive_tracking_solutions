@@ -32,6 +32,7 @@ export class FireService {
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
+    this.intercept();
     this.auth.onAuthStateChanged(async () => {
       this.intercept();
       await this.getImageOfSignInUser();
@@ -46,19 +47,20 @@ export class FireService {
   }
 
   intercept() {
-    customAxios.interceptors
-      .request
-      .use(async (request) => {
-        request.headers.Authorization = await this.auth.currentUser?.getIdToken()+'';
-        return request;
-      });
+      customAxios.interceptors
+        .request
+        .use(async (request) => {
+          let t = localStorage.getItem('token');
+          request.headers.Authorization = (await this.auth.currentUser?.getIdToken() ?? t);
+          return request;
+        });
   };
 
   async signIn(email: string, password: string) {
-      await this.auth.signInWithEmailAndPassword(email, password).then(async (user) =>{
-        console.log(await user.user?.getIdToken());
-        await this.getUserById(user.user?.uid + '');
-      });
+    await this.auth.signInWithEmailAndPassword(email, password).then(async (user) => {
+      console.log(await user.user?.getIdToken());
+      await this.getUserById(user.user?.uid + '');
+    });
   }
 
   async getUsers() {
@@ -73,7 +75,7 @@ export class FireService {
     return this.tours;
   };
 
-  async getTourById(id){
+  async getTourById(id) {
     const httpResult = await customAxios.get('/Tour/:tourId');
     this.tour = httpResult.data['tour'];
     return this.tour;
