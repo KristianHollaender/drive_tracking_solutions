@@ -1,3 +1,11 @@
+.centerAll {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .content {
   margin: 30px;
 }
@@ -6,9 +14,10 @@
   flex: 1 1 auto;
 }
 
-.save-button{
+.save-button {
   background-color: #3b53ab;
   color: white;
+  width: 100%;
 }
 
 mat-card-title {
@@ -20,3 +29,5 @@ mat-card-title {
 mat-form-field {
   margin-top: 15px;
 }
+
+
