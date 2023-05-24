@@ -36,11 +36,11 @@ function millisToTime(ms) {
   const minutesms = ms % (60 * 1000);
   const seconds = Math.floor(minutesms / 1000);
 
-  return ` ${days}  :  ${hours}  :  ${minutes}  :  ${seconds}  : `;
+  return ` ${days}: ${hours}: ${minutes}: ${seconds}`;
 }
 
 //#region Get total tour time
-app.get('/tour/totalTourTime/:tourId',  async (req, res) => {
+app.get('/tour/totalTourTime/:tourId', async (req, res) => {
   // Gets the tour id from url
   const tourId = req.params.tourId;
 
@@ -162,7 +162,7 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 //#region User CRUD
 
 //Create User
-app.post('/User', validateFirebaseIdToken,async (req, res) =>{
+app.post('/User', validateFirebaseIdToken ,async (req, res) =>{
   const body = req.body;
   try{
     await admin.auth().createUser({
@@ -323,51 +323,6 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
     return res.status(500).json({ status: 'Failed', error: error.message });
   }
 });
-
-//Get all tours assigned to userId
-app.get('/Tours/user/:userId', async (req, res) => {
-  const userId = req.params.userId;
-
-  try {
-    const toursSnapshot = await admin
-      .firestore()
-      .collection('Tour')
-      .where('uid', '==', userId)
-      .get();
-
-    const tours = [];
-
-    for (const doc of toursSnapshot.docs) {
-      const tourData = doc.data();
-
-      const pauseSnapshot = await doc.ref.collection('Pause').get();
-      const pauseData = pauseSnapshot.docs.map((pauseDoc) => pauseDoc.data());
-
-      const checkpointSnapshot = await doc.ref.collection('CheckPoint').get();
-      const checkpointData = checkpointSnapshot.docs.map((checkpointDoc) => checkpointDoc.data());
-
-      // Convert Firebase Timestamps to strings
-      const parsedTourData = {
-        ...tourData,
-        startTime: tourData.startTime.toDate().toISOString(),
-        endTime: tourData.endTime.toDate().toISOString()
-      };
-
-      tours.push({
-        ...parsedTourData,
-        pauseData,
-        checkpointData
-      });
-    }
-
-    return res.status(200).json({ status: 'Successful', tours: tours });
-  } catch (error) {
-    return res.status(500).json({ status: 'Failed', error: error.message });
-  }
-});
-
-
-
 //#endregion
 
 exports.api = functions.https.onRequest(app);

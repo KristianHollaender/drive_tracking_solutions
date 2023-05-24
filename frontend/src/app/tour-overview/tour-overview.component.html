@@ -17,12 +17,12 @@
 
     <ng-container matColumnDef="startTime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Start time</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.startTime}} </td>
+      <td mat-cell *matCellDef="let tour"> {{tour.startTime | date:'medium'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="endTime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> End time</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.endTime}} </td>
+      <td mat-cell *matCellDef="let tour"> {{tour.endTime | date:'medium'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="totalTime">
