@@ -1,5 +1,7 @@
 import {CheckPoint} from "./CheckPoint";
 import {Pause} from "./Pause";
+import firebase from "firebase/compat";
+import GeoPoint = firebase.firestore.GeoPoint;
 
 export interface Tour{
   uid: string,
@@ -8,8 +10,8 @@ export interface Tour{
   endTime: string,
   totalTime: string,
   totalPauseTime: string,
-  startPoint: string,
-  endPoint: string,
+  startPoint: GeoPoint,
+  endPoint: GeoPoint,
   note: string,
   pause: Pause,
   checkPoint: CheckPoint,
