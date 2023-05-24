@@ -1,5 +1,5 @@
  # Drive Tracking Solutions
-![alt text](https://media.discordapp.net/attachments/1042375108494377041/1105459071206821929/image.png?width=max&height=1020)
+<img src="frontend/src/assets/logo.png" style="display: inline-block; margin: 0 auto; width: 1080px; height: auto;">
 
 Drive Tracking Solutions is a project aimed at facilitating truck drivers in keeping track of their driving hours on a daily basis, based on national as well as international regulations. While doing so it also provides features for setting checkpoints during a tour and monitoring resting times and many more.
 
@@ -57,37 +57,37 @@ npm install
 ## :camera: Screenshots of DriveTrackingSolution
 <details>
    <summary>Login</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\login.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/login.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 <details>
    <summary>Home screen</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\home.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/home.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 <details>
    <summary>Start tour</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\startTour.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/startTour.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 <details>
    <summary>Get gas stations nearby</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\gasStation.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/gasStation.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 <details>
    <summary>User info</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\menu.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/menu.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 <details>
    <summary>Tour overview</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\tours.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/tours.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 <details>
    <summary>Tour details</summary>
-   <img src="\drive_tracking_solutions\frontend\src\assets\tourDetails.png" style="display: inline-block; margin: 0 auto; max-width: 300px">
+   <img src="frontend/src/assets/tourDetails.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
 
 ## :computer: Technologies
