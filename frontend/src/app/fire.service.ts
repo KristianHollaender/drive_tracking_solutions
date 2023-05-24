@@ -46,19 +46,25 @@ export class FireService {
   }
 
   intercept() {
-    customAxios.interceptors
-      .request
-      .use(async (request) => {
-        request.headers.Authorization = await this.auth.currentUser?.getIdToken()+'';
-        return request;
-      });
+    if (this.auth.currentUser) {
+      customAxios.interceptors
+        .request
+        .use(async (request) => {
+          request.headers.Authorization = (await this.auth.currentUser?.getIdToken() ?? '');
+          return request;
+        });
+    } else {
+      customAxios.interceptors
+        .request
+        .clear();
+    }
   };
 
   async signIn(email: string, password: string) {
-      await this.auth.signInWithEmailAndPassword(email, password).then(async (user) =>{
-        console.log(await user.user?.getIdToken());
-        await this.getUserById(user.user?.uid + '');
-      });
+    await this.auth.signInWithEmailAndPassword(email, password).then(async (user) => {
+      console.log(await user.user?.getIdToken());
+      await this.getUserById(user.user?.uid + '');
+    });
   }
 
   async getUsers() {
@@ -73,7 +79,7 @@ export class FireService {
     return this.tours;
   };
 
-  async getTourById(id){
+  async getTourById(id) {
     const httpResult = await customAxios.get('/Tour/:tourId');
     this.tour = httpResult.data['tour'];
     return this.tour;

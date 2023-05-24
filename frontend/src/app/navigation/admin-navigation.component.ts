@@ -18,13 +18,9 @@ export class AdminNavigationComponent implements OnInit{
   constructor(private router: Router, public fireService: FireService) {
   }
 
-  /**
-   * Method for logging out, removing token from localstorage and reroutes to loginPage again.
-   */
   async logOut() {
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);
-      localStorage.clear();
     })
       .catch((error) => {
         console.log(error);
@@ -32,8 +28,6 @@ export class AdminNavigationComponent implements OnInit{
   }
 
   async ngOnInit() {
-    
-    localStorage.getItem('token')
     this.firstname = this.fireService.user.firstname;
     this.lastname = this.fireService.user.lastname;
   }
