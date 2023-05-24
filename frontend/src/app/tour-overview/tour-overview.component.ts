@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FireService} from "../fire.service";
-import {Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {Tour} from "../models/Tour";
 import {MatDialog} from "@angular/material/dialog";
 import {TourDetailsComponent} from "../tour-details/tour-details.component";
-import {EditUserComponent} from "../edit-user/edit-user.component";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-tour-overview',
@@ -16,6 +15,9 @@ export class TourOverviewComponent implements OnInit {
   displayedColumns: string[] = ['driver', 'startTime', 'endTime', 'totalTime', 'viewTour'];
   dataSource = new MatTableDataSource<Tour>;
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
   constructor(public fireService: FireService, private popup: MatDialog,) {
   }
   async ngOnInit() {
@@ -23,6 +25,7 @@ export class TourOverviewComponent implements OnInit {
       const tours = await this.fireService.getTours();
       const updatedTours = await this.populateUserData(tours);
       this.dataSource.data = updatedTours;
+      this.dataSource.paginator = this.paginator;
     } catch (error) {
       console.error('Error retrieving users:', error);
     }
@@ -62,6 +65,7 @@ export class TourOverviewComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+      this.dataSource.paginator = this.paginator;
     }
   }
 }
