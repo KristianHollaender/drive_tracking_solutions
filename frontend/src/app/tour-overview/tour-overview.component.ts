@@ -23,8 +23,7 @@ export class TourOverviewComponent implements OnInit {
   async ngOnInit() {
     try {
       const tours = await this.fireService.getTours();
-      const updatedTours = await this.populateUserData(tours);
-      this.dataSource.data = updatedTours;
+      this.dataSource.data = await this.populateUserData(tours);
       this.dataSource.paginator = this.paginator;
     } catch (error) {
       console.error('Error retrieving users:', error);
@@ -47,7 +46,7 @@ export class TourOverviewComponent implements OnInit {
 
 
   async viewTour(row: any){
-    const dialogRef = this.popup.open(TourDetailsComponent, {
+    this.popup.open(TourDetailsComponent, {
       data: {
         tour: row
       }

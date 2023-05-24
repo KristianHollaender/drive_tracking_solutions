@@ -21,6 +21,8 @@ export class LoginComponent {
       .then(async () => {
         // @ts-ignore
         localStorage.setItem('token', await this.fireService.auth.currentUser?.getIdToken());
+        // @ts-ignore
+        localStorage.setItem('uid', await this.fireService.auth.currentUser?.uid)
         await this.router.navigate(['admin/users']);
       })
       .catch((error) => {

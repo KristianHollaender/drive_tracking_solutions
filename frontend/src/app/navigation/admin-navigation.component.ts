@@ -12,8 +12,8 @@ import {FireService} from "../fire.service";
 export class AdminNavigationComponent implements OnInit{
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-  firstname: string = '';
-  lastname: string = '';
+  firstname: any;
+  lastname: any;
 
   constructor(private router: Router, public fireService: FireService) {
   }
@@ -21,6 +21,7 @@ export class AdminNavigationComponent implements OnInit{
   async logOut() {
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);
+      localStorage.clear();
     })
       .catch((error) => {
         console.log(error);
@@ -28,10 +29,13 @@ export class AdminNavigationComponent implements OnInit{
   }
 
   async ngOnInit() {
-    localStorage.getItem('token');
-    this.firstname = this.fireService.user.firstname;
-    this.lastname = this.fireService.user.lastname;
-    console.log(this.firstname, this.lastname);
+    let t = localStorage.getItem('uid');
+    // @ts-ignore
+    let user = await this.fireService.getUserById(t);
+    this.firstname = user.firstname;
+    this.lastname = user.lastname;
+    console.log(`uid: ${this.fireService.user.uid}` );
   }
+
 
 }
