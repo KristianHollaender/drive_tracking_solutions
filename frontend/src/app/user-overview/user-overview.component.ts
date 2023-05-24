@@ -30,6 +30,8 @@ export class UserOverviewComponent implements OnInit {
 
   async ngOnInit() {
     try {
+      localStorage.getItem('token')
+
       this.dataSource.data = await this.fireService.getUsers();
       this.dataSource.paginator = this.paginator;
     } catch (error) {
@@ -44,7 +46,6 @@ export class UserOverviewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async () => {
       this.dataSource.data = await this.fireService.getUsers();
       this.dataSource.paginator = this.paginator;
-
     });
   }
 

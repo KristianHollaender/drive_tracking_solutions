@@ -9,15 +9,13 @@ import {FireService} from "../fire.service";
   templateUrl: './admin-navigation.component.html',
   styleUrls: ['./admin-navigation.component.scss']
 })
-export class AdminNavigationComponent {
+export class AdminNavigationComponent implements OnInit{
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   firstname: any;
   lastname: any;
 
-  constructor(private router: Router, private observer: BreakpointObserver, public fireService: FireService) {
-    this.firstname = this.fireService.user.firstname;
-    this.lastname = this.fireService.user.lastname;
+  constructor(private router: Router, public fireService: FireService) {
   }
 
   /**
@@ -26,10 +24,18 @@ export class AdminNavigationComponent {
   async logOut() {
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);
+      localStorage.clear();
     })
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  async ngOnInit() {
+    
+    localStorage.getItem('token')
+    this.firstname = this.fireService.user.firstname;
+    this.lastname = this.fireService.user.lastname;
   }
 
 }

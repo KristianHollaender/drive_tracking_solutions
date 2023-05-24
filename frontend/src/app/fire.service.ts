@@ -55,11 +55,10 @@ export class FireService {
   };
 
   async signIn(email: string, password: string) {
-    await this.auth.signInWithEmailAndPassword(email, password).then(async (user) =>{
-      console.log(await user.user?.getIdToken());
-      await this.getUserById(user.user?.uid + '');
-    });
-    //console.log(await user.user?.getIdToken());
+      await this.auth.signInWithEmailAndPassword(email, password).then(async (user) =>{
+        console.log(await user.user?.getIdToken());
+        await this.getUserById(user.user?.uid + '');
+      });
   }
 
   async getUsers() {
@@ -71,7 +70,6 @@ export class FireService {
   async getTours() {
     const httpResult = await customAxios.get('/Tours');
     this.tours = httpResult.data['tours'];
-    console.log(this.tours);
     return this.tours;
   };
 
