@@ -1,36 +1,39 @@
-<mat-card>
-  <form [formGroup]="editUser" (ngSubmit)="save()" class="content">
-    <mat-card-title>Edit User</mat-card-title>
-    <label for="id">
-      <mat-form-field>
-        <input matInput id="Id" type="text" formControlName="id" readonly>
-        <mat-label>User ID</mat-label>
-      </mat-form-field>
-    </label>
-    <br>
-    <label>
-      <mat-form-field>
-        <mat-label>Fornavn</mat-label>
-        <input matInput type="string" placeholder="First name" formControlName="firstname">
-      </mat-form-field>
-    </label>
-    <br>
-    <label>
-      <mat-form-field appearance="fill">
-        <mat-label>Efternavn</mat-label>
-        <input matInput type="string" placeholder="Last name" formControlName="lastname">
-      </mat-form-field>
-    </label>
-    <br>
-    <label>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Email" formControlName="email">
-        <mat-label>Email</mat-label>
-      </mat-form-field>
-    </label>
-    <br>
-    <div>
-      <button class="save-button" id="btnSave" mat-raised-button type="submit">Save User</button>
-    </div>
-  </form>
-</mat-card>
+<div class="centerAll">
+  <mat-card>
+    <form [formGroup]="editUser" (ngSubmit)="save()" class="content">
+      <mat-card-title>Edit User</mat-card-title>
+      <label for="id">
+        <mat-form-field>
+          <input matInput id="Id" type="text" formControlName="id" readonly>
+          <mat-label>User ID</mat-label>
+        </mat-form-field>
+      </label>
+      <br>
+      <label>
+        <mat-form-field>
+          <mat-label>Fornavn</mat-label>
+          <input matInput type="string" placeholder="First name" formControlName="firstname">
+        </mat-form-field>
+      </label>
+      <br>
+      <label>
+        <mat-form-field appearance="fill">
+          <mat-label>Efternavn</mat-label>
+          <input matInput type="string" placeholder="Last name" formControlName="lastname">
+        </mat-form-field>
+      </label>
+      <br>
+      <label>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Email" formControlName="email">
+          <mat-label>Email</mat-label>
+        </mat-form-field>
+      </label>
+      <br>
+      <div>
+        <button class="save-button" id="btnSave" mat-raised-button type="submit">Save User</button>
+      </div>
+    </form>
+  </mat-card>
+
+</div>

@@ -1,40 +1,42 @@
-<mat-card>
-  <form [formGroup]="userForm" (ngSubmit)="createUser()" class="content">
-    <mat-card-title>Create User</mat-card-title>
-    <br>
-    <label>
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="emailForm">
-      </mat-form-field>
-    </label>
-    <br>
+<div class="centerAll">
+  <mat-card>
+    <form [formGroup]="userForm" (ngSubmit)="createUser()" class="content">
+      <mat-card-title>Create User</mat-card-title>
+      <br>
+      <label>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="text" formControlName="emailForm">
+        </mat-form-field>
+      </label>
+      <br>
 
-    <label>
-      <mat-form-field>
-        <mat-label>First Name</mat-label>
-        <input matInput type="text" formControlName="firstNameForm">
-      </mat-form-field>
-    </label>
-    <br>
+      <label>
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" formControlName="firstNameForm">
+        </mat-form-field>
+      </label>
+      <br>
 
-    <label>
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input matInput type="text" formControlName="lastNameForm">
-      </mat-form-field>
-    </label>
-    <br>
+      <label>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" formControlName="lastNameForm">
+        </mat-form-field>
+      </label>
+      <br>
 
-    <label>
-      <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="passwordForm">
-      </mat-form-field>
-    </label>
-    <br>
+      <label>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="passwordForm">
+        </mat-form-field>
+      </label>
+      <br>
 
-    <button class="save-button" id="btnCreate" mat-raised-button type="submit">Create</button>
+      <button class="save-button" id="btnCreate" mat-raised-button type="submit">Create</button>
 
-  </form>
-</mat-card>
+    </form>
+  </mat-card>
+</div>
