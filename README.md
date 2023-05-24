@@ -1,5 +1,5 @@
  # Drive Tracking Solutions
-![alt text](https://cdn.discordapp.com/attachments/1042375108494377041/1110110039198404659/image-removebg-preview_1.png)
+![alt text](https://media.discordapp.net/attachments/1042375108494377041/1105459071206821929/image.png?width=1080&height=1020)
 
 Drive Tracking Solutions is a project aimed at facilitating truck drivers in keeping track of their driving hours on a daily, weekly, and monthly basis. It also provides features for setting checkpoints during a tour and monitoring resting times.
 
