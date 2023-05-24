@@ -15,7 +15,7 @@ export class LoginComponent {
 
   async signIn(email: string, password: string){
     await this.fireService.signIn(email,password).then(() => {
-      this.router.navigate(['admin']);
+      this.router.navigate(['admin/users']);
     })
       .catch((error) => {
         console.log(error);
