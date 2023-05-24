@@ -1,0 +1,46 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 300px;
+  height: 300px;
+  text-align: center;
+  background-image: url("https://cdn.discordapp.com/attachments/1042375108494377041/1105459139469115462/image-removebg-preview.png");
+  background-size: cover;
+  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.8); /* Adding transparency */
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+a {
+  text-decoration: none;
+  color: #0000FF;
+}
