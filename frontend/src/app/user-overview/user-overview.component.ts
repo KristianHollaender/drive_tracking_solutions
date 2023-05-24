@@ -44,7 +44,7 @@ export class UserOverviewComponent implements OnInit {
     const dialogRef = this.popup.open(CreateUserComponent);
 
     dialogRef.afterClosed().subscribe(async () => {
-      //this.dataSource.data = await this.fireService.getUsers();
+      this.dataSource.data = await this.fireService.getUsers();
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -57,8 +57,8 @@ export class UserOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async () => {
-      //const users = await this.fireService.getUsers();
-      //this.dataSource = new MatTableDataSource(users);
+      const users = await this.fireService.getUsers();
+      this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -73,6 +73,4 @@ export class UserOverviewComponent implements OnInit {
       this._snackBar.open(snackBarMessage, 'Close', {duration: 3000});
     }
   }
-
-
 }

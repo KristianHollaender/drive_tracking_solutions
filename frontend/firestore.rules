@@ -1,34 +1,33 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents{
+  match /databases/{database}/documents {
 
-  	//Allows an anonymous user to register
-  	match /{User=**} {
-  	allow write: if request.auth != null;
-  		}
+    // Allows an anonymous user to register
+    match /{User=**} {
+      allow write: if request.auth == null;
+    }
 
-		// Allow users with the "User" role to read user info
+    // Allow users to read and write to the "Tour" collection
+    match /Tour/{tourId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Allow users with the "User" role to read and write to their own user document
     match /User/{userId} {
-      allow read, update: if request.auth != null &&
-        get(/databases/$(database)/documents/User/$(request.auth.uid)).data.role == "User";
-      }
-
-    // Allow users with the "User" role to create, read, and update tours
-    match /Tour/{tourId}/{document=**} {
-      allow read, write, update: if request.auth != null &&
-        get(/databases/$(database)/documents/User/$(request.auth.uid)).data.role == "User";
-      }
+      allow read, write: if request.auth != null &&
+        request.auth.uid == userId;
+    }
 
     // Allow users with the "Admin" role to perform all CRUD operations on User
     match /User/{userId} {
-      allow read, delete, write, update: if request.auth != null &&
-      get(/databases/$(database)/documents/User/$(request.auth.uid)).data.role == "Admin";
+      allow read, write, update, delete: if request.auth != null &&
+        get(/databases/$(database)/documents/User/$(request.auth.uid)).data.role == "Admin";
     }
 
     // Allow users with the "Admin" role to perform all CRUD operations on tours
-    match /Tour/{tourId}/{document=**} {
-      allow read, delete, write, update: if request.auth != null &&
-      get(/databases/$(database)/documents/User/$(request.auth.uid)).data.role == "Admin";
+    match /Tour/{tourId} {
+      allow read, write, update, delete: if request.auth != null &&
+        get(/databases/$(database)/documents/User/$(request.auth.uid)).data.role == "Admin";
     }
   }
 }
