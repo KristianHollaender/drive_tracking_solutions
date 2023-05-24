@@ -1,74 +1,92 @@
 <mat-card class="mat-card">
   <form [formGroup]="viewTour" (ngSubmit)="null" class="content">
     <mat-card-title>Extended tour details</mat-card-title>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div fxFlex="45%">
+        <br>
+        <google-map height="360px"
+                    width="510px"
+                    [center]="center"
+                    [zoom]="zoom"
+                    (mapClick)="null">
+          <map-marker *ngFor="let markerPosition of startPosition"
+                      [position]="markerPosition"
+                      [options]="{draggable: false}"></map-marker>
+          <map-marker *ngFor="let markerPosition of endPosition"
+                      [position]="markerPosition"
+                      [options]="{draggable: false}"></map-marker>
+        </google-map>
+        <br>
+        <label style="margin-left: 10px; margin-bottom: 10px;">
+          <button mat-raised-button class="mat-raised-button">
+            <mat-icon>restaurant</mat-icon>
+            Resting
+          </button>
+          <button mat-raised-button class="mat-raised-button" style="margin-left: 10px;">
+            <mat-icon>location_on</mat-icon>
+            Checkpoints
+          </button>
+        </label>
+        <label style="margin-top: 25px;">
+          <mat-form-field style="width: 175px;">
+            <mat-label>totalPauseTime</mat-label>
+            <input matInput type="text" formControlName="totalPauseTime" readonly>
+          </mat-form-field>
+        </label>
+      </div>
+      <div fxFlex="50%" style="margin-top: 20px;">
+        <label>
+          <mat-form-field>
+            <mat-label>Id</mat-label>
+            <input matInput type="text" formControlName="uid" readonly>
+          </mat-form-field>
+        </label>
+        <label style="margin-left: 50px;">
+          <mat-form-field>
+            <mat-label>totalTime</mat-label>
+            <input matInput type="text" formControlName="totalTime" readonly>
+          </mat-form-field>
+        </label>
+        <br>
+        <label>
+          <mat-form-field>
+            <mat-label>startTime</mat-label>
+            <input matInput type="text" formControlName="startTime" readonly>
+          </mat-form-field>
+        </label>
+        <label>
+          <mat-form-field style="margin-left: 50px;">
+            <mat-label>endTime</mat-label>
+            <input matInput type="text" formControlName="endTime" readonly>
+          </mat-form-field>
+        </label>
+        <br>
+        <label>
+          <mat-form-field appearance="fill" style="width: 605px">
+            <mat-label>startPoint</mat-label>
+            <input matInput type="text" formControlName="startPoint" readonly>
+          </mat-form-field>
+        </label>
+        <br>
+        <label>
+          <mat-form-field appearance="fill" style="width: 605px">
+            <mat-label>endPoint</mat-label>
+            <input matInput type="text" formControlName="endPoint" readonly>
+          </mat-form-field>
+        </label>
+        <br>
+        <label>
+          <mat-form-field appearance="fill" style="height: 138px; width: 605px">
+            <mat-label>note</mat-label>
+            <input matInput type="text" formControlName="note" readonly>
+          </mat-form-field>
+        </label>
+        <br>
+      </div>
+    </div>
+
+
     <br>
-    <google-map height="400px"
-                width="750px"
-                [center]="center"
-                [zoom]="zoom"
-                (mapClick)="addMarker($event)">
-      <map-marker *ngFor="let markerPosition of markerPositions"
-                  [position]="markerPosition"
-                  [options]="markerOptions"></map-marker>
-    </google-map>
-    <br>
-    <label>
-      <mat-form-field>
-        <mat-label>Id</mat-label>
-        <input matInput type="text" formControlName="uid" readonly>
-      </mat-form-field>
-    </label>
-    <br>
-    <label>
-      <mat-form-field>
-        <mat-label>tourId</mat-label>
-        <input matInput type="text" formControlName="tourId" readonly>
-      </mat-form-field>
-    </label>
-    <br><label>
-    <mat-form-field>
-      <mat-label>startTime</mat-label>
-      <input matInput type="text" formControlName="startTime" readonly>
-    </mat-form-field>
-  </label>
-    <br><label>
-    <mat-form-field>
-      <mat-label>endTime</mat-label>
-      <input matInput type="text" formControlName="endTime" readonly>
-    </mat-form-field>
-  </label>
-    <br><label>
-    <mat-form-field>
-      <mat-label>totalTime</mat-label>
-      <input matInput type="text" formControlName="totalTime" readonly>
-    </mat-form-field>
-  </label>
-    <br><label>
-    <mat-form-field>
-      <mat-label>totalPauseTime</mat-label>
-      <input matInput type="text" formControlName="totalPauseTime" readonly>
-    </mat-form-field>
-  </label>
-    <br><label>
-    <mat-form-field>
-      <mat-label>startPoint</mat-label>
-      <input matInput type="text" formControlName="startPoint" readonly>
-    </mat-form-field>
-  </label>
-    <br>
-    <label>
-      <mat-form-field>
-        <mat-label>endPoint</mat-label>
-        <input matInput type="text" formControlName="endPoint" readonly>
-      </mat-form-field>
-    </label>
-    <br>
-    <label>
-      <mat-form-field>
-        <mat-label>note</mat-label>
-        <input matInput type="text" formControlName="note" readonly>
-      </mat-form-field>
-    </label>
     <br>
   </form>
 </mat-card>

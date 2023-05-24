@@ -5,7 +5,6 @@ import {FireService} from "../fire.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TourOverviewComponent} from "../tour-overview/tour-overview.component";
-import {GoogleMapsModule} from "@angular/google-maps";
 
 
 @Component({
@@ -13,62 +12,82 @@ import {GoogleMapsModule} from "@angular/google-maps";
   templateUrl: './tour-details.component.html',
   styleUrls: ['./tour-details.component.scss']
 })
-export class TourDetailsComponent{
+export class TourDetailsComponent implements OnInit{
+
+  async ngOnInit() {
+    await this.getStartPointAddress();
+    await this.getEndPointAddress();
+    await this.setEndAndStartMarkers();
+    await this.centerMapBetweenMarkers();
+    const driverName = await this.getDriverName()
+
+  }
+
 
   tour: Tour | undefined;
   isLoading: boolean | undefined;
   geoCoder = new google.maps.Geocoder();
-  startPointAddress : any;
 
 
   startPoint = {
     lat: parseFloat(this.data.tour.startPoint._latitude),
     lng: parseFloat(this.data.tour.startPoint._longitude),
   };
+  async getStartPointAddress(){
+    const response = await this.geoCoder.geocode({location: this.startPoint});
+    const result = response.results[0];
+    const startPointAddress = result.formatted_address;
+    console.log(startPointAddress);
+    this.viewTour.get('startPoint')?.setValue(startPointAddress)
+  }
 
-  startPointLocation = this.geoCoder.geocode({ location: this.startPoint }, function(results, status) {
-    let startPointAddress;
-    if (status === google.maps.GeocoderStatus.OK) {
-      if (!(results) || results[0]) {
-        // Extract the address from the geocoder response
-        if (results) {
-          startPointAddress = results[0].formatted_address;
-        }
-        console.log("Start Point Address:", startPointAddress);
-      } else {
-        console.log("No results found.");
-      }
-    } else {
-      console.log("Geocoder failed due to: " + status);
-    }
-  });
 
   endPoint = {
     lat: parseFloat(this.data.tour.endPoint._latitude),
     lng: parseFloat(this.data.tour.endPoint._longitude)
   };
+  async getEndPointAddress(){
+    const response = await this.geoCoder.geocode({location: this.endPoint});
+    const result = response.results[0];
+    const endPointAddress = result.formatted_address;
+    console.log(endPointAddress);
+    this.viewTour.get('endPoint')?.setValue(endPointAddress)
+  }
 
-
+  async getDriverName(){
+    const user = await this.fireService.getUserById(this.data.tour.uid);
+    const firstName = user.firstname;
+    const lastName = user.lastname
+    const driverName = firstName + ' ' + lastName;
+    this.viewTour.get('uid')?.setValue(driverName);
+  }
 
   center: google.maps.LatLngLiteral = this.startPoint;
-  zoom = 8;
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  zoom = 5.75;
+  startPosition: google.maps.LatLngLiteral[] = [];
+  endPosition: google.maps.LatLngLiteral[] = [];
 
-  addMarker(event: google.maps.MapMouseEvent) {
+  setEndAndStartMarkers() {
     // @ts-ignore
-    this.markerPositions.push(event.latLng.toJSON());
+    this.startPosition.push(this.startPoint);
+    this.endPosition.push(this.endPoint);
+  }
+
+  centerMapBetweenMarkers() {
+    const avgLat = (this.startPoint.lat + this.endPoint.lat) / 2;
+    const avgLng = (this.startPoint.lng + this.endPoint.lng) / 2;
+    this.center = { lat: avgLat, lng: avgLng };
   }
 
   viewTour = new FormGroup({
-    uid: new FormControl(this.data.tour.uid),
+    uid: new FormControl(""),
     tourId: new FormControl(this.data.tour.tourId),
-    startTime: new FormControl(this.data.tour.startTime),
-    endTime: new FormControl(this.data.tour.endTime),
+    startTime: new FormControl(this.formatTime(this.data.tour.startTime)),
+    endTime: new FormControl(this.formatTime(this.data.tour.startTime)),
     totalTime: new FormControl(this.data.tour.totalTime),
     totalPauseTime: new FormControl(this.data.tour.totalPauseTime),
-    startPoint: new FormControl(this.startPointLocation),
-    endPoint: new FormControl(this.endPoint.lat + ' , ' + this.startPoint.lat),
+    startPoint: new FormControl(""),
+    endPoint: new FormControl(""),
     note: new FormControl(this.data.tour.note),
   });
 
@@ -77,16 +96,22 @@ export class TourDetailsComponent{
               @Inject(MAT_DIALOG_DATA) public data: any,
               private _snackBar: MatSnackBar,
               private dialogRef: MatDialogRef<TourOverviewComponent>,
-              ) {
-    console.log(this.startPointLocation);
-  }
+  ) {}
 
   //Method for closing the matDialog
   tourId: any;
+
   async close() {
     this.isLoading = false;
     this.dialogRef.close();
   }
+
+  // Function to format time as a string
+  formatTime(time) {
+    return new Date(time).toLocaleString("en-US");
+  }
+
+
 
 
 }

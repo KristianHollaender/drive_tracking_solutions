@@ -28,6 +28,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import {TourDetailsComponent} from "./tour-details/tour-details.component";
 import {GoogleMapsModule} from "@angular/google-maps";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {GoogleMapsModule} from "@angular/google-maps";
     MatDialogModule,
     MatListModule,
     GoogleMapsModule,
+    FlexLayoutModule,
   ],
   providers: [
     MatSnackBar

@@ -17,12 +17,23 @@
 }
 
 mat-card-title {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: darkgrey;
   font-size: 2.5rem;
 }
 
 mat-form-field {
-  margin-top: 15px;
-  width: 325px;
+  width: 255px;
 }
+
+.form-field {
+  width: 480px;
+}
+
+.mat-raised-button{
+  color: white;
+  background: #219321;
+  width: 150px;
+  height: 45px;
+}
+
