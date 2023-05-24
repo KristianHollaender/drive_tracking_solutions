@@ -45,7 +45,6 @@ export class FireService {
 
   }
 
-// Tried to add authorization, but it's not working in flutter
   intercept() {
     customAxios.interceptors
       .request
