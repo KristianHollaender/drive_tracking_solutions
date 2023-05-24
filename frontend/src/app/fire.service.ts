@@ -34,26 +34,18 @@ export class FireService {
     this.storage = firebase.storage();
     this.intercept();
     this.auth.onAuthStateChanged(async () => {
-      this.intercept();
       await this.getImageOfSignInUser();
     });
-
-    //#region Emulators
-    //this.firestore.useEmulator('localhost', 8080);
-    //this.auth.useEmulator('http://localhost:9099');
-    //this.storage.useEmulator('localhost', 9199);
-    //#endregion
-
   }
 
   intercept() {
-      customAxios.interceptors
-        .request
-        .use(async (request) => {
-          let t = localStorage.getItem('token');
-          request.headers.Authorization = (await this.auth.currentUser?.getIdToken() ?? t);
-          return request;
-        });
+    customAxios.interceptors
+      .request
+      .use(async (request) => {
+        let t = localStorage.getItem('token');
+        request.headers.Authorization = (await this.auth.currentUser?.getIdToken() ?? t);
+        return request;
+      });
   };
 
   async signIn(email: string, password: string) {
@@ -80,7 +72,6 @@ export class FireService {
     this.tour = httpResult.data['tour'];
     return this.tour;
   }
-
 
   async forgotPassword(email: string) {
     await this.auth.sendPasswordResetEmail(email);
