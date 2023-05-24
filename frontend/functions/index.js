@@ -36,7 +36,7 @@ function millisToTime(ms) {
   const minutesms = ms % (60 * 1000);
   const seconds = Math.floor(minutesms / 1000);
 
-  return ` ${days}: ${hours}: ${minutes}: ${seconds}`;
+  return `${days}:${hours}:${minutes}:${seconds}`;
 }
 
 //#region Get total tour time

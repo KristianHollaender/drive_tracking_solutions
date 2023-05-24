@@ -10,9 +10,7 @@ import {FormControl, FormGroup} from "@angular/forms";
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss']
 })
-export class EditUserComponent {
-
-
+export class EditUserComponent implements OnInit{
   editUser = new FormGroup({
     id: new FormControl(this.data.user.uid),
     email: new FormControl(this.data.user.email),
@@ -20,11 +18,14 @@ export class EditUserComponent {
     lastname: new FormControl(this.data.user.lastname),
   })
 
+  async ngOnInit() {
+    this.dialogRef.updateSize("350px", "450px");
+  }
+
   constructor(private fireService: FireService,
               private dialogRef: MatDialogRef<UserOverviewComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
-
 
   async save() {
     const user = this.editUser.value;
@@ -38,6 +39,4 @@ export class EditUserComponent {
 
     this.dialogRef.close();
   }
-
-
 }
