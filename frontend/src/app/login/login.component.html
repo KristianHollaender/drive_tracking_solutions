@@ -1,15 +1,25 @@
-<body>
-<div class="login-card">
-  <form>
-    <input placeholder="Email" [(ngModel)]="email" type="email" name="email">
-    <br>
-    <br>
-    <input placeholder="Password" [(ngModel)]="password" type="password" name="password">
-    <br>
-    <br>
-    <input type="submit" (click)="signIn(email,password)" value="Login">
-    <br>
-    <a (click)="fireService.forgotPassword(email)" href="#">Forgot password?</a>
-  </form>
+<div id="background"class="container">
+  <body>
+  <mat-card class="login-card">
+    <div>
+      <form>
+        <img src="https://media.discordapp.net/attachments/1042375108494377041/1111026114631041024/image.png"
+             style="height: 85%; width: 85%; margin-bottom: 25px;margin-right: 3px;">
+
+        <input placeholder="Email" [(ngModel)]="email" type="email" name="email">
+        <br>
+        <br>
+        <input placeholder="Password" [(ngModel)]="password" type="password" name="password">
+        <br>
+        <br>
+        <input type="submit" (click)="signIn(email,password)" value="Login">
+        <br>
+        <br>
+        <a (click)="fireService.forgotPassword(email)" href="#">Forgot password?</a>
+        <br>
+      </form>
+    </div>
+  </mat-card>
+  </body>
 </div>
-</body>
+

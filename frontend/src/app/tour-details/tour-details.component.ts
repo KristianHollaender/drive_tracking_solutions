@@ -5,6 +5,9 @@ import {FireService} from "../fire.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TourOverviewComponent} from "../tour-overview/tour-overview.component";
+import {response} from "express";
+import {object} from "firebase-functions/lib/v1/providers/storage";
+import {Pause} from "../models/Pause";
 
 
 @Component({
@@ -19,12 +22,13 @@ export class TourDetailsComponent implements OnInit{
     await this.getEndPointAddress();
     await this.setEndAndStartMarkers();
     await this.centerMapBetweenMarkers();
-    const driverName = await this.getDriverName()
-
+    await this.getDriverName();
+    await this.getPauses();
   }
 
 
   tour: Tour | undefined;
+  pauses: [] = [];
   isLoading: boolean | undefined;
   geoCoder = new google.maps.Geocoder();
 
@@ -60,6 +64,22 @@ export class TourDetailsComponent implements OnInit{
     const lastName = user.lastname
     const driverName = firstName + ' ' + lastName;
     this.viewTour.get('uid')?.setValue(driverName);
+  }
+
+  async getPauses() {
+    const pauses = await this.fireService.getPauseData(this.data.tour.tourId);
+    const pauseData: Pause[] = [];
+
+    for (let pause of pauses) {
+      const startTime = pause.startTime;
+      const endTime = pause.endTime;
+      const pauseId = pause.pauseId;
+      const totalTime = pause.totalTime;
+
+      //TODO FIX THIS SO IT DOESNT DO AN ARRAY OF 8 BUT ARRAY OF PAUSES WITH VARIABLES ABOVE
+      pauseData.push(startTime, endTime, pauseId, totalTime);
+    }
+    console.log(pauseData);
   }
 
   center: google.maps.LatLngLiteral = this.startPoint;

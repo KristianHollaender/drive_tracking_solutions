@@ -4,7 +4,7 @@
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div fxFlex="45%">
         <br>
-        <google-map height="360px"
+        <google-map height="367px"
                     width="510px"
                     [center]="center"
                     [zoom]="zoom"
@@ -17,21 +17,20 @@
                       [options]="{draggable: false}"></map-marker>
         </google-map>
         <br>
-        <label style="margin-left: 10px; margin-bottom: 10px;">
+        <label style="margin-top: 10px; margin-bottom: 10px;">
           <button mat-raised-button class="mat-raised-button">
             <mat-icon>restaurant</mat-icon>
-            Resting
+            Resting overview
           </button>
           <button mat-raised-button class="mat-raised-button" style="margin-left: 10px;">
             <mat-icon>location_on</mat-icon>
-            Checkpoints
+            Checkpoints overview
           </button>
         </label>
-        <label style="margin-top: 25px;">
-          <mat-form-field style="width: 175px;">
-            <mat-label>totalPauseTime</mat-label>
-            <input matInput type="text" formControlName="totalPauseTime" readonly>
-          </mat-form-field>
+        <label>
+          <mat-list>
+              <mat-list-item>Carsten 123</mat-list-item>
+          </mat-list>
         </label>
       </div>
       <div fxFlex="50%" style="margin-top: 20px;">

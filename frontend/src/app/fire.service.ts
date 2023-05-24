@@ -6,6 +6,7 @@ import 'firebase/compat/storage';
 import axios from "axios";
 import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
+import * as http from "http";
 
 
 export const customAxios = axios.create({
@@ -23,6 +24,8 @@ export class FireService {
 
   users: User[] = [];
   tours: any[] = [];
+  pauseData: any[] = [];
+  checkpointData: any[] = [];
   tour: any;
   user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
   profilePicture: any = 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg';
@@ -67,11 +70,18 @@ export class FireService {
     return this.tours;
   };
 
-  async getTourById(id) {
-    const httpResult = await customAxios.get('/Tour/:tourId');
-    this.tour = httpResult.data['tour'];
-    return this.tour;
+  async getPauseData(id: string){
+    const httpResult = await customAxios.get('/Tour/' + id + '/pauseData');
+    this.pauseData = httpResult.data['pauseData'];
+    return this.pauseData;
   }
+
+  async getCheckpointData(id: string){
+    const httpResult = await customAxios.get('/Tour/' + id + '/checkpointData');
+    this.checkpointData = httpResult.data['checkpointData'];
+    return this.checkpointData;
+  }
+
 
   async forgotPassword(email: string) {
     await this.auth.sendPasswordResetEmail(email);
