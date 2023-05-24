@@ -24,7 +24,7 @@ export class CreateUserComponent implements OnInit{
   });
 
   async ngOnInit() {
-    this.dialogRef.updateSize("350px", "450px");
+    this.dialogRef.updateSize("370px", "552px");
   }
 
   constructor(private fireService: FireService,

@@ -19,7 +19,7 @@ export class EditUserComponent implements OnInit{
   })
 
   async ngOnInit() {
-    this.dialogRef.updateSize("350px", "450px");
+    this.dialogRef.updateSize("350px", "522px");
   }
 
   constructor(private fireService: FireService,
