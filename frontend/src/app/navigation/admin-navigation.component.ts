@@ -12,8 +12,8 @@ import {FireService} from "../fire.service";
 export class AdminNavigationComponent implements OnInit{
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-  firstname: any;
-  lastname: any;
+  firstname: string = '';
+  lastname: string = '';
 
   constructor(private router: Router, public fireService: FireService) {
   }
@@ -28,8 +28,10 @@ export class AdminNavigationComponent implements OnInit{
   }
 
   async ngOnInit() {
+    localStorage.getItem('token');
     this.firstname = this.fireService.user.firstname;
     this.lastname = this.fireService.user.lastname;
+    console.log(this.firstname, this.lastname);
   }
 
 }

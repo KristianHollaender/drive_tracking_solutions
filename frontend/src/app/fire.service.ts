@@ -32,6 +32,7 @@ export class FireService {
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
+    this.intercept();
     this.auth.onAuthStateChanged(async () => {
       this.intercept();
       await this.getImageOfSignInUser();
@@ -46,18 +47,13 @@ export class FireService {
   }
 
   intercept() {
-    if (this.auth.currentUser) {
       customAxios.interceptors
         .request
         .use(async (request) => {
-          request.headers.Authorization = (await this.auth.currentUser?.getIdToken() ?? '');
+          let t = localStorage.getItem('token');
+          request.headers.Authorization = (await this.auth.currentUser?.getIdToken() ?? t);
           return request;
         });
-    } else {
-      customAxios.interceptors
-        .request
-        .clear();
-    }
   };
 
   async signIn(email: string, password: string) {

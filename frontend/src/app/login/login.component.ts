@@ -19,6 +19,8 @@ export class LoginComponent {
     await this.fireService
       .signIn(email, password)
       .then(async () => {
+        // @ts-ignore
+        localStorage.setItem('token', await this.fireService.auth.currentUser?.getIdToken());
         await this.router.navigate(['admin/users']);
       })
       .catch((error) => {
