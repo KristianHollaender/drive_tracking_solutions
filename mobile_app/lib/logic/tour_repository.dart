@@ -8,8 +8,6 @@ class TourRepository {
 
   // Get total time on tour
   Future<String> getTotalTourTime(String tourId) async {
-    final token = await getToken();
-    final header = {'Authorization': 'Bearer $token'};
     Response response =
         await get(Uri.parse('$baseUrl/tour/totalTourTime/$tourId'));
     if (response.statusCode == 200) {
@@ -22,8 +20,6 @@ class TourRepository {
 
   // Get total pause time on pause
   Future<String> getTotalPauseTimeOnPause(String tourId, String pauseId) async {
-    final token = await getToken();
-    final header = {'Authorization': 'Bearer $token'};
     Response response =
         await get(Uri.parse('$baseUrl/pause/totalTime/$tourId/$pauseId'));
     if (response.statusCode == 200) {
@@ -36,8 +32,6 @@ class TourRepository {
 
   // Get total pause time on tour
   Future<String> getTotalPauseTimeOnTour(String tourId) async {
-    final token = await getToken();
-    final header = {'Authorization': 'Bearer $token'};
     Response response =
         await get(Uri.parse('$baseUrl/tour/totalPauseTime/$tourId'));
     if (response.statusCode == 200) {
