@@ -1,32 +1,15 @@
-<div>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    form {
-      text-align: center;
-    }
-  </style>
-  <body>
+<body>
+<div class="login-card">
   <form>
-
     <input placeholder="Email" [(ngModel)]="email" type="email" name="email">
     <br>
     <br>
-
     <input placeholder="Password" [(ngModel)]="password" type="password" name="password">
     <br>
     <br>
-
     <input type="submit" (click)="signIn(email,password)" value="Login">
     <br>
-
     <a (click)="fireService.forgotPassword(email)" href="#">Forgot password?</a>
   </form>
-  </body>
 </div>
+</body>
