@@ -60,7 +60,6 @@ export class UserOverviewComponent implements OnInit {
 
   /**
    * Method for editing user
-   * @param row
    */
   editUser(row: any) {
     const dialogRef = this.popup.open(EditUserComponent, {
@@ -80,7 +79,6 @@ export class UserOverviewComponent implements OnInit {
 
   /**
    * Method for deleting user
-   * @param row
    */
   async deleteUser(row: any) {
     if (confirm(`Do you want to delete ${row.firstname} ${row.lastname}?`)) {

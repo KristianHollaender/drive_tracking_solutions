@@ -7,18 +7,10 @@ admin.initializeApp();
 
 app.use(cors());
 
-/**
- * Reference to database
- * @type {FirebaseFirestore.Firestore}
- */
 const db = admin.firestore();
 
 /**
  * Method for validating the token
- * @param req
- * @param res
- * @param next
- * @returns {Promise<*>}
  */
 const validateFirebaseIdToken = async (req, res, next) => {
   try {
@@ -35,9 +27,7 @@ const validateFirebaseIdToken = async (req, res, next) => {
 }
 
 /**
- * Function for converting ms into more readable format
- * @param ms
- * @returns {string}
+ * Function for converting milliseconds into more readable format
  */
 function millisToTime(ms) {
   const days = Math.floor(ms / (24 * 60 * 60 * 1000));
@@ -54,7 +44,7 @@ function millisToTime(ms) {
 //#region
 
 /**
- * Get total tour time
+ * Adds the total driven time amount to the Tour document
  */
 app.get('/tour/totalTourTime/:tourId', async (req, res) => {
   // Gets the tour id from url
@@ -72,7 +62,7 @@ app.get('/tour/totalTourTime/:tourId', async (req, res) => {
   // Converts end time to date
   const endTime = data['endTime'].toDate();
 
-  // Calculates the difference in milliseconds, between end time and start time
+  // Calculates the difference in milliseconds, between endTime and startTime
   const ms = Math.abs(endTime - startTime);
 
   // Converts total to a more readable text
@@ -91,6 +81,7 @@ app.get('/tour/totalTourTime/:tourId', async (req, res) => {
 //#endregion
 
 //#region
+
 /**
  * Get total pause time on one pause
  */
@@ -132,8 +123,9 @@ app.get('/pause/totalTime/:tourId/:pauseId', async (req, res) => {
 //#endregion
 
 //#region
+
 /**
- * Gets and calculates the total pause time on the tour
+ * Gets and calculates the totalPauseTime on the tour and adds it to the Tour document
  */
 app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
   // Variable used to calculate total pause time
@@ -183,9 +175,6 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 
 //#region User CRUD
 
-/**
- * Create User
- */
 app.post('/User', validateFirebaseIdToken, async (req, res) => {
   const body = req.body;
   try {
@@ -209,9 +198,6 @@ app.post('/User', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
-/**
- * Get users
- */
 app.get('/Users', validateFirebaseIdToken, async (req, res) => {
   // Get data from user collection
   const usersSnapshot = await admin.firestore().collection('User').get();
@@ -232,9 +218,6 @@ app.get('/Users', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
-/**
- * Get users
- */
 app.get('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const userId = req.params.userId;
 
@@ -248,9 +231,7 @@ app.get('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
-/**
- * Update user
- */
+
 app.put('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const userId = req.params.userId;
   const body = req.body;
@@ -274,9 +255,7 @@ app.put('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
-/**
- * Update user
- */
+
 app.delete('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const userId = req.params.userId;
 
@@ -295,9 +274,6 @@ app.delete('/User/:userId', validateFirebaseIdToken, async (req, res) => {
 
 
 //#region Tour
-/**
- * Update user
- */
 app.get('/Tours', validateFirebaseIdToken, async (req, res) => {
   try {
     //Get query snapshot of all tours
@@ -345,9 +321,6 @@ app.get('/Tours', validateFirebaseIdToken, async (req, res) => {
 });
 
 
-/**
- * Update user
- */
 app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
   const tourId = req.params.tourId;
 

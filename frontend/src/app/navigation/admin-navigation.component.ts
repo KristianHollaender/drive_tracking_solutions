@@ -28,6 +28,7 @@ export class AdminNavigationComponent implements OnInit {
 
   /**
    * Async method for logging out
+   * Clears localStorage for UID+Token
    */
   async logOut() {
     await this.fireService.signOut().then(() => {

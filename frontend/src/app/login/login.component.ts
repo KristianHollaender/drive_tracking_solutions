@@ -19,12 +19,10 @@ export class LoginComponent {
 
   /**
    * Async method for signing in
-   * Uses fireservice to sign in (email, password)
+   * Uses fireService to sign-in (email, password)
    * Saves token to localStorage
-   * this.Isloading is used for loading spinner
-   * snackBar used for errorhandling
-   * @param email
-   * @param password
+   * this.IsLoading is used for loading spinner
+   * snackBar used for giving the user some response
    */
   async signIn(email: string, password: string) {
     this.isLoading = true;
@@ -53,8 +51,7 @@ export class LoginComponent {
   /**
    * Async method for forgotPassword button.
    * Checks for email in the email form field
-   * Sends an email via fireService to email in form field.
-   * @param email
+   * Sends an email via fireService to the email in the formField.
    */
   async forgotPassword(email: string) {
     if (email != null) {

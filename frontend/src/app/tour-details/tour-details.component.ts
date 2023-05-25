@@ -173,15 +173,13 @@ export class TourDetailsComponent implements OnInit {
 
   /**
    * Function to format time as a string
-   * @param time
    */
   formatTime(time) {
     return new Date(time).toLocaleString("en-US");
   }
 
   /**
-   *  This timestamp is used to format the time from pauses to a better time format
-   * @param timeStamp
+   * This timestamp is used to format the time from pauses to a better time format
    */
   timestamp(timeStamp: Object) {
     const t = new Date(1970, 0, 1); // Epoch
@@ -191,7 +189,7 @@ export class TourDetailsComponent implements OnInit {
   }
 
   /**
-   *Async method for getting pauses from tour
+   * Async method for getting pauses from tour
    */
   async getPauses() {
     this.pauses = await this.fireService.getPauseOnTour(this.data.tour.tourId);

@@ -47,7 +47,7 @@ export class FireService {
   }
 
   /**
-   * Create an instance of Axios with a base URL
+   *  Add an interceptor to customAxios to include the authorization token
    */
   intercept() {
     customAxios.interceptors
@@ -120,7 +120,7 @@ export class FireService {
   }
 
   /**
-   * Create an instance of Axios with a base URL
+   * Gets the image of the currently signed-in user from the Firebase Storage
    */
   async getImageOfSignInUser() {
     this.profilePicture = await this.storage

@@ -13,7 +13,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class EditUserComponent implements OnInit {
 
   /**
-   * Formgroup for editing user
+   * FormGroup for editing user
    */
   editUser = new FormGroup({
     id: new FormControl(this.data.user.uid),

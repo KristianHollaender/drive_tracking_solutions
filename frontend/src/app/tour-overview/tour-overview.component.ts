@@ -38,7 +38,6 @@ export class TourOverviewComponent implements OnInit {
   /**
    * Method for populating the user data with firstname lastname
    * Initially it would just use uid for the first table row
-   * @param tours
    */
   async populateUserData(tours: Tour[]) {
     const updatedTours: Tour[] = [];
@@ -53,7 +52,6 @@ export class TourOverviewComponent implements OnInit {
 
   /**
    * Async method for opening TourDetailsComponent
-   * @param row
    */
   async viewTour(row: any) {
     this.popup.open(TourDetailsComponent, {
