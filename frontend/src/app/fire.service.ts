@@ -6,7 +6,6 @@ import 'firebase/compat/storage';
 import axios from "axios";
 import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
-import {Pause} from "./models/Pause";
 
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
@@ -68,6 +67,12 @@ export class FireService {
     const httpResult = await customAxios.get('/Tours');
     this.tours = httpResult.data['tours'];
     return this.tours;
+  };
+
+  async getTourById(id: string) {
+    const httpResult = await customAxios.get('/Tour/' + id);
+    const tour = httpResult.data['tour'];
+    return tour['pause'];
   };
 
   async getPauseData(id: string) {

@@ -6,7 +6,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TourOverviewComponent} from "../tour-overview/tour-overview.component";
 import {Pause} from "../models/Pause";
-import {of} from "rxjs";
+//@ts-ignore
+import moment from 'moment/moment';
 
 
 @Component({
@@ -88,10 +89,7 @@ export class TourDetailsComponent implements OnInit {
   }
 
   async getPauses() {
-    const pauseData = await this.fireService.getPauseData(this.data.tour.tourId);
-    const formattedStartTime = pauseData.startTime.toDate().toISOString();
-    console.log(formattedStartTime);
-    this.pauses = pauseData;
+    this.pauses = await this.fireService.getTourById(this.data.tour.tourId);
   }
 
   setEndAndStartMarkers() {
@@ -115,4 +113,14 @@ export class TourDetailsComponent implements OnInit {
     return new Date(time).toLocaleString("en-US");
   }
 
+  timestamp(milisecs: string) {
+    var num = Number.parseInt(milisecs)
+    var date = new Date(num);
+    console.log(date);
+    return moment(date, "YYYYMMDD").fromNow();
+  }
+
+  insertDate() {
+    return moment(new Date(new Date().setHours(2)), "YYMMDD").fromNow();
+  }
 }
