@@ -107,6 +107,8 @@ export class TourDetailsComponent implements OnInit {
       checkpointLatLng.push(truckStops);
     }
     this.checkpointPosition = checkpointLatLng;
+    this.center = this.checkpointPosition[0];
+    this.zoom = 8.0;
   }
 
   setEndAndStartMarkers() {
