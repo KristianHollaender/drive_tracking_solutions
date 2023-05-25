@@ -19,7 +19,7 @@
     }
   ],
   "hosting": {
-    "public": "AdminPanel/dist/AdminPanel",
+    "public": "dist/admin-panel",
     "ignore": [
       "firebase.json",
       "**/.*",
