@@ -71,11 +71,15 @@ The web application is built using the Angular Framework and utilizes the same F
 
 ## Features
 - Login 
-- Create user
-- Update user
-- Get all users
-- Get all tours
-- Get tour details on map via Google maps api
+- User overview
+- User managament
+  - Create
+  - Update
+  - Delete
+- Tour overview
+  - Detailed tracking statistics
+- Google Maps
+- Admin profile management
 
 ## Setup Instructions Web Application 
 
