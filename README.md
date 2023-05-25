@@ -1,7 +1,7 @@
  # Drive Tracking Solutions
 <img src="frontend/src/assets/logo.png" style="display: inline-block; margin: 0 auto; width: 1080px; height: auto;">
 
-Drive Tracking Solutions is a project aimed at facilitating truck drivers in keeping track of their driving hours on a daily basis, based on national as well as international regulations. While doing so it also provides features for setting checkpoints during a tour and monitoring resting times and many more.
+Drive Tracking Solutions is a project aimed at facilitating truck drivers in keeping track of their driving hours on a daily basis, based on national as well as international regulations. While doing so it also provides features for setting checkpoints during a tour and monitoring resting and much more.
 
 ## :iphone: Flutter App
 
