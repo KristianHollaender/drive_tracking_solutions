@@ -22,6 +22,8 @@ export class TourDetailsComponent implements OnInit {
   pauses: Pause[] = [];
   checkpoints: CheckPoint[] = [];
   isLoading: boolean | undefined;
+  buttonClick: boolean = false;
+
   geoCoder = new google.maps.Geocoder();
 
   endPoint = {
@@ -118,10 +120,6 @@ export class TourDetailsComponent implements OnInit {
     this.center = {lat: avgLat, lng: avgLng};
   }
 
-  async close() {
-    this.isLoading = false;
-    this.dialogRef.close();
-  }
 
   // Function to format time as a string
   formatTime(time) {
@@ -136,6 +134,7 @@ export class TourDetailsComponent implements OnInit {
   }
 
   async getPauses() {
+    this.buttonClick = true;
     this.pauses = await this.fireService.getPauseOnTour(this.data.tour.tourId);
   }
 }
