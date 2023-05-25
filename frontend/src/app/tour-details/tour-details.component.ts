@@ -7,6 +7,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {TourOverviewComponent} from "../tour-overview/tour-overview.component";
 import {Pause} from "../models/Pause";
 import {CheckPoint} from "../models/CheckPoint";
+//@ts-ignore
+import moment from 'moment/moment';
 
 
 @Component({
@@ -62,7 +64,6 @@ export class TourDetailsComponent implements OnInit {
     await this.setEndAndStartMarkers();
     await this.centerMapBetweenMarkers();
     await this.getDriverName();
-    //await this.getPauses();
     await this.getCheckPoints();
   }
 
@@ -70,7 +71,6 @@ export class TourDetailsComponent implements OnInit {
     const response = await this.geoCoder.geocode({location: this.startPoint});
     const result = response.results[0];
     const startPointAddress = result.formatted_address;
-    console.log(startPointAddress);
     this.viewTour.get('startPoint')?.setValue(startPointAddress)
   }
 
@@ -78,7 +78,6 @@ export class TourDetailsComponent implements OnInit {
     const response = await this.geoCoder.geocode({location: this.endPoint});
     const result = response.results[0];
     const endPointAddress = result.formatted_address;
-    console.log(endPointAddress);
     this.viewTour.get('endPoint')?.setValue(endPointAddress)
   }
 
@@ -93,7 +92,6 @@ export class TourDetailsComponent implements OnInit {
 
   async getCheckPoints(){
     this.checkpoints  = await this.fireService.getCheckpointData(this.data.tour.tourId);
-    console.log(this.checkpoints);
     return this.checkpoints;
   }
 
@@ -128,5 +126,16 @@ export class TourDetailsComponent implements OnInit {
   // Function to format time as a string
   formatTime(time) {
     return new Date(time).toLocaleString("en-US");
+  }
+
+  timestamp(timeStamp: Object) {
+    var t = new Date(1970, 0, 1); // Epoch
+    var seconds = timeStamp['_seconds'];
+    t.setSeconds(seconds);
+    return moment(t, "YYYYMMDD");
+  }
+
+  async getPauses() {
+    this.pauses = await this.fireService.getTourById(this.data.tour.tourId);
   }
 }

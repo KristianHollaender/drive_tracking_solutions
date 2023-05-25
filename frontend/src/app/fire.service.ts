@@ -6,6 +6,7 @@ import 'firebase/compat/storage';
 import axios from "axios";
 import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
+import {Tour} from "./models/Tour";
 
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
@@ -20,9 +21,8 @@ export class FireService {
   firestore: firebase.firestore.Firestore;
   auth: firebase.auth.Auth;
   storage: firebase.storage.Storage;
-
   users: User[] = [];
-  tours: any[] = [];
+  tours: Tour[] = [];
   checkpoint: any[] = [];
   tour: any;
   user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
@@ -72,13 +72,9 @@ export class FireService {
   async getTourById(id: string) {
     const httpResult = await customAxios.get('/Tour/' + id);
     const tour = httpResult.data['tour'];
+    console.log(tour['pause']);
     return tour['pause'];
   };
-
-  async getPauseData(id: string) {
-    const httpResult = await customAxios.get('/Tour/' + id + '/pauseData');
-    return httpResult.data;
-  }
 
   async getCheckpointData(id: string) {
     const httpResult = await customAxios.get('/Tour/' + id + '/checkpointData');
@@ -88,9 +84,6 @@ export class FireService {
     }
     return this.checkpoint;
   }
-
-
-
 
   async forgotPassword(email: string) {
     await this.auth.sendPasswordResetEmail(email);
@@ -110,7 +103,6 @@ export class FireService {
   async editUser(id: string, dto: { firstname: any; email: any; lastname: any },) {
     await customAxios.put('/User/' + id, dto);
   }
-
 
   async deleteUser(id: string) {
     await customAxios.delete('/User/' + id);
