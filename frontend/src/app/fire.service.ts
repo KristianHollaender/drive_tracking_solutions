@@ -8,6 +8,7 @@ import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
 import {Tour} from "./models/Tour";
 
+// Create an instance of Axios with a base URL
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
 });
@@ -34,12 +35,17 @@ export class FireService {
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
+
+    // Intercept requests made by customAxios and add authorization headers
     this.intercept();
+
+    // Listen to changes in the authentication state and update the user's profile picture
     this.auth.onAuthStateChanged(async () => {
       await this.getImageOfSignInUser();
     });
   }
 
+  // Add an interceptor to customAxios to include the authorization token
   intercept() {
     customAxios.interceptors
       .request
@@ -76,6 +82,7 @@ export class FireService {
     return tour['pause'];
   };
 
+  // Get checkpoint data from a specific tour
   async getCheckpointData(id: string) {
     const httpResult = await customAxios.get('/Tour/' + id + '/checkpointData');
     for(let checkpoint of httpResult.data){
@@ -114,6 +121,7 @@ export class FireService {
     return this.user;
   }
 
+  // Gets the imagine of the currently signed in user from the Firebase Storage
   async getImageOfSignInUser() {
     this.profilePicture = await this.storage
       .ref('profile_images')

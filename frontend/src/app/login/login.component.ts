@@ -25,6 +25,7 @@ export class LoginComponent {
           // @ts-ignore
           localStorage.setItem('uid', await this.fireService.auth.currentUser?.uid)
           await this.router.navigate(['admin/users']);
+
           this.snackBar.open('SUCCESSFUL LOGIN', 'Close', {duration: 3000})
         } else {
           this.snackBar.open('You are not an admin!!', 'Close', {duration: 3000})

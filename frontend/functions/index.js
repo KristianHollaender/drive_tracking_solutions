@@ -127,7 +127,7 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
   const doc = await db.collection('Tour').doc(tourId).collection('Pause').get();
 
   // Get tour doc
-  const tourDoc = await  db.collection('Tour').doc(tourId);
+  const tourDoc = await db.collection('Tour').doc(tourId);
 
   try {
     for (let i = 0; i < doc.docs.length; i++) {
@@ -162,13 +162,13 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 //#region User CRUD
 
 //Create User
-app.post('/User', validateFirebaseIdToken ,async (req, res) =>{
+app.post('/User', validateFirebaseIdToken, async (req, res) => {
   const body = req.body;
-  try{
+  try {
     await admin.auth().createUser({
       email: body.email,
       password: body.password,
-    }).then(async user =>{
+    }).then(async user => {
       await admin.firestore().collection('User').doc(user.uid).set({
         uid: user.uid,
         email: body.email,
@@ -179,7 +179,7 @@ app.post('/User', validateFirebaseIdToken ,async (req, res) =>{
     });
 
     return res.status(201).json({status: 'Successful', message: 'User created'});
-  }catch (error){
+  } catch (error) {
     return res.status(500).json({status: 'Failed', message: error.error});
   }
 });
@@ -213,7 +213,7 @@ app.get('/User/:userId', validateFirebaseIdToken, async (req, res) => {
     const doc = await admin.firestore().collection('User').doc(userId).get();
     return res.status(200).json({status: 'Successful', user: doc.data()});
 
-  }catch (error) {
+  } catch (error) {
     return res.status(500).json({status: 'Failed', error: error.error});
 
   }
@@ -236,21 +236,20 @@ app.put('/User/:userId', validateFirebaseIdToken, async (req, res) => {
     });
 
     return res.status(200).json({status: 'Successful', message: 'User updated'});
-  }catch (error) {
+  } catch (error) {
     return res.status(500).json({status: 'Failed', message: error.error});
   }
 });
 
 // Delete user
-
 app.delete('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const userId = req.params.userId;
 
-  try{
+  try {
     await admin.auth().deleteUser(userId);
     await admin.firestore().collection('User').doc(userId).delete();
     return res.status(200).json({status: 'Successful', message: 'User deleted'});
-  }catch (error) {
+  } catch (error) {
     return res.status(500).json({status: 'Failed', message: error.error});
   }
 });
@@ -258,6 +257,7 @@ app.delete('/User/:userId', validateFirebaseIdToken, async (req, res) => {
 
 
 //#region Tour
+// Get all tours
 app.get('/Tours', validateFirebaseIdToken, async (req, res) => {
   try {
     const toursSnapshot = await admin.firestore().collection('Tour').get();
@@ -287,9 +287,9 @@ app.get('/Tours', validateFirebaseIdToken, async (req, res) => {
       });
     }
 
-    return res.status(200).json({ status: 'Successful', tours: tours });
+    return res.status(200).json({status: 'Successful', tours: tours});
   } catch (error) {
-    return res.status(500).json({ status: 'Failed', error: error.message });
+    return res.status(500).json({status: 'Failed', error: error.message});
   }
 });
 
@@ -302,7 +302,7 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
     const tourCollection = await admin.firestore().collection('Tour').doc(tourId).get();
 
     if (!tourCollection.exists) {
-      return res.status(404).json({ status: 'Failed', error: 'Tour not found' });
+      return res.status(404).json({status: 'Failed', error: 'Tour not found'});
     }
 
     const pauseSnapshot = await tourCollection.ref.collection('Pause').get();
@@ -317,10 +317,10 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
       checkPoint
     };
 
-    return res.status(200).json({ status: 'Successful', tour: tour });
+    return res.status(200).json({status: 'Successful', tour: tour});
 
   } catch (error) {
-    return res.status(500).json({ status: 'Failed', error: error.message });
+    return res.status(500).json({status: 'Failed', error: error.message});
   }
 });
 
@@ -332,7 +332,7 @@ app.get('/Tour/:tourId/checkpointData', validateFirebaseIdToken, async (req, res
     const tourCollection = await admin.firestore().collection('Tour').doc(tourId).get();
 
     if (!tourCollection.exists) {
-      return res.status(404).json({error: 'Tour not found' });
+      return res.status(404).json({error: 'Tour not found'});
     }
 
     const checkpointSnapshot = await tourCollection.ref.collection('CheckPoint').get();
@@ -341,7 +341,7 @@ app.get('/Tour/:tourId/checkpointData', validateFirebaseIdToken, async (req, res
     return res.status(200).json(checkpointData);
 
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({error: error.message});
   }
 });
 

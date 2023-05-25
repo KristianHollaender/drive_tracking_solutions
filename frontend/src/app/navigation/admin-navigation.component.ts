@@ -18,6 +18,14 @@ export class AdminNavigationComponent implements OnInit {
   constructor(private router: Router, public fireService: FireService) {
   }
 
+  async ngOnInit() {
+    let t = localStorage.getItem('uid');
+    // @ts-ignore
+    let user = await this.fireService.getUserById(t);
+    this.firstname = user.firstname;
+    this.lastname = user.lastname;
+  }
+
   async logOut() {
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);
@@ -26,15 +34,6 @@ export class AdminNavigationComponent implements OnInit {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  async ngOnInit() {
-    let t = localStorage.getItem('uid');
-    // @ts-ignore
-    let user = await this.fireService.getUserById(t);
-    this.firstname = user.firstname;
-    this.lastname = user.lastname;
-    console.log(`uid: ${this.fireService.user.uid}`);
   }
 
 

@@ -43,8 +43,6 @@ export class UserOverviewComponent implements OnInit {
     }
   }
 
-
-
   createUser() {
     const dialogRef = this.popup.open(CreateUserComponent);
     dialogRef.afterClosed().subscribe(async () => {
