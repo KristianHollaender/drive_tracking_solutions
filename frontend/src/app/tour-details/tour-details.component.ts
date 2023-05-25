@@ -139,10 +139,10 @@ export class TourDetailsComponent implements OnInit {
     return new Date(time).toLocaleString("en-US");
   }
 
-  // This timestamp is used to format the time from pauses to a better timeformat
+  // This timestamp is used to format the time from pauses to a better time format
   timestamp(timeStamp: Object) {
-    var t = new Date(1970, 0, 1); // Epoch
-    var seconds = timeStamp['_seconds'];
+    const t = new Date(1970, 0, 1); // Epoch
+    const seconds = timeStamp['_seconds'];
     t.setSeconds(seconds);
     return moment(t, "YYYYMMDD");
   }
