@@ -1,24 +1,22 @@
  # Drive Tracking Solutions
 <img src="frontend/src/assets/logo.png" style="display: inline-block; margin: 0 auto; width: 1080px; height: auto;">
 
-Drive Tracking Solutions is a project aimed at facilitating truck drivers in keeping track of their driving hours on a daily basis, based on national as well as international regulations. While doing so it also provides features for setting checkpoints during a tour and monitoring resting times and many more.
+Drive Tracking Solutions is a project aimed at facilitating truck drivers in keeping track of their driving hours on a daily basis, based on national as well as international regulations. While doing so it also provides features for setting checkpoints during a tour and monitoring resting and much more.
 
 ## :iphone: Flutter App
 
 The primary focus of this project is a mobile app built using the Flutter Framework. The app offers a user-friendly interface for truck drivers to track their driving hours and manage checkpoints. It utilizes a Firebase backend for data storage and synchronization.
 
 ## Features
-- Create user
-- Update user
-- Start tour
-- Start rest 
-- Set checkPoints
-- End rest
-- End tour
-- Get gas stations nearby
-- Get all personal tours
-- Get tour details on map via Google maps api
-- Add note on tour
+- Detailed time tracking
+- Google maps 
+- Progress indication 
+- Tracking of rest
+- Checkpoints
+- Calender overview
+- Tracking history
+- Detailed tour statistics
+- Gas station overview
 
 ## Setup Instructions Mobil Application 
 
@@ -73,11 +71,15 @@ The web application is built using the Angular Framework and utilizes the same F
 
 ## Features
 - Login 
-- Create user
-- Update user
-- Get all users
-- Get all tours
-- Get tour details on map via Google maps api
+- User overview
+- User managament
+  - Create
+  - Update
+  - Delete
+- Tour overview
+  - Detailed tracking statistics
+- Google Maps
+- Admin profile management
 
 ## Setup Instructions Web Application 
 
