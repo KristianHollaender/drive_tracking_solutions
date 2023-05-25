@@ -23,11 +23,11 @@ export class FireService {
 
   users: User[] = [];
   tours: any[] = [];
-  pauseData: any[] = [];
-  checkpointData: any[] = [];
+  checkpoint: any[] = [];
   tour: any;
   user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
   profilePicture: any = 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg';
+
 
   constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
@@ -82,9 +82,14 @@ export class FireService {
 
   async getCheckpointData(id: string) {
     const httpResult = await customAxios.get('/Tour/' + id + '/checkpointData');
-    this.checkpointData = httpResult.data['checkpointData'];
-    return this.checkpointData;
+    for(let checkpoint of httpResult.data){
+      const data = checkpoint['truckStop'];
+      this.checkpoint.push({lat: data['_latitude'], lng: data['_longitude']});
+    }
+    return this.checkpoint;
   }
+
+
 
 
   async forgotPassword(email: string) {

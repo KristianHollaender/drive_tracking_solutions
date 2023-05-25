@@ -6,8 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TourOverviewComponent} from "../tour-overview/tour-overview.component";
 import {Pause} from "../models/Pause";
-//@ts-ignore
-import moment from 'moment/moment';
+import {CheckPoint} from "../models/CheckPoint";
 
 
 @Component({
@@ -19,6 +18,7 @@ export class TourDetailsComponent implements OnInit {
   tour: Tour | undefined;
   tourId: any;
   pauses: Pause[] = [];
+  checkpoints: CheckPoint[] = [];
   isLoading: boolean | undefined;
   geoCoder = new google.maps.Geocoder();
 
@@ -48,6 +48,7 @@ export class TourDetailsComponent implements OnInit {
   zoom = 5.75;
   startPosition: google.maps.LatLngLiteral[] = [];
   endPosition: google.maps.LatLngLiteral[] = [];
+  checkpointPosition: google.maps.LatLngLiteral[] = [];
 
   constructor(private fireService: FireService,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -61,7 +62,8 @@ export class TourDetailsComponent implements OnInit {
     await this.setEndAndStartMarkers();
     await this.centerMapBetweenMarkers();
     await this.getDriverName();
-    await this.getPauses();
+    //await this.getPauses();
+    await this.getCheckPoints();
   }
 
   async getStartPointAddress() {
@@ -88,8 +90,23 @@ export class TourDetailsComponent implements OnInit {
     this.viewTour.get('uid')?.setValue(driverName);
   }
 
-  async getPauses() {
-    this.pauses = await this.fireService.getTourById(this.data.tour.tourId);
+
+  async getCheckPoints(){
+    this.checkpoints  = await this.fireService.getCheckpointData(this.data.tour.tourId);
+    console.log(this.checkpoints);
+    return this.checkpoints;
+  }
+
+  async placeCheckpoints(){
+    let checkpointLatLng: google.maps.LatLngLiteral[] = [];
+    for (const checkPoint of this.checkpoints) {
+      let checkpointData: google.maps.LatLngLiteral = {
+        lat: checkPoint['lat'],
+        lng: checkPoint['lng']
+      }
+      checkpointLatLng.push(checkpointData)
+    }
+    this.checkpointPosition = checkpointLatLng;
   }
 
   setEndAndStartMarkers() {
@@ -111,16 +128,5 @@ export class TourDetailsComponent implements OnInit {
   // Function to format time as a string
   formatTime(time) {
     return new Date(time).toLocaleString("en-US");
-  }
-
-  timestamp(milisecs: string) {
-    var num = Number.parseInt(milisecs)
-    var date = new Date(num);
-    console.log(date);
-    return moment(date, "YYYYMMDD").fromNow();
-  }
-
-  insertDate() {
-    return moment(new Date(new Date().setHours(2)), "YYMMDD").fromNow();
   }
 }

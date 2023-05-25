@@ -15,6 +15,10 @@
           <map-marker *ngFor="let markerPosition of endPosition"
                       [position]="markerPosition"
                       [options]="{draggable: false}"></map-marker>
+          <map-marker *ngFor="let markerPosition of checkpointPosition"
+                      [position]="markerPosition"
+                      [options]="{icon: { url: 'https://cdn.discordapp.com/attachments/1042375108494377041/1111254494441898074/image.png'}, zIndex: 100}"
+          ></map-marker>
         </google-map>
         <br>
         <label style="margin-top: 10px; margin-bottom: 10px;">
@@ -22,15 +26,13 @@
             <mat-icon>restaurant</mat-icon>
             Resting overview
           </button>
-          <button mat-raised-button class="mat-raised-button" style="margin-left: 10px;">
+          <button mat-raised-button class="mat-raised-button" style="margin-left: 10px;" (click)="placeCheckpoints()">
             <mat-icon>location_on</mat-icon>
             Checkpoints overview
           </button>
         </label>
         <label>
           <mat-list>
-            {{insertDate()}}
-              <mat-list-item *ngFor="let p of pauses">Start time: {{timestamp(p.startTime)}} End time: {{p['endTime']}} Total time: {{p['totalTime']}}</mat-list-item>
           </mat-list>
         </label>
       </div>

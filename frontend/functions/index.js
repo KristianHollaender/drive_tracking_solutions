@@ -324,7 +324,7 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
-// Get pauseData for a tour
+//Get pauseData from tour
 app.get('/Tour/:tourId/pauseData', validateFirebaseIdToken, async (req, res) => {
   const tourId = req.params.tourId;
 
@@ -359,7 +359,7 @@ app.get('/Tour/:tourId/checkpointData', validateFirebaseIdToken, async (req, res
     const checkpointSnapshot = await tourCollection.ref.collection('CheckPoint').get();
     const checkpointData = checkpointSnapshot.docs.map(checkpointDoc => checkpointDoc.data());
 
-    return res.status(200).json({ checkpointData });
+    return res.status(200).json(checkpointData);
 
   } catch (error) {
     return res.status(500).json({ error: error.message });
