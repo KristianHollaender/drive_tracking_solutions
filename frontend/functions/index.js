@@ -11,7 +11,6 @@ app.use(cors());
 const db = admin.firestore();
 
 // Method for validate the token
-
 const validateFirebaseIdToken = async (req, res, next) => {
   try {
     // Get token from header
@@ -279,7 +278,6 @@ app.get('/Tours', validateFirebaseIdToken, async (req, res) => {
         endTime: tourData.endTime.toDate().toISOString()
       };
 
-
       tours.push({
         ...parsedTourData,
         pauseData,
@@ -324,28 +322,7 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
   }
 });
 
-// Get checkpointData for a tour
-app.get('/Tour/:tourId/checkpointData', validateFirebaseIdToken, async (req, res) => {
-  const tourId = req.params.tourId;
-
-  try {
-    const tourCollection = await admin.firestore().collection('Tour').doc(tourId).get();
-
-    if (!tourCollection.exists) {
-      return res.status(404).json({error: 'Tour not found'});
-    }
-
-    const checkpointSnapshot = await tourCollection.ref.collection('CheckPoint').get();
-    const checkpointData = checkpointSnapshot.docs.map(checkpointDoc => checkpointDoc.data());
-
-    return res.status(200).json(checkpointData);
-
-  } catch (error) {
-    return res.status(500).json({error: error.message});
-  }
-});
-
-
 //#endregion
+
 exports.api = functions.https.onRequest(app);
 

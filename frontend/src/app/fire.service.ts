@@ -77,20 +77,20 @@ export class FireService {
 
   async getTourById(id: string) {
     const httpResult = await customAxios.get('/Tour/' + id);
-    const tour = httpResult.data['tour'];
-    console.log(tour['pause']);
-    return tour['pause'];
+    return httpResult.data['tour'];
   };
 
-  // Get checkpoint data from a specific tour
-  async getCheckpointData(id: string) {
-    const httpResult = await customAxios.get('/Tour/' + id + '/checkpointData');
-    for(let checkpoint of httpResult.data){
-      const data = checkpoint['truckStop'];
-      this.checkpoint.push({lat: data['_latitude'], lng: data['_longitude']});
-    }
-    return this.checkpoint;
-  }
+  async getCheckPointOnTour(id: string) {
+    const httpResult = await customAxios.get('/Tour/' + id);
+    const tour = httpResult.data['tour'];
+    return tour['checkPoint'];
+  };
+
+  async getPauseOnTour(id: string) {
+    const httpResult = await customAxios.get('/Tour/' + id);
+    const tour = httpResult.data['tour'];
+    return tour['pause'];
+  };
 
   async forgotPassword(email: string) {
     await this.auth.sendPasswordResetEmail(email);

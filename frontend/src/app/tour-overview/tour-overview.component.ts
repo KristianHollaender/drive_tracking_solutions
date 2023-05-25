@@ -43,7 +43,6 @@ export class TourOverviewComponent implements OnInit {
       const lastName = user.lastname;
       updatedTours.push(Object.assign({}, tour, {driver: `${firstName} ${lastName}`}));
     }
-    console.log(updatedTours);
     return updatedTours;
   }
 

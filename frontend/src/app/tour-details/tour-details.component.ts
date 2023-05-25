@@ -64,7 +64,6 @@ export class TourDetailsComponent implements OnInit {
     await this.setEndAndStartMarkers();
     await this.centerMapBetweenMarkers();
     await this.getDriverName();
-    await this.getCheckPoints();
   }
 
   async getStartPointAddress() {
@@ -91,18 +90,19 @@ export class TourDetailsComponent implements OnInit {
 
 
   async getCheckPoints(){
-    this.checkpoints  = await this.fireService.getCheckpointData(this.data.tour.tourId);
+    this.checkpoints  = await this.fireService.getCheckPointOnTour(this.data.tour.tourId);
     return this.checkpoints;
   }
 
   async placeCheckpoints(){
+    await this.getCheckPoints();
     let checkpointLatLng: google.maps.LatLngLiteral[] = [];
     for (const checkPoint of this.checkpoints) {
-      let checkpointData: google.maps.LatLngLiteral = {
-        lat: checkPoint['lat'],
-        lng: checkPoint['lng']
+      let truckStops = {
+        lat: checkPoint['truckStop']['_latitude'],
+        lng: checkPoint['truckStop']['_longitude']
       }
-      checkpointLatLng.push(checkpointData)
+      checkpointLatLng.push(truckStops);
     }
     this.checkpointPosition = checkpointLatLng;
   }
@@ -136,6 +136,6 @@ export class TourDetailsComponent implements OnInit {
   }
 
   async getPauses() {
-    this.pauses = await this.fireService.getTourById(this.data.tour.tourId);
+    this.pauses = await this.fireService.getPauseOnTour(this.data.tour.tourId);
   }
 }
