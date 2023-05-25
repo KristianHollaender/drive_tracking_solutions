@@ -34,7 +34,7 @@ export class TourDetailsComponent implements OnInit {
     uid: new FormControl(""),
     tourId: new FormControl(this.data.tour.tourId),
     startTime: new FormControl(this.formatTime(this.data.tour.startTime)),
-    endTime: new FormControl(this.formatTime(this.data.tour.startTime)),
+    endTime: new FormControl(this.formatTime(this.data.tour.endTime)),
     totalTime: new FormControl(this.data.tour.totalTime),
     totalPauseTime: new FormControl(this.data.tour.totalPauseTime),
     startPoint: new FormControl(""),
