@@ -17,6 +17,15 @@ export class LoginComponent {
   constructor(public fireService: FireService, private router: Router, private snackBar: MatSnackBar) {
   }
 
+  /**
+   * Async method for signing in
+   * Uses fireservice to sign in (email, password)
+   * Saves token to localStorage
+   * this.Isloading is used for loading spinner
+   * snackBar used for errorhandling
+   * @param email
+   * @param password
+   */
   async signIn(email: string, password: string) {
     this.isLoading = true;
     await this.fireService
@@ -35,13 +44,18 @@ export class LoginComponent {
           this.snackBar.open('You are not an admin!!', '', {duration: 3000})
         }
       })
-      .catch((error) => {
+      .catch(() => {
         this.isLoading = false;
-        this.snackBar.open('Error: Email or password may be incorrect','', {duration: 3000})
-        console.log(error);
+        this.snackBar.open('Error: Email or password may be incorrect', '', {duration: 3000})
       });
   };
 
+  /**
+   * Async method for forgotPassword button.
+   * Checks for email in the email form field
+   * Sends an email via fireService to email in form field.
+   * @param email
+   */
   async forgotPassword(email: string) {
     if (email != null) {
       await this.fireService.forgotPassword(email).then(async () => {

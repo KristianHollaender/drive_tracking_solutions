@@ -17,6 +17,9 @@ export class CreateUserComponent implements OnInit {
   firstname: string = '';
   lastname: string = '';
 
+  /**
+   * FormGroup for Creating user
+   */
   userForm = new FormGroup({
     firstNameForm: new FormControl(''),
     lastNameForm: new FormControl(''),
@@ -33,6 +36,9 @@ export class CreateUserComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+  /**
+   * Async method for creating a user
+   */
   async createUser() {
     const user = this.userForm.value;
     let dto = {
@@ -42,7 +48,6 @@ export class CreateUserComponent implements OnInit {
       password: user.passwordForm,
     }
     await this.fireService.createUser(dto);
-
     this.dialogRef.close();
   }
 }

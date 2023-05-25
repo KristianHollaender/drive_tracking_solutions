@@ -11,6 +11,10 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 
 export class EditUserComponent implements OnInit {
+
+  /**
+   * Formgroup for editing user
+   */
   editUser = new FormGroup({
     id: new FormControl(this.data.user.uid),
     email: new FormControl(this.data.user.email),
@@ -27,6 +31,9 @@ export class EditUserComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
 
+  /**
+   * Async method for saving edits of a user
+   */
   async save() {
     const user = this.editUser.value;
     const id = this.data.user.uid;
