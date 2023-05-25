@@ -164,6 +164,7 @@ app.get('/tour/totalPauseTime/:tourId', async (req, res) => {
 app.post('/User', validateFirebaseIdToken, async (req, res) => {
   const body = req.body;
   try {
+    //Creates user in firebase authentication, if it succeeded, that add user til firebase firestore, with extra information
     await admin.auth().createUser({
       email: body.email,
       password: body.password,
@@ -209,12 +210,12 @@ app.get('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const userId = req.params.userId;
 
   try {
+    //Getting user data
     const doc = await admin.firestore().collection('User').doc(userId).get();
-    return res.status(200).json({status: 'Successful', user: doc.data()});
 
+    return res.status(200).json({status: 'Successful', user: doc.data()});
   } catch (error) {
     return res.status(500).json({status: 'Failed', error: error.error});
-
   }
 });
 
@@ -224,10 +225,12 @@ app.put('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const body = req.body;
 
   try {
+    //Updates email in firebase authentication
     await admin.auth().updateUser(userId, {
       email: body.email
     });
 
+    //Updates user information in firebase firestore
     await admin.firestore().collection('User').doc(userId).update({
       email: body.email,
       firstname: body.firstname,
@@ -245,7 +248,10 @@ app.delete('/User/:userId', validateFirebaseIdToken, async (req, res) => {
   const userId = req.params.userId;
 
   try {
+    //Deletes user in firebase authentication
     await admin.auth().deleteUser(userId);
+
+    //Deletes user in firebase firestore
     await admin.firestore().collection('User').doc(userId).delete();
     return res.status(200).json({status: 'Successful', message: 'User deleted'});
   } catch (error) {
@@ -259,25 +265,37 @@ app.delete('/User/:userId', validateFirebaseIdToken, async (req, res) => {
 // Get all tours
 app.get('/Tours', validateFirebaseIdToken, async (req, res) => {
   try {
+    //Get query snapshot of all tours
     const toursSnapshot = await admin.firestore().collection('Tour').get();
+
+    //Initialize array
     const tours = [];
 
+    //Iterates through tour docs
     for (const doc of toursSnapshot.docs) {
+      //Gets tour data
       const tourData = doc.data();
 
+      //Gets pause docs which is a sub collection inside tour
       const pauseSnapshot = await doc.ref.collection('Pause').get();
+
+      //Gets pause data
       const pauseData = pauseSnapshot.docs.map((pauseDoc) => pauseDoc.data());
 
+      //Gets checkPoint docs which is a sub collection inside tour
       const checkpointSnapshot = await doc.ref.collection('CheckPoint').get();
+
+      //Gets check point data
       const checkpointData = checkpointSnapshot.docs.map((checkpointDoc) => checkpointDoc.data());
 
-      // Convert Firebase Timestamps to strings
+      // Takes all instance fields from tour data and convert Firebase Timestamps to strings
       const parsedTourData = {
         ...tourData,
         startTime: tourData.startTime.toDate().toISOString(),
         endTime: tourData.endTime.toDate().toISOString()
       };
 
+      //Merge the manipulated tour data, pause data and checkPoint data
       tours.push({
         ...parsedTourData,
         pauseData,
@@ -297,18 +315,27 @@ app.get('/Tour/:tourId', validateFirebaseIdToken, async (req, res) => {
   const tourId = req.params.tourId;
 
   try {
+    //Get tour data
     const tourCollection = await admin.firestore().collection('Tour').doc(tourId).get();
 
+    //Checks if the tour collection exists
     if (!tourCollection.exists) {
       return res.status(404).json({status: 'Failed', error: 'Tour not found'});
     }
 
+    //Gets pause docs which is a sub collection inside tour
     const pauseSnapshot = await tourCollection.ref.collection('Pause').get();
+
+    //Gets pause data
     const pause = pauseSnapshot.docs.map(pauseDoc => pauseDoc.data());
 
+    //Gets checkPoint docs which is a sub collection inside tour
     const checkpointSnapshot = await tourCollection.ref.collection('CheckPoint').get();
+
+    //Gets checkPoint data
     const checkPoint = checkpointSnapshot.docs.map(checkPointDoc => checkPointDoc.data());
 
+    //Merge tour data with pause data and checkPoint data
     const tour = {
       ...tourCollection.data(),
       pause,
