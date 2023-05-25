@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TourOverviewComponent} from "../tour-overview/tour-overview.component";
 import {Pause} from "../models/Pause";
+import {of} from "rxjs";
 
 
 @Component({
@@ -16,7 +17,7 @@ import {Pause} from "../models/Pause";
 export class TourDetailsComponent implements OnInit {
   tour: Tour | undefined;
   tourId: any;
-  pauses: [] = [];
+  pauses: Pause[] = [];
   isLoading: boolean | undefined;
   geoCoder = new google.maps.Geocoder();
 
@@ -87,24 +88,15 @@ export class TourDetailsComponent implements OnInit {
   }
 
   async getPauses() {
-    const pauses = await this.fireService.getPauseData(this.data.tour.tourId);
-    const pauseData: Pause[] = [];
-
-    for (let pause of pauses) {
-      const startTime = pause.startTime;
-      const endTime = pause.endTime;
-      const pauseId = pause.pauseId;
-      const totalTime = pause.totalTime;
-
-      //TODO FIX THIS SO IT DOESNT DO AN ARRAY OF 8 BUT ARRAY OF PAUSES WITH VARIABLES ABOVE
-      pauseData.push(startTime, endTime, pauseId, totalTime);
-    }
-    console.log(pauseData);
+    const pauseData = await this.fireService.getPauseData(this.data.tour.tourId);
+    const formattedStartTime = pauseData.startTime.toDate().toISOString();
+    console.log(formattedStartTime);
+    this.pauses = pauseData;
   }
 
   setEndAndStartMarkers() {
     this.startPosition.push(this.startPoint);
-    this.endPosition.push(this.endPoint);
+    this.endPosition.push(this.endPoint)
   }
 
   centerMapBetweenMarkers() {

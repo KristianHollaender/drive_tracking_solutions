@@ -332,16 +332,16 @@ app.get('/Tour/:tourId/pauseData', validateFirebaseIdToken, async (req, res) => 
     const tourCollection = await admin.firestore().collection('Tour').doc(tourId).get();
 
     if (!tourCollection.exists) {
-      return res.status(404).json({ status: 'Failed', error: 'Tour not found' });
+      return res.status(404).json({error: 'Tour not found' });
     }
 
     const pauseSnapshot = await tourCollection.ref.collection('Pause').get();
-    const pause = pauseSnapshot.docs.map(pauseDoc => pauseDoc.data());
+    const pauseData = pauseSnapshot.docs.map(pauseDoc => pauseDoc.data());
 
-    return res.status(200).json({ status: 'Successful', pauseData: pause });
+    return res.status(200).json(pauseData);
 
   } catch (error) {
-    return res.status(500).json({ status: 'Failed', error: error.message });
+    return res.status(500).json({error: error.message });
   }
 });
 
@@ -353,16 +353,16 @@ app.get('/Tour/:tourId/checkpointData', validateFirebaseIdToken, async (req, res
     const tourCollection = await admin.firestore().collection('Tour').doc(tourId).get();
 
     if (!tourCollection.exists) {
-      return res.status(404).json({ status: 'Failed', error: 'Tour not found' });
+      return res.status(404).json({error: 'Tour not found' });
     }
 
     const checkpointSnapshot = await tourCollection.ref.collection('CheckPoint').get();
     const checkpointData = checkpointSnapshot.docs.map(checkpointDoc => checkpointDoc.data());
 
-    return res.status(200).json({ status: 'Successful', checkpointData });
+    return res.status(200).json({ checkpointData });
 
   } catch (error) {
-    return res.status(500).json({ status: 'Failed', error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 

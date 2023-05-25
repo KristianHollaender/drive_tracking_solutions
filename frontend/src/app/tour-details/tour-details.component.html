@@ -29,7 +29,7 @@
         </label>
         <label>
           <mat-list>
-              <mat-list-item>Carsten 123</mat-list-item>
+              <mat-list-item *ngFor="let p of pauses">Start time: {{p['startTime']}} End time: {{p['endTime']}} Total time: {{p['totalTime']}}</mat-list-item>
           </mat-list>
         </label>
       </div>
