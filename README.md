@@ -29,32 +29,7 @@ Use the package manager [pub](https://dart.dev/tools/pub/cmd/pub-get) to install
 ```bash
 dart pub dev get
 ```
-
-## :satellite: Web application
-
-In addition to the mobile app, this project includes an admin page designed for administrators to monitor the driving activities of individual truckers. The admin page provides insights into their driving hours, locations visited, and adherence to required rest periods.
-
-The web application is built using the Angular Framework and utilizes the same Firebase backend as the Flutter app for seamless data integration.
-
-## Features
-- Login 
-- Create user
-- Update user
-- Get all users
-- Get all tours
-- Get tour details on map via Google maps api
-
-## Setup Instructions Web Application 
-
-Before running the project, ensure that you have the following prerequisites in place:
-
-Use the package manager [npm](https://docs.npmjs.com/) to install all dependencies.
-
-```bash
-npm install
-```
-
-## :camera: Screenshots of DriveTrackingSolution
+## :camera: Screenshots of DriveTrackingSolution Mobile Application
 <details>
    <summary>Login</summary>
    <img src="frontend/src/assets/login.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
@@ -89,6 +64,57 @@ npm install
    <summary>Tour details</summary>
    <img src="frontend/src/assets/tourDetails.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
 </details>
+
+## :satellite: Web application
+
+In addition to the mobile app, this project includes an admin page designed for administrators to monitor the driving activities of individual truckers. The admin page provides insights into their driving hours, locations visited, and adherence to required rest periods.
+
+The web application is built using the Angular Framework and utilizes the same Firebase backend as the Flutter app for seamless data integration.
+
+## Features
+- Login 
+- Create user
+- Update user
+- Get all users
+- Get all tours
+- Get tour details on map via Google maps api
+
+## Setup Instructions Web Application 
+
+Before running the project, ensure that you have the following prerequisites in place:
+
+Use the package manager [npm](https://docs.npmjs.com/) to install all dependencies.
+
+```bash
+npm install
+```
+## :camera: Screenshots of DriveTrackingSolution Web Application
+<details>
+   <summary>Tours</summary>
+   <img src="frontend/src/assets/webTours.png" style="display: inline-block; margin: 0 auto; width: 900px; height: auto;">
+</details>
+
+<details>
+   <summary>Tour details</summary>
+   <img src="frontend/src/assets/webTourOverview.png" style="display: inline-block; margin: 0 auto; width: 900px; height: auto;">
+</details>
+
+<details>
+   <summary>Edit user</summary>
+   <img src="frontend/src/assets/editUser.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
+</details>
+
+<details>
+   <summary>Create user</summary>
+   <img src="frontend/src/assets/webCreate.png" style="display: inline-block; margin: 0 auto; width: 300px; height: auto;">
+</details>
+
+<details>
+   <summary>Users</summary>
+   <img src="frontend/src/assets/webUsers.png" style="display: inline-block; margin: 0 auto; width: 900px; height: auto;">
+</details>
+
+
 
 ## :computer: Technologies
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
