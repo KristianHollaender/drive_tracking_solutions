@@ -21,7 +21,7 @@
           ></map-marker>
         </google-map>
         <br>
-        <label style="margin-top: 10px; margin-bottom: 10px;">
+        <label style="margin-top: 10px;">
           <button mat-raised-button class="mat-raised-button" (click)="getPauses()">
             <mat-icon>restaurant</mat-icon>
             Resting overview
@@ -79,15 +79,19 @@
             <input matInput type="text" formControlName="note" readonly>
           </mat-form-field>
         </label>
-        <br>
       </div>
       <div>
         <label>
-          <mat-list *ngFor="let p of pauses">
-            <mat-list-item>
-              Start time: {{timestamp(p.startTime) | date: 'medium'}}
-              End time: {{timestamp(p.endTime) | date: 'medium'}}
-              Total time: {{p.totalTime}}
+          <mat-list>
+            <mat-list-item *ngIf="buttonClick">
+              <span style="font-weight: bold">Start of rest</span>
+              <span style="font-weight: bold; margin-left: 163px;">End of rest</span>
+              <span style="font-weight: bold; margin-left: 168px;">Total rest</span>
+            </mat-list-item>
+            <mat-list-item *ngFor="let p of pauses">
+              <span>{{timestamp(p.startTime) | date: 'medium'}}</span>
+              <span style="margin-left: 50px">{{timestamp(p.endTime) | date: 'medium'}}</span>
+              <span style="margin-left: 50px">{{p.totalTime}} s</span>
             </mat-list-item>
           </mat-list>
         </label>
