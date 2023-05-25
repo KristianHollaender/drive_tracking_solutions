@@ -1,0 +1,48 @@
+h1 {
+  font-size: 3rem;
+  margin: 0px 0 0 18px;
+  color: rgb(109, 122, 108);
+  margin-bottom: 30px;
+}
+
+
+.profile-info{
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  padding: 20px;
+  width: 450px;
+  height: auto;
+  background-color: rgba(184, 199, 178, 0.88);
+}
+
+.save-button {
+  background-color: #4bad4b;
+  color: white;
+  width: 400px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+mat-card-title {
+  color: darkgrey;
+  font-size: 2.5rem;
+}
+
+mat-form-field {
+  margin-left: 30px;
+  margin-right: 30px;
+  width: 225px;
+}
+
+.mat-raised-button {
+  color: white;
+  background: #219321;
+  width: 285px;
+  height: 50px;
+}
+
+.location-button {
+  color: white;
+  background: #219321;
+  width: 125px;
+  height: 50px;
+}

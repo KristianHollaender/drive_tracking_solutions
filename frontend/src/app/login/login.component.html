@@ -5,14 +5,16 @@
       <form>
         <img src="https://media.discordapp.net/attachments/1042375108494377041/1111026114631041024/image.png"
              style="height: 85%; width: 85%; margin-bottom: 25px;margin-right: 3px;">
-
         <input placeholder="Email" [(ngModel)]="email" type="email" name="email">
         <br>
         <br>
         <input placeholder="Password" [(ngModel)]="password" type="password" name="password">
         <br>
         <br>
-        <input type="submit" (click)="signIn(email,password)" value="Login">
+        <div>
+          <button mat-raised-button class="login-button" (click)="signIn(email,password)">Login</button>
+          <mat-spinner color="" *ngIf="isLoading" [diameter]="45" class="loading-spinner"></mat-spinner>
+        </div>
         <br>
         <br>
         <a (click)="forgotPassword(email)" href="#">Forgot password?</a>

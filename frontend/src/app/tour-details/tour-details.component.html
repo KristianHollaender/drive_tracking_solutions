@@ -22,12 +22,16 @@
         </google-map>
         <br>
         <label style="margin-top: 10px;">
-          <button mat-raised-button class="mat-raised-button" (click)="getPauses()">
-            <mat-icon>restaurant</mat-icon>
-            Resting overview
+          <button mat-raised-button class="location-button" (click)="goToStartPoint()">
+            <mat-icon>place</mat-icon>
+            StartPoint
           </button>
-          <button mat-raised-button class="mat-raised-button" style="margin-left: 10px;" (click)="placeCheckpoints()">
-            <mat-icon>location_on</mat-icon>
+          <button mat-raised-button class="location-button" style="margin-left: 10px;" (click)="goToEndPoint()">
+            <mat-icon>place</mat-icon>
+            EndPoint
+          </button>
+          <button mat-raised-button class="mat-raised-button" style="margin-left: 18px;" (click)="placeCheckpoints()">
+            <mat-icon>beenhere</mat-icon>
             Checkpoints overview
           </button>
         </label>
@@ -35,66 +39,72 @@
       <div fxFlex="50%" style="margin-top: 20px;">
         <label>
           <mat-form-field>
-            <mat-label>Id</mat-label>
+            <mat-label>Driver</mat-label>
             <input matInput type="text" formControlName="uid" readonly>
           </mat-form-field>
         </label>
         <label style="margin-left: 50px;">
           <mat-form-field>
-            <mat-label>totalTime</mat-label>
+            <mat-label>Total tour time</mat-label>
             <input matInput type="text" formControlName="totalTime" readonly>
           </mat-form-field>
         </label>
         <br>
         <label>
           <mat-form-field>
-            <mat-label>startTime</mat-label>
+            <mat-label>Start of tour</mat-label>
             <input matInput type="text" formControlName="startTime" readonly>
           </mat-form-field>
         </label>
         <label>
           <mat-form-field style="margin-left: 50px;">
-            <mat-label>endTime</mat-label>
+            <mat-label>End of tour</mat-label>
             <input matInput type="text" formControlName="endTime" readonly>
           </mat-form-field>
         </label>
         <br>
         <label>
           <mat-form-field appearance="fill" style="width: 605px">
-            <mat-label>startPoint</mat-label>
+            <mat-label>Start location</mat-label>
             <input matInput type="text" formControlName="startPoint" readonly>
           </mat-form-field>
         </label>
         <br>
         <label>
           <mat-form-field appearance="fill" style="width: 605px">
-            <mat-label>endPoint</mat-label>
+            <mat-label>End location</mat-label>
             <input matInput type="text" formControlName="endPoint" readonly>
           </mat-form-field>
         </label>
         <br>
         <label>
-          <mat-form-field appearance="fill" style="height: 138px; width: 605px">
-            <mat-label>note</mat-label>
+          <mat-form-field appearance="fill" style="height: 145px; width: 605px">
+            <mat-label>Drivers note</mat-label>
             <input matInput type="text" formControlName="note" readonly>
           </mat-form-field>
         </label>
       </div>
-      <div>
+      <div fxFlex="70%">
         <label>
           <mat-list>
-            <mat-list-item *ngIf="buttonClick">
+            <mat-list-item>
               <span style="font-weight: bold">Start of rest</span>
-              <span style="font-weight: bold; margin-left: 163px;">End of rest</span>
-              <span style="font-weight: bold; margin-left: 168px;">Total rest</span>
+              <span style="font-weight: bold; margin-left: 203px;">End of rest</span>
+              <span style="font-weight: bold; margin-left: 195px;">Total rest</span>
             </mat-list-item>
             <mat-list-item *ngFor="let p of pauses">
               <span>{{timestamp(p.startTime) | date: 'medium'}}</span>
-              <span style="margin-left: 50px">{{timestamp(p.endTime) | date: 'medium'}}</span>
-              <span style="margin-left: 50px">{{p.totalTime}} s</span>
+              <span style="margin-left: 90px">{{timestamp(p.endTime) | date: 'medium'}}</span>
+              <span style="margin-left: 90px">{{p.totalTime}} s</span>
             </mat-list-item>
           </mat-list>
         </label>
+        <div fxFlex="30%">
+          <label>
+            <img src="https://media.discordapp.net/attachments/1042375108494377041/1111026114631041024/image.png"
+                 style="height: 215px; width: 315px; margin-left: 100px;">
+          </label>
+        </div>
       </div>
     </div>
 

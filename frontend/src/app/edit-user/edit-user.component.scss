@@ -6,16 +6,34 @@
   justify-content: center;
 }
 
+
+.mat-form-field-label {
+  /*change color of label*/
+  color: green !important;
+}
+
+.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: green !important;
+}
+
+.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: green !important;
+}
+
 .content {
   margin: 30px;
+  margin-left: 55px;
+  margin-right: 55px;
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-.save-button {
-  background-color: #3b53ab;
+.save-button{
+  background-color: #4bad4b;
   color: white;
   width: 100%;
 }
@@ -24,10 +42,10 @@ mat-card-title {
   margin-bottom: 20px;
   color: darkgrey;
   font-size: 3.5rem;
+
 }
 
 mat-form-field {
   margin-top: 15px;
+  width: 100%;
 }
-
-

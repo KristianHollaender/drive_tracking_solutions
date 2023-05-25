@@ -6,6 +6,22 @@
   justify-content: center;
 }
 
+
+.mat-form-field-label {
+  /*change color of label*/
+  color: green !important;
+}
+
+.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: green !important;
+}
+
+.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: green !important;
+}
+
 .content {
   margin: 30px;
 }
@@ -15,7 +31,7 @@
 }
 
 .save-button{
-  background-color: #3b53ab;
+  background-color: #4bad4b;
   color: white;
   width: 100%;
 }

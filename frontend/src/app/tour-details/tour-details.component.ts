@@ -61,11 +61,12 @@ export class TourDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.getDriverName();
     await this.getStartPointAddress();
     await this.getEndPointAddress();
+    await this.getPauses()
     await this.setEndAndStartMarkers();
     await this.centerMapBetweenMarkers();
-    await this.getDriverName();
   }
 
   async getStartPointAddress() {
@@ -108,7 +109,17 @@ export class TourDetailsComponent implements OnInit {
     }
     this.checkpointPosition = checkpointLatLng;
     this.center = this.checkpointPosition[0];
-    this.zoom = 8.0;
+    this.zoom = 7.5;
+  }
+
+  goToStartPoint(){
+    this.center = this.startPoint;
+    this.zoom = 10.0;
+  }
+
+  goToEndPoint(){
+    this.center = this.endPoint;
+    this.zoom = 10.0;
   }
 
   setEndAndStartMarkers() {
@@ -136,7 +147,6 @@ export class TourDetailsComponent implements OnInit {
   }
 
   async getPauses() {
-    this.buttonClick = true;
     this.pauses = await this.fireService.getPauseOnTour(this.data.tour.tourId);
   }
 }

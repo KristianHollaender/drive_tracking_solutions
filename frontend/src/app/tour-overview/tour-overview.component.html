@@ -1,53 +1,65 @@
-<mat-toolbar-row style="margin-top: 50px;">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input>
-  </mat-form-field>
-</mat-toolbar-row>
-
-
-<div class="mat-elevation-z8" style="margin-left: 15px;">
-  <div class="loading-container" *ngIf="isLoading">
+<div class="overlay-container" *ngIf="isLoading">
+  <div class="loading-container">
     <mat-spinner class="loading-spinner"></mat-spinner>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort class="hover-tab">
+</div>
 
-    <!-- Id Column -->
-    <ng-container matColumnDef="driver">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Driver</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.driver}} </td>
-    </ng-container>
+<div class="content-container">
+  <h1>DriveTracking - Tour overview</h1>
+  <mat-toolbar style="background: transparent">
+    <mat-toolbar-row style="margin-top: 50px;">
+      <span class="spacer"></span>
+      <mat-form-field style="width: 350px;">
+        <mat-label>
+          <mat-icon>
+            search
+          </mat-icon>
+          Search driver
+        </mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input>
+      </mat-form-field>
+    </mat-toolbar-row>
+  </mat-toolbar>
 
-    <ng-container matColumnDef="startTime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start time</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.startTime | date:'medium'}} </td>
-    </ng-container>
+  <div class="mat-elevation-z8" style="margin-left: 15px;">
+    <table mat-table [dataSource]="dataSource" matSort class="hover-tab">
+      <!-- Id Column -->
+      <ng-container matColumnDef="driver">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Driver</th>
+        <td mat-cell *matCellDef="let tour"> {{tour.driver}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="endTime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> End time</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.endTime | date:'medium'}} </td>
-    </ng-container>
+      <ng-container matColumnDef="startTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start time</th>
+        <td mat-cell *matCellDef="let tour"> {{tour.startTime | date:'medium'}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="totalTime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total time</th>
-      <td mat-cell *matCellDef="let tour"> {{tour.totalTime}} </td>
-    </ng-container>
+      <ng-container matColumnDef="endTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> End time</th>
+        <td mat-cell *matCellDef="let tour"> {{tour.endTime | date:'medium'}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="viewTour">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tour review</th>
-      <td mat-cell *matCellDef="let tour">
-        <mat-action-list>
-          <button mat-raised-button class="tour-review-btn" (click)="viewTour(tour)">
-            <mat-icon>visibility</mat-icon>
-            Full review of tour
-          </button>
-        </mat-action-list>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="totalTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total time</th>
+        <td mat-cell *matCellDef="let tour"> {{tour.totalTime}} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <ng-container matColumnDef="viewTour">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tour review</th>
+        <td mat-cell *matCellDef="let tour">
+          <mat-action-list>
+            <button mat-raised-button class="tour-review-btn" (click)="viewTour(tour)">
+              <mat-icon>visibility</mat-icon>
+              Full review of tour
+            </button>
+          </mat-action-list>
+        </td>
+      </ng-container>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of tours"></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of tours"></mat-paginator>
+  </div>
 </div>
