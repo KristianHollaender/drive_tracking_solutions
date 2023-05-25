@@ -19,6 +19,7 @@ export class AdminNavigationComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // Getting UID from localStorage, so we can keep refreshing without losing the user
     let t = localStorage.getItem('uid');
     // @ts-ignore
     let user = await this.fireService.getUserById(t);
@@ -29,12 +30,11 @@ export class AdminNavigationComponent implements OnInit {
   async logOut() {
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);
+      // Clear localStorage so the token and UID doesn't stick
       localStorage.clear();
     })
       .catch((error) => {
         console.log(error);
       });
   }
-
-
 }

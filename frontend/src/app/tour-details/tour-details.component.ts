@@ -17,25 +17,26 @@ import moment from 'moment/moment';
   styleUrls: ['./tour-details.component.scss']
 })
 export class TourDetailsComponent implements OnInit {
-  tour: Tour | undefined;
+  tour!: Tour;
   tourId: any;
   pauses: Pause[] = [];
   checkpoints: CheckPoint[] = [];
-  isLoading: boolean | undefined;
-  buttonClick: boolean = false;
 
   geoCoder = new google.maps.Geocoder();
 
-  endPoint = {
-    lat: parseFloat(this.data.tour.endPoint._latitude),
-    lng: parseFloat(this.data.tour.endPoint._longitude)
-  };
-
+  // Getting startPoint from the selected tour
   startPoint = {
     lat: parseFloat(this.data.tour.startPoint._latitude),
     lng: parseFloat(this.data.tour.startPoint._longitude),
   };
 
+  // Getting endPoint from the selected tour
+  endPoint = {
+    lat: parseFloat(this.data.tour.endPoint._latitude),
+    lng: parseFloat(this.data.tour.endPoint._longitude)
+  };
+
+  // Getting data from the selected tour
   viewTour = new FormGroup({
     uid: new FormControl(""),
     tourId: new FormControl(this.data.tour.tourId),
@@ -48,11 +49,11 @@ export class TourDetailsComponent implements OnInit {
     note: new FormControl(this.data.tour.note),
   });
 
-  center: google.maps.LatLngLiteral = this.startPoint;
   zoom = 5.75;
+  center: google.maps.LatLngLiteral = this.startPoint;
   startPosition: google.maps.LatLngLiteral[] = [];
   endPosition: google.maps.LatLngLiteral[] = [];
-  checkpointPosition: google.maps.LatLngLiteral[] = [];
+  checkPointPosition: google.maps.LatLngLiteral[] = [];
 
   constructor(private fireService: FireService,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -91,13 +92,13 @@ export class TourDetailsComponent implements OnInit {
     this.viewTour.get('uid')?.setValue(driverName);
   }
 
-
-  async getCheckPoints(){
-    this.checkpoints  = await this.fireService.getCheckPointOnTour(this.data.tour.tourId);
+  async getCheckPoints() {
+    this.checkpoints = await this.fireService.getCheckPointsOnTour(this.data.tour.tourId);
     return this.checkpoints;
   }
 
-  async placeCheckpoints(){
+  // Places the checkpoints on the Google Map
+  async placeCheckpoints() {
     await this.getCheckPoints();
     let checkpointLatLng: google.maps.LatLngLiteral[] = [];
     for (const checkPoint of this.checkpoints) {
@@ -107,17 +108,17 @@ export class TourDetailsComponent implements OnInit {
       }
       checkpointLatLng.push(truckStops);
     }
-    this.checkpointPosition = checkpointLatLng;
-    this.center = this.checkpointPosition[0];
+    this.checkPointPosition = checkpointLatLng;
+    this.center = this.checkPointPosition[0];
     this.zoom = 7.5;
   }
 
-  goToStartPoint(){
+  goToStartPoint() {
     this.center = this.startPoint;
     this.zoom = 10.0;
   }
 
-  goToEndPoint(){
+  goToEndPoint() {
     this.center = this.endPoint;
     this.zoom = 10.0;
   }
@@ -133,12 +134,12 @@ export class TourDetailsComponent implements OnInit {
     this.center = {lat: avgLat, lng: avgLng};
   }
 
-
   // Function to format time as a string
   formatTime(time) {
     return new Date(time).toLocaleString("en-US");
   }
 
+  // This timestamp is used to format the time from pauses to a better timeformat
   timestamp(timeStamp: Object) {
     var t = new Date(1970, 0, 1); // Epoch
     var seconds = timeStamp['_seconds'];

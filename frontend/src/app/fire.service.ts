@@ -80,7 +80,7 @@ export class FireService {
     return httpResult.data['tour'];
   };
 
-  async getCheckPointOnTour(id: string) {
+  async getCheckPointsOnTour(id: string) {
     const httpResult = await customAxios.get('/Tour/' + id);
     const tour = httpResult.data['tour'];
     return tour['checkPoint'];

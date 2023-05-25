@@ -33,9 +33,11 @@ export class UserOverviewComponent implements OnInit {
   async ngOnInit() {
     try {
       localStorage.getItem('token')
+      // Makes the spinner load while getting users
       this.isLoading = true;
       this.dataSource.data = await this.fireService.getUsers();
       this.dataSource.paginator = this.paginator;
+      // Makes the spinner stop loading when getting users is done
       this.isLoading = false;
     } catch (error) {
       console.error('Error retrieving users:', error);
