@@ -19,7 +19,7 @@ class HomeScreenState extends State<HomeScreen> {
   final Completer<GoogleMapController> mapsController =
       Completer<GoogleMapController>();
   LocationData? currentLocation;
-  StreamSubscription<LocationData>? _sub;
+  StreamSubscription<LocationData>? _subscribeToLocation;
 
   void listenToCurrentLocation() async {
     Location location = Location();
@@ -29,16 +29,16 @@ class HomeScreenState extends State<HomeScreen> {
       },
     );
     GoogleMapController googleMapController = await mapsController.future;
-    _sub = location.onLocationChanged.listen(
-      (newLoc) {
-        currentLocation = newLoc;
+    _subscribeToLocation = location.onLocationChanged.listen(
+      (newLocation) {
+        currentLocation = newLocation;
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
               zoom: 17.5,
               target: LatLng(
-                newLoc.latitude!,
-                newLoc.longitude!,
+                newLocation.latitude!,
+                newLocation.longitude!,
               ),
             ),
           ),
@@ -48,17 +48,17 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void stopListeningToLocation() async {
-    _sub!.cancel();
+    _subscribeToLocation!.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    final tracker = Provider.of<DriveTracker>(context);
+    final driveTracker = Provider.of<DriveTracker>(context);
 
     return FutureBuilder(
-      future: tracker.getCurrentLocation(),
+      future: driveTracker.getCurrentLocation(),
       builder: (context, snapshot) {
-        if (tracker.latLng == null || tracker.initialCameraPosition == null) {
+        if (driveTracker.latLng == null || driveTracker.initialCameraPosition == null) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
@@ -71,7 +71,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           body: Column(
             children: [
-              _buildGoogleMap(context, tracker),
+              _buildGoogleMap(context, driveTracker),
               Flexible(
                 flex: 1,
                 child: Column(
@@ -80,7 +80,7 @@ class HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Row(
                         children: [
-                          _buildStartTourBtn(tracker),
+                          _buildStartTourBtn(driveTracker),
                         ],
                       ),
                     ),
@@ -89,9 +89,9 @@ class HomeScreenState extends State<HomeScreen> {
                           bottom: 10.0, left: 8.0, right: 8.0),
                       child: Row(
                         children: [
-                          _buildStartRestBtn(tracker),
-                          _buildCheckpointBtn(tracker),
-                          _buildEndTourBtn(tracker),
+                          _buildStartRestBtn(driveTracker),
+                          _buildCheckpointBtn(driveTracker),
+                          _buildEndTourBtn(driveTracker),
                         ],
                       ),
                     ),
@@ -106,7 +106,7 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildGoogleMap(BuildContext context, DriveTracker tracker) {
+  Widget _buildGoogleMap(BuildContext context, DriveTracker driveTracker) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.40,
       child: Padding(
@@ -118,8 +118,8 @@ class HomeScreenState extends State<HomeScreen> {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               compassEnabled: true,
-              markers: Set<Marker>.of(tracker.marker),
-              initialCameraPosition: tracker.initialCameraPosition!,
+              markers: Set<Marker>.of(driveTracker.marker),
+              initialCameraPosition: driveTracker.initialCameraPosition!,
               onMapCreated: (GoogleMapController controller) {
                 mapsController.complete(controller);
               },
@@ -133,15 +133,15 @@ class HomeScreenState extends State<HomeScreen> {
                 backgroundColor: const Color(0xb3d9dcd9),
                 onPressed: () {
                   setState(() {
-                    tracker.click = !tracker.click;
+                    driveTracker.listeningToLocation = !driveTracker.listeningToLocation;
                   });
-                  if (tracker.click) {
+                  if (driveTracker.listeningToLocation) {
                     listenToCurrentLocation();
                   } else {
                     stopListeningToLocation();
                   }
                 },
-                label: tracker.click
+                label: driveTracker.listeningToLocation
                     ? const Icon(Icons.navigation)
                     : const Icon(Icons.navigation_outlined),
               ),
@@ -153,7 +153,7 @@ class HomeScreenState extends State<HomeScreen> {
               child: FloatingActionButton.extended(
                 backgroundColor: const Color(0xb3d9dcd9),
                 onPressed: () async {
-                  GeoPoint currentLocation = await tracker.getCurrentLocation();
+                  GeoPoint currentLocation = await driveTracker.getCurrentLocation();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>

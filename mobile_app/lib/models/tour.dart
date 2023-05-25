@@ -29,7 +29,7 @@ class Tour {
   Tour(this.tourId, this.uid, this.startPoint, this.pause, this.checkPoint,
       this.endPoint, this.startTime, this.endTime, this.totalTime, this.note);
 
-  //Getting tour from firebase, then mapping tour to a dart object
+  // Getting tour from firebase, then mapping tour to a dart object
   Tour.fromMap(Map<String, dynamic> data)
       : tourId = data[TourKeys.tourId],
         uid = data[TourKeys.uid],
@@ -42,7 +42,7 @@ class Tour {
         totalTime = data[TourKeys.totalTime],
         note = data[TourKeys.note];
 
-  //Mapping dart object to json object
+  // Mapping dart object to json object
   Map<String, dynamic> toMap() {
     return {
       TourKeys.tourId: tourId,

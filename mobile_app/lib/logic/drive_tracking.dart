@@ -10,13 +10,13 @@ class DriveTracker {
   final Stopwatch _dailyDrivingLimitTimer = Stopwatch();
   final Stopwatch _dailyBreakTimeTimer = Stopwatch();
 
-  final Duration _continuousDrivingDuration =
-      const Duration(hours: 4, minutes: 30);
+  final Duration _continuousDrivingDuration = const Duration(hours: 4, minutes: 30);
   final Duration _dailyDrivingDuration = const Duration(hours: 9);
   final Duration _dailyBreakDuration = const Duration(minutes: 45);
 
   bool isResting = false;
   bool tourStarted = false;
+  bool listeningToLocation = false;
 
   late DateTime _startTime;
   late DateTime _endTime;
@@ -28,11 +28,11 @@ class DriveTracker {
   CameraPosition? currentLocationCameraPosition;
   LatLng? latLng;
   late int checkpointNumber;
+
   final tourRepo = TourRepository();
 
   final Set<Marker> marker = {};
 
-  bool click = false;
 
   DriveTracker() {
     tickerStream = _ticker.stream.asBroadcastStream();
@@ -40,14 +40,25 @@ class DriveTracker {
   }
 
   Future<void> startTour() async {
+    // Clear all markers
     marker.clear();
+
+    // Sets startTime to now
     _startTime = DateTime.now();
+
+    // Count the timer down every 1 second
     _timer = Timer.periodic(const Duration(seconds: 1), (i) {
       _ticker.sink.add(i.tick);
     });
+
+    // Start the timers
     _continuousDrivingLimitTimer.start();
     _dailyDrivingLimitTimer.start();
+
+    // Get Current location
     GeoPoint currentLocation = await getCurrentLocation();
+
+    // Starts the tour and add its to the FireStore Database
     await fireService.startTour(currentLocation, _startTime);
     setMarker(
         currentLocation,
@@ -73,6 +84,7 @@ class DriveTracker {
   }
 
   Future<void> endTour() async {
+    // Reset everything back to 0
     checkpointNumber = 0;
     _timer?.cancel();
     _timer = null;
@@ -86,10 +98,13 @@ class DriveTracker {
     GeoPoint currentLocation = await getCurrentLocation();
     _endTime = DateTime.now();
 
+    // Makes sure we stop resting if we end tour while resting
     if (isResting) {
       await fireService.stopPause(
           fireService.tourId!, fireService.pauseId!, _endTime);
     }
+
+    // Ends the tour and puts the data into the FireStore Database
     await fireService.endTour(fireService.tourId!, currentLocation, _endTime);
 
     setMarker(

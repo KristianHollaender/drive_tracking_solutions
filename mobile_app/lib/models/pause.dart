@@ -15,14 +15,14 @@ class Pause {
 
   Pause(this.pauseId, this.startTime, this.endTime, this.totalTime);
 
-  //Getting pause from firebase, then mapping pause to a dart object
+  // Getting pause from firebase, then mapping pause to a dart object
   Pause.fromMap(Map<String, dynamic> data)
       : pauseId = data[PauseKeys.pauseId],
         startTime = (data[PauseKeys.startTime] as Timestamp).toDate(),
         endTime = (data[PauseKeys.endTime] as Timestamp).toDate(),
         totalTime = data[PauseKeys.totalTime];
 
-  //Mapping dart object to json object
+  // Mapping dart object to json object
   Map<String, dynamic> toMap() {
     return {
       PauseKeys.pauseId: pauseId,

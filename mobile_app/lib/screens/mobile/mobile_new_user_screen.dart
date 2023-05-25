@@ -27,7 +27,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
   final _auth = FirebaseAuth.instance;
 
   File? _image;
-  final picker = ImagePicker();
+  final imagePicker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _MobileNewUserScreenState extends State<MobileNewUserScreen> {
   }
 
   Future pickImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       // Get the temporary directory path
