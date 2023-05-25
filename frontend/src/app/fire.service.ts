@@ -8,7 +8,9 @@ import * as config from '../../firebaseConfig.js'
 import {User} from "./models/User";
 import {Tour} from "./models/Tour";
 
-// Create an instance of Axios with a base URL
+/**
+ * Create an instance of Axios with a base URL
+ */
 export const customAxios = axios.create({
   baseURL: 'https://us-central1-drivetrackingsolution.cloudfunctions.net/api'
 });
@@ -24,7 +26,6 @@ export class FireService {
   storage: firebase.storage.Storage;
   users: User[] = [];
   tours: Tour[] = [];
-  checkpoint: any[] = [];
   tour: any;
   user: User = {email: "", firstname: "", lastname: "", role: "", uid: ""};
   profilePicture: any = 'https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg';
@@ -45,7 +46,9 @@ export class FireService {
     });
   }
 
-  // Add an interceptor to customAxios to include the authorization token
+  /**
+   * Create an instance of Axios with a base URL
+   */
   intercept() {
     customAxios.interceptors
       .request
@@ -73,11 +76,6 @@ export class FireService {
     const httpResult = await customAxios.get('/Tours');
     this.tours = httpResult.data['tours'];
     return this.tours;
-  };
-
-  async getTourById(id: string) {
-    const httpResult = await customAxios.get('/Tour/' + id);
-    return httpResult.data['tour'];
   };
 
   async getCheckPointsOnTour(id: string) {
@@ -121,7 +119,9 @@ export class FireService {
     return this.user;
   }
 
-  // Gets the imagine of the currently signed in user from the Firebase Storage
+  /**
+   * Create an instance of Axios with a base URL
+   */
   async getImageOfSignInUser() {
     this.profilePicture = await this.storage
       .ref('profile_images')

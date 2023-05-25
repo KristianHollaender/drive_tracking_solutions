@@ -45,6 +45,9 @@ export class UserOverviewComponent implements OnInit {
     }
   }
 
+  /**
+   * Method for creating user
+   */
   createUser() {
     const dialogRef = this.popup.open(CreateUserComponent);
     dialogRef.afterClosed().subscribe(async () => {
@@ -55,6 +58,10 @@ export class UserOverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * Method for editing user
+   * @param row
+   */
   editUser(row: any) {
     const dialogRef = this.popup.open(EditUserComponent, {
       data: {
@@ -71,6 +78,10 @@ export class UserOverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * Method for deleting user
+   * @param row
+   */
   async deleteUser(row: any) {
     if (confirm(`Do you want to delete ${row.firstname} ${row.lastname}?`)) {
       this.isLoading = true; // Show the loading spinner

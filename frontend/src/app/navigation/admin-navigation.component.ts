@@ -26,6 +26,9 @@ export class AdminNavigationComponent implements OnInit {
     this.lastname = user.lastname;
   }
 
+  /**
+   * Async method for logging out
+   */
   async logOut() {
     await this.fireService.signOut().then(() => {
       this.router.navigate(['']);

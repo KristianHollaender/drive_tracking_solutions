@@ -12,6 +12,9 @@ export class ProfilePageComponent {
   constructor(public fireService: FireService, private snackBar: MatSnackBar) {
   }
 
+  /**
+   * Async method for editing profile
+   */
   async editProfile() {
     const id = this.fireService.user.uid;
     let dto = {
