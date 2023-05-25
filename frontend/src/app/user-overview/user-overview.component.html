@@ -4,6 +4,9 @@
 </mat-toolbar-row>
 
 <div class="mat-elevation-z8">
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner class="loading-spinner"></mat-spinner>
+  </div>
   <table mat-table [dataSource]="dataSource" matSort>
 
     <!-- Id Column -->

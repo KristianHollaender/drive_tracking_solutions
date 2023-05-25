@@ -29,6 +29,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import {TourDetailsComponent} from "./tour-details/tour-details.component";
 import {GoogleMapsModule} from "@angular/google-maps";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     MatListModule,
     GoogleMapsModule,
     FlexLayoutModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     MatSnackBar

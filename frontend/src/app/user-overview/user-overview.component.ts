@@ -19,6 +19,8 @@ import {MatPaginator} from "@angular/material/paginator";
 export class UserOverviewComponent implements OnInit {
   displayedColumns: string[] = ['id', 'email', 'firstname', 'lastname', 'edit'];
   dataSource = new MatTableDataSource<User>;
+  isLoading: boolean = true;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -31,19 +33,25 @@ export class UserOverviewComponent implements OnInit {
   async ngOnInit() {
     try {
       localStorage.getItem('token')
+      this.isLoading = true;
       this.dataSource.data = await this.fireService.getUsers();
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     } catch (error) {
       console.error('Error retrieving users:', error);
+      this.isLoading = false;
     }
   }
+
 
 
   createUser() {
     const dialogRef = this.popup.open(CreateUserComponent);
     dialogRef.afterClosed().subscribe(async () => {
+      this.isLoading = true; // Show the loading spinner
       this.dataSource.data = await this.fireService.getUsers();
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false; // Hide the loading spinner
     });
   }
 
@@ -55,17 +63,21 @@ export class UserOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async () => {
+      this.isLoading = true; // Show the loading spinner
       const users = await this.fireService.getUsers();
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false; // Hide the loading spinner
     });
   }
 
   async deleteUser(row: any) {
     if (confirm(`Do you want to delete ${row.firstname} ${row.lastname}?`)) {
+      this.isLoading = true; // Show the loading spinner
       await this.fireService.deleteUser(row.uid);
       this.dataSource.data = this.dataSource.data.filter(u => u.uid !== row.uid);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false; // Hide the loading spinner
 
       const snackBarMessage = `${row.firstname} ${row.lastname} deleted`;
       this._snackBar.open(snackBarMessage, 'Close', {duration: 3000});

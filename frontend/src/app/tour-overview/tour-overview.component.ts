@@ -14,6 +14,8 @@ import {MatPaginator} from "@angular/material/paginator";
 export class TourOverviewComponent implements OnInit {
   displayedColumns: string[] = ['driver', 'startTime', 'endTime', 'totalTime', 'viewTour'];
   dataSource = new MatTableDataSource<Tour>;
+  isLoading: boolean = true;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -23,9 +25,11 @@ export class TourOverviewComponent implements OnInit {
 
   async ngOnInit() {
     try {
+      this.isLoading = true;
       const tours = await this.fireService.getTours();
       this.dataSource.data = await this.populateUserData(tours);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     } catch (error) {
       console.error('Error retrieving users:', error);
     }

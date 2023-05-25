@@ -7,6 +7,9 @@
 
 
 <div class="mat-elevation-z8" style="margin-left: 15px;">
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner class="loading-spinner"></mat-spinner>
+  </div>
   <table mat-table [dataSource]="dataSource" matSort class="hover-tab">
 
     <!-- Id Column -->
