@@ -20,6 +20,7 @@ export class TourOverviewComponent implements OnInit {
 
   constructor(public fireService: FireService, private popup: MatDialog,) {
   }
+
   async ngOnInit() {
     try {
       const tours = await this.fireService.getTours();
@@ -30,22 +31,19 @@ export class TourOverviewComponent implements OnInit {
     }
   }
 
-
   async populateUserData(tours: Tour[]) {
     const updatedTours: Tour[] = [];
     for (let tour of tours) {
       const user = await this.fireService.getUserById(tour.uid);
       const firstName = user.firstname;
       const lastName = user.lastname;
-      updatedTours.push(Object.assign({}, tour, { driver: `${firstName} ${lastName}` }));
+      updatedTours.push(Object.assign({}, tour, {driver: `${firstName} ${lastName}`}));
     }
     console.log(updatedTours);
     return updatedTours;
   }
 
-
-
-  async viewTour(row: any){
+  async viewTour(row: any) {
     this.popup.open(TourDetailsComponent, {
       data: {
         tour: row
@@ -53,10 +51,8 @@ export class TourOverviewComponent implements OnInit {
     });
   }
 
-
   /**
    * Method for searching in tour-overview table.
-   * @param event
    */
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

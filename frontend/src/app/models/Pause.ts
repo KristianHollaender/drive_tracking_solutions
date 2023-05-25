@@ -1,4 +1,4 @@
-export interface Pause{
+export interface Pause {
   pauseId: string,
   startTime: string,
   endTime: string,

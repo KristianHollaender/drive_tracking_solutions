@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FireService} from "../fire.service";
-import {FormControl, FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({

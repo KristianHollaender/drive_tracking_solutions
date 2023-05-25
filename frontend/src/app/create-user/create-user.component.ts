@@ -10,7 +10,8 @@ import {FireService} from "../fire.service";
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
-export class CreateUserComponent implements OnInit{
+
+export class CreateUserComponent implements OnInit {
   email: string = '';
   password: string = '';
   firstname: string = '';
@@ -29,7 +30,8 @@ export class CreateUserComponent implements OnInit{
 
   constructor(private fireService: FireService,
               private dialogRef: MatDialogRef<UserOverviewComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {}
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   async createUser() {
     const user = this.userForm.value;

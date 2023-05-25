@@ -3,7 +3,7 @@ import {Pause} from "./Pause";
 import firebase from "firebase/compat";
 import GeoPoint = firebase.firestore.GeoPoint;
 
-export interface Tour{
+export interface Tour {
   uid: string,
   tourId: string,
   startTime: string,

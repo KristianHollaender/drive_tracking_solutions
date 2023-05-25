@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FireService} from "../fire.service";
 import {Router} from "@angular/router";
-import firebase from "firebase/compat";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -9,6 +8,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent {
   email: string = "";
   password: string = "";

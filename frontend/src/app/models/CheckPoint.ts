@@ -1,3 +1,3 @@
-export interface CheckPoint{
+export interface CheckPoint {
   truckStop: string,
 }

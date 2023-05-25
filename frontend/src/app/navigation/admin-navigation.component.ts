@@ -9,7 +9,7 @@ import {FireService} from "../fire.service";
   templateUrl: './admin-navigation.component.html',
   styleUrls: ['./admin-navigation.component.scss']
 })
-export class AdminNavigationComponent implements OnInit{
+export class AdminNavigationComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   firstname: any;
